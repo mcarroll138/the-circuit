@@ -4,100 +4,89 @@ import EditEventForm from "./EditEventForm";
 import EventList from "./EventList";
 import EventDetail from "./EventDetail";
 
-export default function EventControl(){
+export default function EventControl() {
   const [formVisibleOnPage, setFormVisibleOnPage] = useState(false);
   const [mainEventList, setMainEventList] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [editing, setEditing] = useState(false);
 
- const handleClick = () => {
-    if (this.state.selectedEvent != null) {
-     
-        setFormVisibleOnPage(false);
-        this.setState({
-          formVisibleOnPage: false,
-          selectedEvent: null,
-        });
-      }else {
-        setFormVisibleOnPage(!formVisibleOnPage);
+  const handleClick = () => {
+    if (selectedEvent != null) {
+      setFormVisibleOnPage(false);
+      setSelectedEvent(null);
+      setEditing(false);
+    } else {
+      setFormVisibleOnPage(!formVisibleOnPage);
     }
-  }
-    
+  };
 
   const handleAddingNewEventToList = (newEvent) => {
-    const newMainEventList = this.state.mainEventList.concat(newEvent);
-     setMainEventList(newMainEventList);
-     setFormVisibleOnPage(false)
+    const newMainEventList = mainEventList.concat(newEvent);
+    setMainEventList(newMainEventList);
+    setFormVisibleOnPage(false);
   };
 
   const handleChangingSelectedEvent = (id) => {
-    const selectedEvent = this.state.mainEventList.filter(
-      (event) => event.id === id
-    )[0];
-    this.setState({ selectedEvent: selectedEvent });
+    const selction = mainEventList.filter((event) => event.id === id)[0];
+    setSelectedEvent(selction);
   };
 
-  const handleDeletingTicket = (id) => {
-    const newMainEventList = mainEventList.filter(
-      (event) => event.id !== id
-    );
+  const handleDeletingEvent = (id) => {
+    const newMainEventList = mainEventList.filter((event) => event.id !== id);
     setMainEventList(newMainEventList);
   };
 
   const handleEditClick = () => {
-        this.setState({ editing: true });
+    setEditing(true);
   };
 
- const handleEditingEventInList = (eventToEdit) => {
+  const handleEditingEventInList = (eventToEdit) => {
     const editedMainEventList = mainEventList
-      .filter((event) => event.id !== this.state.selectedEvent.id)
+      .filter((event) => event.id !== selectedEvent.id)
       .concat(eventToEdit);
-    
-      setMainEventList(editedMainEventList);
-      
+    setMainEventList(editedMainEventList);
+    setEditing(false);
+    setSelectedEvent(null);
   };
 
-  render() {
-    let currentlyVisibleState = null;
-    let buttonText = null;
+  let currentlyVisibleState = null;
+  let buttonText = null;
 
-    if (this.state.editing && this.state.selectedEvent !== null) {
-      currentlyVisibleState = (
-        <EditEventForm
-          event={this.state.selectedEvent}
-          onEditEvent={this.handleEditingEventInList}
-        />
-      );
-
-      buttonText = "Return to Event List";
-    } else if (this.state.selectedEvent != null) {
-      currentlyVisibleState = (
-        <EventDetail
-          event={this.state.selectedEvent}
-          onClickingDelete={this.handleDeletingTicket}
-          onClickingEdit={this.handleEditClick}
-        />
-      );
-      buttonText = "Return to Event List";
-    } else if (formVisibleOnPage) {
-      currentlyVisibleState = (
-        <NewEventForm onNewEventCreation={this.handleAddingNewEventToList} />
-      );
-      buttonText = "Return to Event List";
-    } else {
-      currentlyVisibleState = (
-        <EventList
-        onEventSelection={this.handleChangingSelectedEvent}
-          eventList={mainEventList}
-        />
-      );
-      buttonText = "Add an Event";
-    }
-    return (
-      <React.Fragment>
-        {currentlyVisibleState}
-        <button onClick={this.handleClick}>{buttonText}</button>
-      </React.Fragment>
+  if (editing && selectedEvent !== null) {
+    currentlyVisibleState = (
+      <EditEventForm
+        event={selectedEvent}
+        onEditEvent={handleEditingEventInList}
+      />
     );
+    buttonText = "Return to Event List";
+  } else if (selectedEvent != null) {
+    currentlyVisibleState = (
+      <EventDetail
+        event={selectedEvent}
+        onClickingDelete={handleDeletingEvent}
+        onClickingEdit={handleEditClick}
+      />
+    );
+    buttonText = "Return to Event List";
+  } else if (formVisibleOnPage) {
+    currentlyVisibleState = (
+      <NewEventForm onNewEventCreation={handleAddingNewEventToList} />
+    );
+    buttonText = "Return to Event List";
+  } else {
+    currentlyVisibleState = (
+      <EventList
+        onEventSelection={handleChangingSelectedEvent}
+        eventList={mainEventList}
+      />
+    );
+    buttonText = "Add an Event";
   }
+  return (
+    <React.Fragment>
+      {currentlyVisibleState}
+      <button onClick={handleClick}>{buttonText}</button>
+    </React.Fragment>
+  );
 }
