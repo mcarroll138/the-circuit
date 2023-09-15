@@ -8,9 +8,9 @@ export default function NewEventForm(props) {
     console.log(event.target.eventName);
     props.onNewEventCreation({
       eventName: event.target.eventName.value,
-      eventDateTime: event.target.eventDateTime,
-      eventEmail: event.target.eventEmail,
-      eventLocation: event.target.eventLocation,
+      eventDateTime: event.target.eventDateTime.value,
+      eventEmail: event.target.eventEmail.value,
+      eventLocation: event.target.eventLocation.value,
       id: v4(),
     });
   }

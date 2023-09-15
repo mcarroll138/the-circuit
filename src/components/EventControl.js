@@ -28,7 +28,9 @@ export default class EventControl extends React.Component {
     let currentlyVisibleState = null;
     let buttonText = null;
     if (this.state.formVisibleOnPage) {
-      currentlyVisibleState = <NewEventForm />;
+      currentlyVisibleState = (
+        <NewEventForm onNewEventCreation={this.handleAddingNewEventToList} />
+      );
       buttonText = "Return to Event List";
     } else {
       currentlyVisibleState = (
