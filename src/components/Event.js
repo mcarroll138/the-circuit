@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 
 export default function Event(props) {
-  
   return (
     <>
       <h3>Event:</h3>
@@ -15,8 +14,8 @@ export default function Event(props) {
 }
 
 Event.propTypes = {
-  eventName: PropTypes.string.isRequired,
-  eventTime: PropTypes.string.isRequired,
-  eventDate: PropTypes.string.isRequired,
-  eventLocation: PropTypes.string.isRequired,
+  eventName: PropTypes.string,
+  eventTime: PropTypes.string,
+  eventDate: PropTypes.string,
+  eventLocation: PropTypes.string,
 };

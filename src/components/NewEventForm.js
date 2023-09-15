@@ -1,9 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { v4 } from "uuid";
 
 export default function NewEventForm(props) {
   function handleNewEventFormSubmission(event) {
     event.preventDefault();
+    console.log(event.target.eventName);
+    props.onNewEventCreation({
+      eventName: event.target.eventName.value,
+      eventDateTime: event.target.eventDateTime,
+      eventEmail: event.target.eventEmail,
+      eventLocation: event.target.eventLocation,
+      id: v4(),
+    });
   }
   return (
     <>
@@ -16,24 +25,25 @@ export default function NewEventForm(props) {
           placeholder="Event Name"
         />
         <input
-          required
+          // required
           type="datetime-local"
           name="eventDateTime"
           placeholder="Date/Time"
         />
         <input
-          required
+          // required
           type="email"
-          pattern=".+@globex\.com"
+          // pattern=".+@globe.com"
           name="eventEmail"
           placeholder="Email Address"
         />
         <input
-          required
+          // required
           type="url"
           name="eventLocation"
           placeholder="Google Map Link"
         />
+        <button type="submit">Party Time</button>
       </form>
     </>
   );
