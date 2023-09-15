@@ -13,9 +13,16 @@ export default class EventControl extends React.Component {
     };
   }
   handleClick = () => {
-    this.setState((prevState) => ({
-      formVisibleOnPage: !prevState.formVisibleOnPage,
-    }));
+    if (this.state.selectedEvent != null) {
+      this.setState({
+        formVisibleOnPage: false,
+        selectedEvent: null,
+      });
+    } else {
+      this.setState((prevState) => ({
+        formVisibleOnPage: !prevState.formVisibleOnPage,
+      }));
+    }
   };
 
   handleAddingNewEventToList = (newEvent) => {
@@ -33,12 +40,27 @@ export default class EventControl extends React.Component {
     this.setState({ selectedEvent: selectedEvent });
   };
 
+  handleDeletingTicket = (id) => {
+    const newMainEventList = this.state.mainEventList.filter(
+      (event) => event.id !== id
+    );
+    this.setState({
+      mainEventList: newMainEventList,
+      selectedEvent: null,
+    });
+  };
+
   render() {
     let currentlyVisibleState = null;
     let buttonText = null;
 
     if (this.state.selectedEvent != null) {
-      currentlyVisibleState = <EventDetail event={this.state.selectedEvent} />;
+      currentlyVisibleState = (
+        <EventDetail
+          event={this.state.selectedEvent}
+          onClickingDelete={this.handleDeletingTicket}
+        />
+      );
       buttonText = "Return to Event List";
     } else if (this.state.formVisibleOnPage) {
       currentlyVisibleState = (
