@@ -16,8 +16,6 @@ export default function EventList(props) {
           key={index}
         />
       ))}
-
-      <p>thank you for coming to </p>
     </>
   );
 }
