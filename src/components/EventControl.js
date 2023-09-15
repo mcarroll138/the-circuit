@@ -1,6 +1,7 @@
 import React from "react";
 import NewEventForm from "./NewEventForm";
 import EventList from "./EventList";
+import EventDetail from "./EventDetail";
 
 export default class EventControl extends React.Component {
   constructor(props) {
@@ -8,6 +9,7 @@ export default class EventControl extends React.Component {
     this.state = {
       formVisibleOnPage: false,
       mainEventList: [],
+      selectedEvent: null,
     };
   }
   handleClick = () => {
@@ -24,10 +26,21 @@ export default class EventControl extends React.Component {
     });
   };
 
+  handleChangingSelectedEvent = (id) => {
+    const selectedEvent = this.state.mainEventList.filter(
+      (event) => event.id === id
+    )[0];
+    this.setState({ selectedEvent: selectedEvent });
+  };
+
   render() {
     let currentlyVisibleState = null;
     let buttonText = null;
-    if (this.state.formVisibleOnPage) {
+
+    if (this.setState.selectedEvent != null) {
+      currentlyVisibleState = <EventDetail event={this.state.selectedEvent} />;
+      buttonText = "Return to Event List";
+    } else if (this.state.formVisibleOnPage) {
       currentlyVisibleState = (
         <NewEventForm onNewEventCreation={this.handleAddingNewEventToList} />
       );
@@ -41,7 +54,7 @@ export default class EventControl extends React.Component {
     return (
       <React.Fragment>
         {currentlyVisibleState}
-        <button onClick={this.handleClick}>{buttonText}</button>;
+        <button onClick={this.handleClick}>{buttonText}</button>
       </React.Fragment>
     );
   }

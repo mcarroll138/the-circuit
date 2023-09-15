@@ -4,10 +4,11 @@ import PropTypes from "prop-types";
 export default function Event(props) {
   return (
     <>
-      <h3>Event:</h3>
+      <div onClick={() => props.whenEventClicked(props.id)}></div>
+
       <h3>{props.eventName}</h3>
-      <h3>{props.eventTime}</h3>
-      <h3>{props.eventDate}</h3>
+      <h3>{props.eventDateTime}</h3>
+      <h3>{props.eventEmail}</h3>
       <h3>{props.eventLocation}</h3>
     </>
   );
@@ -15,7 +16,9 @@ export default function Event(props) {
 
 Event.propTypes = {
   eventName: PropTypes.string,
-  eventTime: PropTypes.string,
-  eventDate: PropTypes.string,
+  eventDateTime: PropTypes.string,
+  eventEmail: PropTypes.string,
   eventLocation: PropTypes.string,
+  id: PropTypes.string,
+  whenEventClicked: PropTypes.func,
 };

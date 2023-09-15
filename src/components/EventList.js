@@ -7,13 +7,14 @@ export default function EventList(props) {
   return (
     <>
       <hr />
-      {props.eventList.map((event, index) => (
+      {props.eventList.map((event) => (
         <Event
           eventName={event.eventName}
           eventDateTime={event.eventDateTime}
           eventEmail={event.eventEmail}
           eventLocation={event.eventLocation}
-          key={index}
+          id={event.id}
+          key={event.id}
         />
       ))}
     </>
