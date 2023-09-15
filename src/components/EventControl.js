@@ -1,72 +1,60 @@
-import React from "react";
+import React, { useState } from "react";
 import NewEventForm from "./NewEventForm";
 import EditEventForm from "./EditEventForm";
 import EventList from "./EventList";
 import EventDetail from "./EventDetail";
 
-export default class EventControl extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      formVisibleOnPage: false,
-      mainEventList: [],
-      selectedEvent: null,
-      editing: false,
-    };
-  }
-  handleClick = () => {
+export default function EventControl(){
+  const [formVisibleOnPage, setFormVisibleOnPage] = useState(false);
+  const [mainEventList, setMainEventList] = useState([]);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [editing, setEditing] = useState(false);
+
+ const handleClick = () => {
     if (this.state.selectedEvent != null) {
-      this.setState({
-        formVisibleOnPage: false,
-        selectedEvent: null,
-        editing: false,
-      });
-    } else {
-      this.setState((prevState) => ({
-        formVisibleOnPage: !prevState.formVisibleOnPage,
-      }));
+     
+        setFormVisibleOnPage(false);
+        this.setState({
+          formVisibleOnPage: false,
+          selectedEvent: null,
+        });
+      }else {
+        setFormVisibleOnPage(!formVisibleOnPage);
     }
-  };
+  }
+    
 
-  handleAddingNewEventToList = (newEvent) => {
+  const handleAddingNewEventToList = (newEvent) => {
     const newMainEventList = this.state.mainEventList.concat(newEvent);
-    this.setState({
-      mainEventList: newMainEventList,
-      formVisibleOnPage: false,
-    });
+     setMainEventList(newMainEventList);
+     setFormVisibleOnPage(false)
   };
 
-  handleChangingSelectedEvent = (id) => {
+  const handleChangingSelectedEvent = (id) => {
     const selectedEvent = this.state.mainEventList.filter(
       (event) => event.id === id
     )[0];
     this.setState({ selectedEvent: selectedEvent });
   };
 
-  handleDeletingTicket = (id) => {
-    const newMainEventList = this.state.mainEventList.filter(
+  const handleDeletingTicket = (id) => {
+    const newMainEventList = mainEventList.filter(
       (event) => event.id !== id
     );
-    this.setState({
-      mainEventList: newMainEventList,
-      selectedEvent: null,
-    });
+    setMainEventList(newMainEventList);
   };
 
-  handleEditClick = () => {
-    console.log("handledEditClick reached!");
-    this.setState({ editing: true });
+  const handleEditClick = () => {
+        this.setState({ editing: true });
   };
 
-  handleEditingEventInList = (eventToEdit) => {
-    const editedMainEventList = this.state.mainEventList
+ const handleEditingEventInList = (eventToEdit) => {
+    const editedMainEventList = mainEventList
       .filter((event) => event.id !== this.state.selectedEvent.id)
       .concat(eventToEdit);
-    this.setState({
-      mainEventList: editedMainEventList,
-      editing: false,
-      selectedEvent: null,
-    });
+    
+      setMainEventList(editedMainEventList);
+      
   };
 
   render() {
@@ -91,7 +79,7 @@ export default class EventControl extends React.Component {
         />
       );
       buttonText = "Return to Event List";
-    } else if (this.state.formVisibleOnPage) {
+    } else if (formVisibleOnPage) {
       currentlyVisibleState = (
         <NewEventForm onNewEventCreation={this.handleAddingNewEventToList} />
       );
@@ -99,8 +87,8 @@ export default class EventControl extends React.Component {
     } else {
       currentlyVisibleState = (
         <EventList
-          eventList={this.state.mainEventList}
-          onEventSelection={this.handleChangingSelectedEvent}
+        onEventSelection={this.handleChangingSelectedEvent}
+          eventList={mainEventList}
         />
       );
       buttonText = "Add an Event";
