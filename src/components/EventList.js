@@ -1,14 +1,14 @@
 import React from "react";
 import Event from "./Event";
-import Place from "./Place";
 import PropTypes from "prop-types";
 
-export default function EventList(props) {
+function EventList(props) {
   return (
-    <>
+    <React.Fragment>
       <hr />
       {props.eventList.map((event) => (
         <Event
+          whenEventClicked={props.onEventSelection}
           eventName={event.eventName}
           eventDateTime={event.eventDateTime}
           eventEmail={event.eventEmail}
@@ -17,13 +17,16 @@ export default function EventList(props) {
           key={event.id}
         />
       ))}
-    </>
+    </React.Fragment>
   );
 }
 
 EventList.propTypes = {
   eventList: PropTypes.array,
+  onEventSelection: PropTypes.func,
 };
+
+export default EventList;
 
 //Props are the eventName, eventTime, etc
 

@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { v4 } from "uuid";
+// import DatePicker from "react-datepicker";
+// import "react-datepicker/dist/react-datepicker.css";
 
 export default function NewEventForm(props) {
   function handleNewEventFormSubmission(event) {
@@ -19,7 +21,7 @@ export default function NewEventForm(props) {
       <form onSubmit={handleNewEventFormSubmission}>
         <input
           required
-          autoCapitalize="words"
+          style={{ textTransform: "capitalize" }}
           type="text"
           name="eventName"
           placeholder="Event Name"

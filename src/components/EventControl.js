@@ -37,7 +37,7 @@ export default class EventControl extends React.Component {
     let currentlyVisibleState = null;
     let buttonText = null;
 
-    if (this.setState.selectedEvent != null) {
+    if (this.state.selectedEvent != null) {
       currentlyVisibleState = <EventDetail event={this.state.selectedEvent} />;
       buttonText = "Return to Event List";
     } else if (this.state.formVisibleOnPage) {
@@ -47,7 +47,10 @@ export default class EventControl extends React.Component {
       buttonText = "Return to Event List";
     } else {
       currentlyVisibleState = (
-        <EventList eventList={this.state.mainEventList} />
+        <EventList
+          eventList={this.state.mainEventList}
+          onEventSelection={this.handleChangingSelectedEvent}
+        />
       );
       buttonText = "Add an Event";
     }
