@@ -4,16 +4,18 @@ import React from "react";
 import Header from "./Header";
 import EventList from "./EventList";
 import EventControl from "./EventControl";
-// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import SignIn from "./SignIn";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <React.Fragment>
+    <Router>
       <Header />
-      <EventControl />
-      {/* <Counter />
-      <CounterTwo /> */}
-    </React.Fragment>
+      <Routes>
+        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/" element={<EventControl />} />
+      </Routes>
+    </Router>
   );
 }
 

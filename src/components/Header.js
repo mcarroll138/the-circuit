@@ -47,11 +47,24 @@ function Header() {
   return (
     <div style={headerContainerStyles}>
       <h2>⚡️ The Circuit ⚡️</h2>
+      
+        
       <form style={formStyles}>
         <input style={inputStyles} type="text" placeholder="Email" />
         <input style={inputStyles} type="password" placeholder="Password" />
-        <button style={buttonStyles}>Login</button>
-        <button style={buttonRegister}>Register</button>
+        <Link to="/"><button style={buttonStyles}>Home</button></Link>
+      
+        <Link to="/sign-in">
+          <button style={buttonStyles}>Sign In</button>
+        </Link>
+        {/* <button style={buttonStyles}>Login</button>
+        <button style={buttonRegister}>Register</button> */}
+        {/* <Link to="/sign-in">
+          <button style={buttonStyles}>Sign In</button>
+        </Link>
+        <a href="/">
+          <button style={buttonStyles}>Home</button>
+        </a> */}
       </form>
     </div>
   );
