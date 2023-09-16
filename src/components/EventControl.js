@@ -1,14 +1,47 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NewEventForm from "./NewEventForm";
 import EditEventForm from "./EditEventForm";
 import EventList from "./EventList";
 import EventDetail from "./EventDetail";
+import db from "./../firebase.js";
+import {
+  collection,
+  addDoc,
+  onSnapshot,
+  doc,
+  updateDoc,
+  deleteDoc,
+} from "firebase/firestore";
 
 export default function EventControl() {
   const [formVisibleOnPage, setFormVisibleOnPage] = useState(false);
   const [mainEventList, setMainEventList] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [editing, setEditing] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const unSubscribe = onSnapshot(
+      collection(db, "events"),
+      (collectionSnapshot) => {
+        const events = [];
+        collectionSnapshot.forEach((doc) => {
+          events.push({
+            eventName: doc.data().eventName,
+            eventDateTime: doc.data().eventDateTime,
+            eventEmail: doc.data().eventEmail,
+            eventLocation: doc.data().eventLocation,
+            id: doc.id,
+          });
+        });
+        setMainEventList(events);
+      },
+      (error) => {
+        setError(error.message);
+      }
+    );
+    return () => unSubscribe();
+  }, []);
 
   const handleClick = () => {
     if (selectedEvent != null) {
@@ -20,9 +53,8 @@ export default function EventControl() {
     }
   };
 
-  const handleAddingNewEventToList = (newEvent) => {
-    const newMainEventList = mainEventList.concat(newEvent);
-    setMainEventList(newMainEventList);
+  const handleAddingNewEventToList = async (newEventData) => {
+    await addDoc(collection(db, "events"), newEventData);
     setFormVisibleOnPage(false);
   };
 
@@ -31,28 +63,27 @@ export default function EventControl() {
     setSelectedEvent(selction);
   };
 
-  const handleDeletingEvent = (id) => {
-    const newMainEventList = mainEventList.filter((event) => event.id !== id);
-    setMainEventList(newMainEventList);
+  const handleDeletingEvent = async (id) => {
+    await deleteDoc(doc(db, "events", id));
+    setSelectedEvent(null);
   };
 
   const handleEditClick = () => {
     setEditing(true);
   };
 
-  const handleEditingEventInList = (eventToEdit) => {
-    const editedMainEventList = mainEventList
-      .filter((event) => event.id !== selectedEvent.id)
-      .concat(eventToEdit);
-    setMainEventList(editedMainEventList);
+  const handleEditingEventInList = async (eventToEdit) => {
+    const eventRef = doc(db, "events", eventToEdit.id);
+    await updateDoc(eventRef, eventToEdit);
     setEditing(false);
     setSelectedEvent(null);
   };
 
   let currentlyVisibleState = null;
   let buttonText = null;
-
-  if (editing && selectedEvent !== null) {
+  if (error) {
+    currentlyVisibleState = <p>There was an error: {error}</p>;
+  } else if (editing && selectedEvent !== null) {
     currentlyVisibleState = (
       <EditEventForm
         event={selectedEvent}
@@ -86,7 +117,7 @@ export default function EventControl() {
   return (
     <React.Fragment>
       {currentlyVisibleState}
-      <button onClick={handleClick}>{buttonText}</button>
+      {error ? null : <button onClick={handleClick}>{buttonText}</button>}
     </React.Fragment>
   );
 }
