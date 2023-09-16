@@ -13,11 +13,15 @@ export default function NewEventForm(props) {
       eventDateTime: event.target.eventDateTime.value,
       eventEmail: event.target.eventEmail.value,
       eventLocation: event.target.eventLocation.value,
+      // eventImage: event.target.eventImage.files[0],
     });
   }
   return (
     <>
-      <form onSubmit={handleNewEventFormSubmission}>
+      <form
+        onSubmit={handleNewEventFormSubmission}
+        encType="multipart/form-data"
+      >
         <input
           required
           style={{ textTransform: "capitalize" }}
@@ -44,6 +48,7 @@ export default function NewEventForm(props) {
           name="eventLocation"
           placeholder="Google Map Link"
         />
+        {/* <input type="file" name="eventImage" placeholder="upload image" /> */}
         <button type="submit">Party Time</button>
       </form>
     </>

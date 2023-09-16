@@ -10,6 +10,7 @@ export default function EventDetail(props) {
       <h3>{event.eventDateTime}</h3>
       <h3>{event.eventEmail}</h3>
       <h3>{event.eventLocation}</h3>
+      <h3>{event.eventImage}</h3>
       <button onClick={props.onClickingEdit}>Edit Event</button>
       <button onClick={() => onClickingDelete(event.id)}>Delete Event</button>
       <hr />

@@ -31,6 +31,7 @@ export default function EventControl() {
             eventDateTime: doc.data().eventDateTime,
             eventEmail: doc.data().eventEmail,
             eventLocation: doc.data().eventLocation,
+            eventImage: doc.data().eventImage,
             id: doc.id,
           });
         });

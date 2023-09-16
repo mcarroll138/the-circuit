@@ -13,6 +13,7 @@ function EventList(props) {
           eventDateTime={event.eventDateTime}
           eventEmail={event.eventEmail}
           eventLocation={event.eventLocation}
+          eventImage={event.eventImage}
           id={event.id}
           key={event.id}
         />

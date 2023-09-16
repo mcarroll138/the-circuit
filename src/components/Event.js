@@ -9,6 +9,7 @@ export default function Event(props) {
         <h3>{props.eventDateTime}</h3>
         <h3>{props.eventEmail}</h3>
         <h3>{props.eventLocation}</h3>
+        <h3>{props.eventImage}</h3>
         <hr />
       </div>
     </>
@@ -20,6 +21,7 @@ Event.propTypes = {
   eventDateTime: PropTypes.string,
   eventEmail: PropTypes.string,
   eventLocation: PropTypes.string,
+  eventImage: PropTypes.object,
   id: PropTypes.string,
   whenEventClicked: PropTypes.func,
 };
