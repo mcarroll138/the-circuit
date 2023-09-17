@@ -1,5 +1,7 @@
 ### Research & Planning Log
+
 #### Friday 9/15
+
 Coded Through Help Queue as my base for my project. - Build out application following structure of Ticket-Queue
 
 To Do/ Research
@@ -11,6 +13,9 @@ To Do/ Research
 - [] Research making events visible only if invited by others
 - [] Research google maps/ bing for address autopopulation or something similar
 
+# Project Description:
+
+The Circuit is a social media app that focuses solely on events. The idea is friends can create events and share them with other friends, family, co-workers, etc. There will be no status updates or sharing of photos, this is just meant to be a living and breathing calendar that friends have access to. The end users control what is shared with different groups ie. friends, family, coworkers, etc.
 
 # Getting Started with Create React App
 
