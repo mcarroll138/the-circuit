@@ -6,9 +6,8 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import PropTypes from "prop-types";
 
-function SignIn(props) {
+function SignIn() {
   const headerContainerStyles = {
     alignItems: "center",
     backgroundColor: "pink",
@@ -42,81 +41,9 @@ function SignIn(props) {
   const [signUpSuccess, setSignUpSuccess] = useState(null);
   const [signInSuccess, setSignInSuccess] = useState(null);
   const [signOutSuccess, setSignOutSuccess] = useState(null);
-  const [isSignUpMode, setIsSignUpMode] = useState(false);
-  const [isSignInMode, setIsSignInMode] = useState(false);
-
-  const renderSignUpForm = () => {
-    if (isSignUpMode) {
-      return (
-        <form onSubmit={doSignUp} style={formStyles}>
-          <h1>Sign Up</h1>
-          <input
-            style={inputStyles}
-            type="text"
-            name="email"
-            placeholder="Email"
-          />
-          <input
-            style={inputStyles}
-            type="password"
-            name="password"
-            placeholder="Password"
-          />
-          <button type="submit" style={buttonStyles}>
-            Sign Up
-          </button>
-          <p>
-            Return to {"    "}
-            <span
-              style={{
-                color: "blue",
-                textDecoration: "underline",
-                cursor: "pointer",
-              }}
-              onClick={() => setIsSignUpMode(false)}
-            >
-              Sign In
-            </span>
-          </p>
-        </form>
-      );
-    } else {
-      return (
-        <form onSubmit={doSignIn} style={formStyles}>
-          {signInSuccess}
-          <h1>Sign In</h1>
-          <input
-            style={inputStyles}
-            type="text"
-            name="signinEmail"
-            placeholder="email"
-          />
-          <input
-            style={inputStyles}
-            type="password"
-            name="signinPassword"
-            placeholder="Password"
-          />
-          <button type="submit" style={buttonStyles}>
-            Sign in
-          </button>
-          <p>
-            Don't have an account?{"    "}
-            <span
-              style={{
-                color: "blue",
-                textDecoration: "underline",
-                cursor: "pointer",
-              }}
-              onClick={() => setIsSignUpMode(true)}
-            >
-              Sign up now
-            </span>
-          </p>
-        </form>
-      );
-    }
-  };
+  const [signUpForm, setSignUpForm] = useState(false);
+  const [signInForm, setSignInForm] = useState(false);
+  const [logOut, setLogOUt] = useState(false);
 
   function doSignUp(event) {
     event.preventDefault();
@@ -140,7 +67,7 @@ function SignIn(props) {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         setSignInSuccess(
-          `You've successfully signed in as ${email} ${userCredential.user.email}!`
+          `You've successfully signed in as ${userCredential.user.email}!`
         );
       })
       .catch((error) => {
@@ -158,8 +85,27 @@ function SignIn(props) {
   }
   return (
     <div style={headerContainerStyles}>
+      <form onSubmit={doSignUp} style={formStyles}>
+        <h1>Sign Up</h1>
+        <input
+          style={inputStyles}
+          type="text"
+          name="email"
+          placeholder="Email"
+        />
+        <input
+          style={inputStyles}
+          type="password"
+          name="password"
+          placeholder="Password"
+        />
+        <button type="submit" style={buttonStyles}>
+          Sign Up
+        </button>
+      </form>
+      <hr />
       <div style={headerContainerStyles}>
-        {/* <form onSubmit={doSignIn} style={formStyles}>
+        <form onSubmit={doSignIn} style={formStyles}>
           {signInSuccess}
           <h1>Sign In</h1>
           <input
@@ -177,31 +123,29 @@ function SignIn(props) {
           <button type="submit" style={buttonStyles}>
             Sign in
           </button>
-          <p>
-            Don't have an account?{"    "}
-            <span
-              style={{
-                color: "blue",
-                textDecoration: "underline",
-                cursor: "pointer",
-              }}
-              onClick={() => setIsSignUpMode(true)}
-            >
-              Sign up now
-            </span>
-          </p>
-        </form> */}
-        <hr />
-        <div style={headerContainerStyles}>
-          {renderSignUpForm()}
-          <h1>Sign Out</h1>
-          {signOutSuccess}
-          <button onClick={doSignOut}>Sign out</button>
-        </div>
+        </form>
+        <h1>Sign Out</h1>
+        {signOutSuccess}
         <br />
+        <button onClick={doSignOut}>Sign out</button>
       </div>
     </div>
   );
 }
 
 export default SignIn;
+
+/* <input
+style={inputStyles}
+type="text"
+name="userName"
+placeholder="User Name"
+/> */
+
+/* <Link to="/">
+  <button style={buttonStyles}>Home</button>
+</Link>
+
+<Link to="/sign-in">
+  <button style={buttonStyles}>Sign In</button>
+</Link> */

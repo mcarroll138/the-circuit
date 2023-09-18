@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function Header() {
+function Header({ email }) {
   const headerContainerStyles = {
     display: "flex",
     justifyContent: "space-between",
@@ -48,12 +48,15 @@ function Header() {
     <div style={headerContainerStyles}>
       <h2>⚡️ The Circuit ⚡️ </h2>
       
-        
+
       <form style={formStyles}>
-        <input style={inputStyles} type="text" placeholder="Email" />
-        <input style={inputStyles} type="password" placeholder="Password" />
-        <Link to="/"><button style={buttonStyles}>Home</button></Link>
-      
+        {email}
+        {/* <input style={inputStyles} type="text" placeholder="Email" />
+        <input style={inputStyles} type="password" placeholder="Password" /> */}
+        <Link to="/">
+          <button style={buttonStyles}>Home</button>
+        </Link>
+
         <Link to="/sign-in">
           <button style={buttonStyles}>Sign In</button>
         </Link>

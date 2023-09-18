@@ -6,10 +6,11 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import PropTypes from "prop-types";
 
-function SignIn(props) {
+function SignIn() {
   const headerContainerStyles = {
+    // display: "flex",
+    // justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "pink",
     padding: "10px",
@@ -42,46 +43,80 @@ function SignIn(props) {
   const [signUpSuccess, setSignUpSuccess] = useState(null);
   const [signInSuccess, setSignInSuccess] = useState(null);
   const [signOutSuccess, setSignOutSuccess] = useState(null);
-  const [isSignUpMode, setIsSignUpMode] = useState(false);
-  const [isSignInMode, setIsSignInMode] = useState(false);
 
-  const renderSignUpForm = () => {
-    if (isSignUpMode) {
-      return (
-        <form onSubmit={doSignUp} style={formStyles}>
-          <h1>Sign Up</h1>
-          <input
-            style={inputStyles}
-            type="text"
-            name="email"
-            placeholder="Email"
-          />
-          <input
-            style={inputStyles}
-            type="password"
-            name="password"
-            placeholder="Password"
-          />
-          <button type="submit" style={buttonStyles}>
-            Sign Up
-          </button>
-          <p>
-            Return to {"    "}
-            <span
-              style={{
-                color: "blue",
-                textDecoration: "underline",
-                cursor: "pointer",
-              }}
-              onClick={() => setIsSignUpMode(false)}
-            >
-              Sign In
-            </span>
-          </p>
-        </form>
-      );
-    } else {
-      return (
+  function doSignUp(event) {
+    event.preventDefault();
+    // const userName = event.target.userName.value;
+    const email = event.target.email.value;
+    const password = event.target.password.value;
+    // const verifyPassword = event.target.verifyPassword.value;
+    // if (password !== verifyPassword) {
+    //   return "Your passwords dont match";
+    // }
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        setSignUpSuccess(
+          `You've successfully signed up, with the user name of ${userCredential.user.email} as your email address.`
+        );
+      })
+      .catch((error) => {
+        signUpSuccess(`There was an error sigining up: ${error.message}!`);
+      });
+  }
+  function doSignIn(event) {
+    event.preventDefault();
+    const email = event.target.signinEmail.value;
+    const password = event.target.signinPassword.value;
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        setSignInSuccess(
+          `You've successfully signed in as ${userCredential.user.email}!`
+        );
+      })
+      .catch((error) => {
+        setSignInSuccess(`There was an error signing in: ${error.message}!`);
+      });
+  }
+  function doSignOut() {
+    signOut(auth)
+      .then(function () {
+        setSignOutSuccess("You have successfully signed out!");
+      })
+      .catch(function (error) {
+        setSignOutSuccess(`There was an error signing out: ${error.message}!`);
+      });
+  }
+  return (
+    <div style={headerContainerStyles}>
+      <form onSubmit={doSignUp} style={formStyles}>
+        <h1>Sign Up</h1>
+        <input
+          style={inputStyles}
+          type="text"
+          name="email"
+          placeholder="Email"
+        />
+        <input
+          style={inputStyles}
+          type="password"
+          name="password"
+          placeholder="Password"
+        />
+{/* 
+        <input
+          style={inputStyles}
+          type="password"
+          name="verifyPassword"
+          placeholder="Verify Password"
+        /> */}
+
+        <button type="submit" style={buttonStyles}>
+          Sign Up
+        </button>
+      </form>
+      <hr />
+      <div style={headerContainerStyles}>
+        {/* New sign in success message*/}
         <form onSubmit={doSignIn} style={formStyles}>
           {signInSuccess}
           <h1>Sign In</h1>
@@ -100,108 +135,29 @@ function SignIn(props) {
           <button type="submit" style={buttonStyles}>
             Sign in
           </button>
-          <p>
-            Don't have an account?{"    "}
-            <span
-              style={{
-                color: "blue",
-                textDecoration: "underline",
-                cursor: "pointer",
-              }}
-              onClick={() => setIsSignUpMode(true)}
-            >
-              Sign up now
-            </span>
-          </p>
         </form>
-      );
-    }
-  };
-
-  function doSignUp(event) {
-    event.preventDefault();
-    const email = event.target.email.value;
-    const password = event.target.password.value;
-
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        setSignUpSuccess(
-          `You've successfully signed up, with the user name of ${userCredential.user.email} as your email address.`
-        );
-      })
-      .catch((error) => {
-        signUpSuccess(`There was an error sigining up: ${error.message}!`);
-      });
-  }
-  function doSignIn(event) {
-    event.preventDefault();
-    const email = event.target.signinEmail.value;
-    const password = event.target.signinPassword.value;
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        setSignInSuccess(
-          `You've successfully signed in as ${email} ${userCredential.user.email}!`
-        );
-      })
-      .catch((error) => {
-        setSignInSuccess(`There was an error signing in: ${error.message}!`);
-      });
-  }
-  function doSignOut() {
-    signOut(auth)
-      .then(function () {
-        setSignOutSuccess("You have successfully signed out!");
-      })
-      .catch(function (error) {
-        setSignOutSuccess(`There was an error signing out: ${error.message}!`);
-      });
-  }
-  return (
-    <div style={headerContainerStyles}>
-      <div style={headerContainerStyles}>
-        {/* <form onSubmit={doSignIn} style={formStyles}>
-          {signInSuccess}
-          <h1>Sign In</h1>
-          <input
-            style={inputStyles}
-            type="text"
-            name="signinEmail"
-            placeholder="email"
-          />
-          <input
-            style={inputStyles}
-            type="password"
-            name="signinPassword"
-            placeholder="Password"
-          />
-          <button type="submit" style={buttonStyles}>
-            Sign in
-          </button>
-          <p>
-            Don't have an account?{"    "}
-            <span
-              style={{
-                color: "blue",
-                textDecoration: "underline",
-                cursor: "pointer",
-              }}
-              onClick={() => setIsSignUpMode(true)}
-            >
-              Sign up now
-            </span>
-          </p>
-        </form> */}
-        <hr />
-        <div style={headerContainerStyles}>
-          {renderSignUpForm()}
-          <h1>Sign Out</h1>
-          {signOutSuccess}
-          <button onClick={doSignOut}>Sign out</button>
-        </div>
+        <h1>Sign Out</h1>
+        {signOutSuccess}
         <br />
+        <button onClick={doSignOut}>Sign out</button>
       </div>
     </div>
   );
 }
 
 export default SignIn;
+
+/* <input
+style={inputStyles}
+type="text"
+name="userName"
+placeholder="User Name"
+/> */
+
+/* <Link to="/">
+  <button style={buttonStyles}>Home</button>
+</Link>
+
+<Link to="/sign-in">
+  <button style={buttonStyles}>Sign In</button>
+</Link> */
