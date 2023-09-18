@@ -46,7 +46,7 @@ function Header() {
 
   return (
     <div style={headerContainerStyles}>
-      <h2>⚡️ The Circuit ⚡️</h2>
+      <h2>⚡️ The Circuit ⚡️ </h2>
       
         
       <form style={formStyles}>

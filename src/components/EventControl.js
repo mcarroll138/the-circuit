@@ -3,7 +3,7 @@ import NewEventForm from "./NewEventForm";
 import EditEventForm from "./EditEventForm";
 import EventList from "./EventList";
 import EventDetail from "./EventDetail";
-import db from "./../firebase.js";
+import { db, auth } from "./../firebase.js";
 import {
   collection,
   addDoc,
@@ -79,46 +79,53 @@ export default function EventControl() {
     setEditing(false);
     setSelectedEvent(null);
   };
-
-  let currentlyVisibleState = null;
-  let buttonText = null;
-  if (error) {
-    currentlyVisibleState = <p>There was an error: {error}</p>;
-  } else if (editing && selectedEvent !== null) {
-    currentlyVisibleState = (
-      <EditEventForm
-        event={selectedEvent}
-        onEditEvent={handleEditingEventInList}
-      />
+  if (auth.currentUser == null) {
+    return (
+      <>
+        <h1>You must be logged in to access your calendar</h1>
+      </>
     );
-    buttonText = "Return to Event List";
-  } else if (selectedEvent != null) {
-    currentlyVisibleState = (
-      <EventDetail
-        event={selectedEvent}
-        onClickingDelete={handleDeletingEvent}
-        onClickingEdit={handleEditClick}
-      />
+  } else if (auth.currentUser != null) {
+    let currentlyVisibleState = null;
+    let buttonText = null;
+    if (error) {
+      currentlyVisibleState = <p>There was an error: {error}</p>;
+    } else if (editing && selectedEvent !== null) {
+      currentlyVisibleState = (
+        <EditEventForm
+          event={selectedEvent}
+          onEditEvent={handleEditingEventInList}
+        />
+      );
+      buttonText = "Return to Event List";
+    } else if (selectedEvent != null) {
+      currentlyVisibleState = (
+        <EventDetail
+          event={selectedEvent}
+          onClickingDelete={handleDeletingEvent}
+          onClickingEdit={handleEditClick}
+        />
+      );
+      buttonText = "Return to Event List";
+    } else if (formVisibleOnPage) {
+      currentlyVisibleState = (
+        <NewEventForm onNewEventCreation={handleAddingNewEventToList} />
+      );
+      buttonText = "Return to Event List";
+    } else {
+      currentlyVisibleState = (
+        <EventList
+          onEventSelection={handleChangingSelectedEvent}
+          eventList={mainEventList}
+        />
+      );
+      buttonText = "Add an Event";
+    }
+    return (
+      <React.Fragment>
+        {currentlyVisibleState}
+        {error ? null : <button onClick={handleClick}>{buttonText}</button>}
+      </React.Fragment>
     );
-    buttonText = "Return to Event List";
-  } else if (formVisibleOnPage) {
-    currentlyVisibleState = (
-      <NewEventForm onNewEventCreation={handleAddingNewEventToList} />
-    );
-    buttonText = "Return to Event List";
-  } else {
-    currentlyVisibleState = (
-      <EventList
-        onEventSelection={handleChangingSelectedEvent}
-        eventList={mainEventList}
-      />
-    );
-    buttonText = "Add an Event";
   }
-  return (
-    <React.Fragment>
-      {currentlyVisibleState}
-      {error ? null : <button onClick={handleClick}>{buttonText}</button>}
-    </React.Fragment>
-  );
 }
