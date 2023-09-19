@@ -30,5 +30,3 @@ EventList.propTypes = {
 export default EventList;
 
 //Props are the eventName, eventTime, etc
-
-

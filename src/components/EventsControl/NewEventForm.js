@@ -1,8 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-// import DatePicker from "react-datepicker";
-// import "react-datepicker/dist/react-datepicker.css";
+import { auth } from "../../firebase.js";
 
 export default function NewEventForm(props) {
   function handleNewEventFormSubmission(event) {
@@ -22,6 +20,12 @@ export default function NewEventForm(props) {
         onSubmit={handleNewEventFormSubmission}
         encType="multipart/form-data"
       >
+        <input
+          type="text"
+          name="currentUser"
+          placeholder={auth.currentUser.email}
+        />
+
         <input
           required
           style={{ textTransform: "capitalize" }}

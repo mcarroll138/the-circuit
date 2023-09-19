@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Redirect } from "react-router";
-import { auth } from "./../firebase.js";
+import { auth } from "../../firebase.js";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
 import PropTypes from "prop-types";
-import SignUpForm from "./UserForms/SignUpForm.js";
+import SignUpForm from "./SignUpForm.js";
+import Header from "./Header.js";
 
-function SignIn(props) {
+function SignInControl(props) {
   const navigate = useNavigate();
+
   const headerContainerStyles = {
     alignItems: "center",
     backgroundColor: "pink",
@@ -53,16 +55,24 @@ function SignIn(props) {
   const renderSignUpForm = () => {
     if (isSignUpMode) {
       return (
-        // <SignUpForm onNewSignUpCreation={doSignIn}/>
         <form onSubmit={doSignUp} style={formStyles}>
           <h1>Sign Up</h1>
           <input
+            required
+            style={inputStyles}
+            type="text"
+            name="displayName"
+            placeholder="User Name"
+          />
+          <input
+            required
             style={inputStyles}
             type="text"
             name="email"
             placeholder="Email"
           />
           <input
+            required
             style={inputStyles}
             type="password"
             name="password"
@@ -137,21 +147,23 @@ function SignIn(props) {
 
   function doSignUp(event) {
     event.preventDefault();
+    const displayName = event.target.displayName.value;
     const email = event.target.email.value;
     const password = event.target.password.value;
-
+   
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         setIsLogOffMode(false);
         setIsSignInMode(true);
         setIsSignUpMode(false);
+        console.log(displayName);
         const userEmail = event.target.email.value;
         setSignUpSuccess(
-          `You've successfully signed up, with the user name of ${userCredential.user.email} as your email address.`
+          `You've successfully signed up, with the user name of as your email address.`
         );
       })
       .catch((error) => {
-        signUpSuccess(`There was an error sigining up: ${error.message}!`);
+        setSignUpSuccess(`There was an error sigining up: ${error.message}!`);
       });
   }
   function doSignIn(event) {
@@ -160,43 +172,37 @@ function SignIn(props) {
     const password = event.target.signinPassword.value;
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // navigate("/");
         const signedInUser = userCredential.user.email;
         setSignInSuccess();
-        console.log(signedInUser);
         setUserSignedIn(signedInUser);
         setIsSignInMode(false);
         setIsSignUpMode(false);
         setIsLogOffMode(true);
-        console.log(signedInUser);
-
+        navigate("/profile");
         // `You've successfully signed in as ${email} ${userCredential.user.email}!`
       })
       .catch((error) => {
         setSignInSuccess(`There was an error signing in: ${error.message}!`);
       });
   }
-  function doSignOut() {
+  function doSignOut(props) {
     signOut(auth)
       .then(function () {
         setIsSignInMode(true);
         setIsLogOffMode(false);
         setIsSignUpMode(false);
+        navigate("sign-in");
         setSignOutSuccess("You have successfully signed out!");
       })
       .catch(function (error) {
         setSignOutSuccess(`There was an error signing out: ${error.message}!`);
       });
   }
-  return (
-    <div style={headerContainerStyles}>
-      {renderSignUpForm()}
-      {userSignedIn}
-      <h1>Sign Out</h1>
-      {signOutSuccess}
-      <button onClick={doSignOut}>Sign out</button>
-    </div>
-  );
+  return <div style={headerContainerStyles}>{renderSignUpForm()}</div>;
 }
 
-export default SignIn;
+export default SignInControl;
+
+SignInControl.propTypes = {
+  dosignOut: PropTypes.func,
+};

@@ -3,7 +3,7 @@ import NewEventForm from "./NewEventForm";
 import EditEventForm from "./EditEventForm";
 import EventList from "./EventList";
 import EventDetail from "./EventDetail";
-import { db, auth } from "./../firebase.js";
+import { db, auth } from "../../firebase.js";
 import {
   collection,
   addDoc,
@@ -119,6 +119,7 @@ export default function EventControl() {
           eventList={mainEventList}
         />
       );
+      console.log(auth.currentUser.email);
       buttonText = "Add an Event";
     }
     return (

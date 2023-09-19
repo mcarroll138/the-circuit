@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Header from "./Header";
-import SignIn from "./SignIn";
+import Header from "./SignInControl/Header";
+import SignIn from "./SignInControl/SignInControl";
 import { auth } from "./../firebase.js"; // Import your authentication logic
 
 function App() {
@@ -29,6 +29,7 @@ function App() {
     <Router>
       {/* Pass the user's email to the Header component */}
       <Header email={user ? user.email : null} />
+      {/* //If user truthy(exisits)then pass user email to emal variable prop otherwise pass null  */}
 
       <Routes>
         <Route path="/sign-in" element={<SignIn />} />

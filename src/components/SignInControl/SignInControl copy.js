@@ -13,7 +13,7 @@ import Header from "./Header.js";
 
 function SignInControl(props) {
   const navigate = useNavigate();
-
+  
   const headerContainerStyles = {
     alignItems: "center",
     backgroundColor: "pink",
@@ -55,6 +55,7 @@ function SignInControl(props) {
   const renderSignUpForm = () => {
     if (isSignUpMode) {
       return (
+        // <SignUpForm onNewSignUpCreation={doSignIn}/>
         <form onSubmit={doSignUp} style={formStyles}>
           <h1>Sign Up</h1>
           <input
@@ -161,37 +162,44 @@ function SignInControl(props) {
     const password = event.target.signinPassword.value;
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
+        // navigate("/");
         const signedInUser = userCredential.user.email;
         setSignInSuccess();
+        console.log(signedInUser);
         setUserSignedIn(signedInUser);
         setIsSignInMode(false);
         setIsSignUpMode(false);
         setIsLogOffMode(true);
-        navigate("/profile");
+        console.log(signedInUser);
+
         // `You've successfully signed in as ${email} ${userCredential.user.email}!`
       })
       .catch((error) => {
         setSignInSuccess(`There was an error signing in: ${error.message}!`);
       });
   }
-  function doSignOut(props) {
+  function doSignOut() {
     signOut(auth)
       .then(function () {
         setIsSignInMode(true);
         setIsLogOffMode(false);
         setIsSignUpMode(false);
-        navigate("sign-in");
         setSignOutSuccess("You have successfully signed out!");
       })
       .catch(function (error) {
         setSignOutSuccess(`There was an error signing out: ${error.message}!`);
       });
   }
-  return <div style={headerContainerStyles}>{renderSignUpForm()}</div>;
+  return (
+    <div style={headerContainerStyles}>
+      {renderSignUpForm()}
+      {userSignedIn}
+      {/* <Header email={userSignedIn}/> */}
+      {/* <h1>Sign Out</h1>
+      {signOutSuccess}
+      <button onClick={doSignOut}>Sign out</button> */}
+    </div>
+  );
 }
 
 export default SignInControl;
-
-SignInControl.propTypes = {
-  dosignOut: PropTypes.func,
-};

@@ -1,12 +1,5 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-// import { Link } from "react-router-dom";
-// import { auth } from "./../firebase.js";
-// import {
-//   createUserWithEmailAndPassword,
-//   signInWithEmailAndPassword,
-//   signOut,
-// } from "firebase/auth";
 
 export default function SignUpForm(props) {
   const headerContainerStyles = {
@@ -65,19 +58,6 @@ export default function SignUpForm(props) {
         <button type="submit" style={buttonStyles}>
           Sign Up
         </button>
-        <p>
-          Return to {"    "}
-          <span
-            style={{
-              color: "blue",
-              textDecoration: "underline",
-              cursor: "pointer",
-            }}
-            // onClick={() => setIsSignUpMode(false)}
-          >
-            Sign In
-          </span>
-        </p>
       </form>
     </>
   );
