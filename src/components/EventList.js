@@ -31,16 +31,4 @@ export default EventList;
 
 //Props are the eventName, eventTime, etc
 
-/* <Event
-  eventName="Halloween Party"
-  eventTime="8:00pm"
-  eventDate="10/31/23"
-  eventLocation="3622 SW Iowa St PDX"
-/>
 
-<Event
-  eventName="Birthday Party"
-  eventTime="8:00pm"
-  eventDate="9/21/23"
-  eventLocation="3622 N Mlk Blvd St PDX"
-/> */

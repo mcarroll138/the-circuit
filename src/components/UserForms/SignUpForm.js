@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { auth } from "./../firebase.js";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-} from "firebase/auth";
+import PropTypes from "prop-types";
+// import { Link } from "react-router-dom";
+// import { auth } from "./../firebase.js";
+// import {
+//   createUserWithEmailAndPassword,
+//   signInWithEmailAndPassword,
+//   signOut,
+// } from "firebase/auth";
 
-function SignIn() {
+export default function SignUpForm(props) {
   const headerContainerStyles = {
     alignItems: "center",
     backgroundColor: "pink",
@@ -38,28 +39,16 @@ function SignIn() {
     cursor: "pointer",
   };
 
-  const [signUpSuccess, setSignUpSuccess] = useState(null);
-
-
-  function doSignUp(event) {
+  function handleNewSignUpFormSubmission(event) {
     event.preventDefault();
-    const email = event.target.email.value;
-    const password = event.target.password.value;
 
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        setSignUpSuccess(
-          `You've successfully signed up, with the user name of ${userCredential.user.email} as your email address.`
-        );
-      })
-      .catch((error) => {
-        signUpSuccess(`There was an error sigining up: ${error.message}!`);
-      });
+    props.onNewSignUpCreation({
+      email: event.target.email.value,
+    });
   }
-
   return (
-    <div style={headerContainerStyles}>
-      <form onSubmit={doSignUp} style={formStyles}>
+    <>
+      <form onSubmit={handleNewSignUpFormSubmission} style={formStyles}>
         <h1>Sign Up</h1>
         <input
           style={inputStyles}
@@ -76,9 +65,24 @@ function SignIn() {
         <button type="submit" style={buttonStyles}>
           Sign Up
         </button>
-     </form>
-    </div>
+        <p>
+          Return to {"    "}
+          <span
+            style={{
+              color: "blue",
+              textDecoration: "underline",
+              cursor: "pointer",
+            }}
+            // onClick={() => setIsSignUpMode(false)}
+          >
+            Sign In
+          </span>
+        </p>
+      </form>
+    </>
   );
 }
 
-export default SignIn;
+SignUpForm.propTypes = {
+  onNewSignUpCreation: PropTypes.func,
+};
