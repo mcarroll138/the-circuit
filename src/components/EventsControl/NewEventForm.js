@@ -7,6 +7,7 @@ export default function NewEventForm(props) {
     event.preventDefault();
 
     props.onNewEventCreation({
+      eventCreator: event.target.eventCreator.value,
       eventName: event.target.eventName.value,
       eventDateTime: event.target.eventDateTime.value,
       eventEmail: event.target.eventEmail.value,
@@ -21,11 +22,10 @@ export default function NewEventForm(props) {
         encType="multipart/form-data"
       >
         <input
-          type="text"
-          name="currentUser"
-          placeholder={auth.currentUser.email}
+          type="hidden"
+          name="eventCreator"
+          value={auth.currentUser.email}
         />
-
         <input
           required
           style={{ textTransform: "capitalize" }}
