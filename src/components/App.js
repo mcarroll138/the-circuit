@@ -1,15 +1,15 @@
 // import Counter from "./Counter";
 // import CounterTwo from "./CounterTwo";
+// import ConfirmPassword from "./SignInControl/ConfirmPassword";
+// import NewProfileForm from "./ProfileControl/NewProfileForm";
+// import EventList from "./EventsControl/EventList";
 import React from "react";
 import Header from "./SignInControl/Header";
-import ProfileControl from "./ProfileControl/NewProfileForm";
-import EventList from "./EventsControl/EventList";
+import ProfileControl from "./ProfileControl/ProfileControl";
 import EventControl from "./EventsControl/EventControl";
 import SignInControl from "./SignInControl/SignInControl";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import ConfirmPassword from "./SignInControl/ConfirmPassword";
-import NewProfileForm from "./ProfileControl/NewProfileForm";
 
 function App() {
   const auth = getAuth();

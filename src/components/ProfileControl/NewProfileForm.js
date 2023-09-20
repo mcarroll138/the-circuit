@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { auth } from "../../firebase.js";
 
-export default function NewProfileForm(props) {
+function NewProfileForm(props) {
   function handleNewProfileFormSubmission(event) {
     event.preventDefault();
     console.log("form submitted");
@@ -13,8 +13,8 @@ export default function NewProfileForm(props) {
     console.log("User Profile:", newUserProfile);
     console.log("First Name:", newFirstName);
     console.log("Last Name:", newLastName);
-    props.onNewProfileCreation({
-      userProfile: event.target.userProfile.value,
+    props.onProfileCreation({
+      // userProfile: event.target.userProfile.value,
       firstName: event.target.firstName.value,
       lastName: event.target.lastName.value,
       // birthdate: event.target.birthdate.value,
@@ -27,7 +27,11 @@ export default function NewProfileForm(props) {
         onSubmit={handleNewProfileFormSubmission}
         encType="multipart/form-data"
       >
-        <input type="text" name="userProfile" value={auth.currentUser.email} />
+        <input
+          type="hidden"
+          name="userProfile"
+          value={auth.currentUser.email}
+        />
         <input required type="text" name="firstName" placeholder="First Name" />
         <input required type="text" name="lastName" placeholder="Last Name" />
         {/* <label>
@@ -43,6 +47,9 @@ export default function NewProfileForm(props) {
     </>
   );
 }
+
 NewProfileForm.propTypes = {
-  onNewProfileCreation: PropTypes.func,
+  onProfileCreation: PropTypes.func,
 };
+
+export default NewProfileForm;
