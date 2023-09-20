@@ -19,7 +19,7 @@ function EventList(props) {
           eventCreator={event.eventCreator}
           eventName={event.eventName}
           eventDateTime={event.eventDateTime}
-          eventEmail={event.eventEmail}
+          eventDetail={event.eventDetail}
           eventLocation={event.eventLocation}
           eventImage={event.eventImage}
           id={event.id}

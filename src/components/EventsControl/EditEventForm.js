@@ -6,14 +6,14 @@ export default function EditEventForm(props) {
 
   const [eventName, setEventName] = useState("");
   const [eventDateTime, setEventDateTime] = useState("");
-  const [eventEmail, setEventEmail] = useState("");
+  const [eventDetail, setEventDetail] = useState("");
   const [eventLocation, setEventLocation] = useState("");
 
   useEffect(() => {
     if (event) {
       setEventName(event.eventName || "");
       setEventDateTime(event.eventDateTime || "");
-      setEventEmail(event.eventEmail || "");
+      setEventDetail(event.eventDetail || "");
       setEventLocation(event.eventLocation || "");
     }
   }, [event]);
@@ -24,7 +24,7 @@ export default function EditEventForm(props) {
     props.onEditEvent({
       eventName: eventName,
       eventDateTime: eventDateTime,
-      eventEmail: eventEmail,
+      eventDetail: eventDetail,
       eventLocation: eventLocation,
       id: event.id,
     });
@@ -51,9 +51,9 @@ export default function EditEventForm(props) {
         />
         <input
           type="email"
-          name="eventEmail"
-          value={eventEmail}
-          onChange={(e) => setEventEmail(e.target.value)}
+          name="eventDetail"
+          value={eventDetail}
+          onChange={(e) => setEventDetail(e.target.value)}
           placeholder="Email Address"
         />
         <input

@@ -8,7 +8,7 @@ export default function Event(props) {
         <h3>{props.eventCreator}</h3>
         <h3>{props.eventName}</h3>
         <h3>{props.eventDateTime}</h3>
-        <h3>{props.eventEmail}</h3>
+        <h3>{props.eventDetail}</h3>
         <h3>{props.eventLocation}</h3>
         <h3>{props.eventImage}</h3>
         <hr />
@@ -20,7 +20,7 @@ export default function Event(props) {
 Event.propTypes = {
   eventName: PropTypes.string,
   eventDateTime: PropTypes.string,
-  eventEmail: PropTypes.string,
+  eventDetail: PropTypes.string,
   eventLocation: PropTypes.string,
   eventImage: PropTypes.object,
   id: PropTypes.string,

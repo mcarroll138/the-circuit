@@ -30,7 +30,7 @@ export default function EventControl() {
             eventCreator: doc.data().eventCreator,
             eventName: doc.data().eventName,
             eventDateTime: doc.data().eventDateTime,
-            eventEmail: doc.data().eventEmail,
+            eventDetail: doc.data().eventDetail,
             eventLocation: doc.data().eventLocation,
             eventImage: doc.data().eventImage,
             id: doc.id,
@@ -61,8 +61,8 @@ export default function EventControl() {
   };
 
   const handleChangingSelectedEvent = (id) => {
-    const selction = mainEventList.filter((event) => event.id === id)[0];
-    setSelectedEvent(selction);
+    const selection = mainEventList.filter((event) => event.id === id)[0];
+    setSelectedEvent(selection);
   };
 
   const handleDeletingEvent = async (id) => {

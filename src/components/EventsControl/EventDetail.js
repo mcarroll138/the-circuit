@@ -5,11 +5,11 @@ export default function EventDetail(props) {
   const { event, onClickingDelete } = props;
   return (
     <>
-      <h1>Event Details</h1>
-      <h3>{event.eventCreator}</h3>
-      <h3>{event.eventName}</h3>
+    <h1>{event.eventName}</h1>
+      
+      <h3>Hosted By {event.eventCreator}</h3>
       <h3>{event.eventDateTime}</h3>
-      <h3>{event.eventEmail}</h3>
+      <h3>{event.eventDetail}</h3>
       <h3>{event.eventLocation}</h3>
       <h3>{event.eventImage}</h3>
       <button onClick={props.onClickingEdit}>Edit Event</button>

@@ -10,9 +10,8 @@ export default function NewEventForm(props) {
       eventCreator: event.target.eventCreator.value,
       eventName: event.target.eventName.value,
       eventDateTime: event.target.eventDateTime.value,
-      eventEmail: event.target.eventEmail.value,
+      eventDetail: event.target.eventDetail.value,
       eventLocation: event.target.eventLocation.value,
-      // eventImage: event.target.eventImage.files[0],
     });
   }
   return (
@@ -39,16 +38,12 @@ export default function NewEventForm(props) {
           name="eventDateTime"
           placeholder="Date/Time"
         />
-        <label>
-          Private Profile
-          <input required type="search" name="privateProfile" />
-        </label>
+
         <input
           // required
-          type="email"
-          // pattern=".+@globe.com"
-          name="eventEmail"
-          placeholder="Email Address"
+          type="text"
+          name="eventDetail"
+          placeholder="Event Details"
         />
         <input
           // required
