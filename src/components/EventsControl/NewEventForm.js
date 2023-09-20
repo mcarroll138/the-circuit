@@ -39,6 +39,10 @@ export default function NewEventForm(props) {
           name="eventDateTime"
           placeholder="Date/Time"
         />
+        <label>
+          Private Profile
+          <input required type="search" name="privateProfile" />
+        </label>
         <input
           // required
           type="email"

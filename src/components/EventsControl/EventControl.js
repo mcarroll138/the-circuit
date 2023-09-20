@@ -27,6 +27,7 @@ export default function EventControl() {
         const events = [];
         collectionSnapshot.forEach((doc) => {
           events.push({
+            eventCreator: doc.data().eventCreator,
             eventName: doc.data().eventName,
             eventDateTime: doc.data().eventDateTime,
             eventEmail: doc.data().eventEmail,

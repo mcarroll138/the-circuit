@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../firebase.js";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-} from "firebase/auth";
+import { signOut } from "firebase/auth";
 function Header() {
   const [userEmail, setUserEmail] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const auth = getAuth();
@@ -36,13 +33,13 @@ function Header() {
     alignItems: "center",
   };
 
-  const inputStyles = {
-    margin: "4px",
-    padding: "4px",
-    border: "1px solid #ccc",
-    borderRadius: "4px",
-    fontSize: "12px",
-  };
+  // const inputStyles = {
+  //   margin: "4px",
+  //   padding: "4px",
+  //   border: "1px solid #ccc",
+  //   borderRadius: "4px",
+  //   fontSize: "12px",
+  // };
 
   const buttonStyles = {
     margin: "4px",
@@ -54,17 +51,18 @@ function Header() {
     cursor: "pointer",
   };
 
-  const buttonRegister = {
-    margin: "4px",
-    padding: "4px 36px",
-    backgroundColor: "yellow",
-    color: "black",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
-  };
+  // const buttonRegister = {
+  //   margin: "4px",
+  //   padding: "4px 36px",
+  //   backgroundColor: "yellow",
+  //   color: "black",
+  //   border: "none",
+  //   borderRadius: "4px",
+  //   cursor: "pointer",
+  // };
   function doSignOut(props) {
     signOut(auth);
+    navigate("/sign-in");
   }
   if (userEmail !== null)
     return (

@@ -1,14 +1,22 @@
 import React from "react";
 import Event from "./Event";
 import PropTypes from "prop-types";
+import { auth } from "../../firebase.js";
 
 function EventList(props) {
+  // const [showFriendsEvents, setShowFriendsEvents] = useState(false);
+
+  const filteredEvents = props.eventList.filter(
+    (event) => auth.currentUser.email === event.eventCreator
+  );
   return (
     <React.Fragment>
       <hr />
-      {props.eventList.map((event) => (
+      {/* {props.eventList.map((event) => ( */}
+      {filteredEvents.map((event) => (
         <Event
           whenEventClicked={props.onEventSelection}
+          eventCreator={event.eventCreator}
           eventName={event.eventName}
           eventDateTime={event.eventDateTime}
           eventEmail={event.eventEmail}

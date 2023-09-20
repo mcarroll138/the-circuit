@@ -19,17 +19,25 @@ export default function NewProfile(props) {
         <input
           required
           type="text"
-          name="displayName"
-          placeholder="Diplay Name"
+          name="firstName"
+          placeholder="First Name"
         />
-        <input required type="email" name="email" placeholder="Email Address" />
-        <input
+          <input
           required
-          type="tel"
-          name="phoneNumber"
-          placeholder="Phone Number"
+          type="text"
+          name="lastName"
+          placeholder="Last Name"
         />
-        <input type="url" name="photoURL" placeholder="Photo URL" />
+          <input
+          required
+          type="date"
+          name="birthdate"
+          placeholder="Birth Date"
+        />
+      <label>
+          Private Profile
+          <input required type="checkbox" name="privateProfile" />
+        </label>
       </form>
     </>
   );

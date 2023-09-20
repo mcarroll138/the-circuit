@@ -6,6 +6,7 @@ export default function EventDetail(props) {
   return (
     <>
       <h1>Event Details</h1>
+      <h3>{event.eventCreator}</h3>
       <h3>{event.eventName}</h3>
       <h3>{event.eventDateTime}</h3>
       <h3>{event.eventEmail}</h3>

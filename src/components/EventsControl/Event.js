@@ -5,6 +5,7 @@ export default function Event(props) {
   return (
     <>
       <div onClick={() => props.whenEventClicked(props.id)}>
+        <h3>{props.eventCreator}</h3>
         <h3>{props.eventName}</h3>
         <h3>{props.eventDateTime}</h3>
         <h3>{props.eventEmail}</h3>
@@ -25,3 +26,6 @@ Event.propTypes = {
   id: PropTypes.string,
   whenEventClicked: PropTypes.func,
 };
+
+
+//This is the event in the list page

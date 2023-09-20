@@ -30,7 +30,7 @@ function App() {
       <Routes>
         <Route path="/sign-in" element={<SignInControl />} />
         <Route path="/" element={<EventControl />} />
-        <Route path="/profile" element={<ProfileControl />} />
+        {/* <Route path="/profile" element={<ProfileControl />} /> */}
       </Routes>
     </Router>
   );
