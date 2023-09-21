@@ -22,13 +22,13 @@ export default function UserProfile() {
         const profileList = [];
         collectionSnapshot.forEach((doc) => {
           profileList.push({
-            userProfile: doc.data().userProfile,
-            firstName: doc.data().firstName,
-            lastName: doc.data().lastName,
+            // userProfile: doc.data().userProfile,
+            // firstName: doc.data().firstName,
+            // lastName: doc.data().lastName,
             // birthdate: doc.data().birthdate,
             // privateProfile: doc.data().privateProfile,
             id: doc.id,
-            // ...doc.data(),
+            ...doc.data(),
           });
         });
         setProfiles(profileList);
@@ -41,11 +41,12 @@ export default function UserProfile() {
     e.preventDefault();
 
     const newProfileData = {
-      userProfile,
+      userProfile: auth.currentUser.email,
       firstName,
       lastName,
     };
     try {
+    
       const docRef = await addDoc(collection(db, "profiles"), newProfileData);
       console.log("Document written with ID:", docRef.id);
 
@@ -64,7 +65,6 @@ export default function UserProfile() {
       <form onSubmit={handleFormSubmit}>
         <input
           type="text"
-          placeholder="User Profile"
           name="userProfile"
           value={auth.currentUser.email}
           // onChange={(e) => setUserProfile(e.target.value)}
@@ -82,8 +82,7 @@ export default function UserProfile() {
           onChange={(e) => setLastName(e.target.value)}
         />
         <button type="submit">Update Profile</button>
-      </form>
-      <h2>Profiles</h2>
+      </form><h2>Profiles</h2>
       {loading ? (
         <p>Loading profiles...</p>
       ) : (
@@ -100,6 +99,7 @@ export default function UserProfile() {
     </div>
   );
 }
+ 
 
 // import React, { useEffect, useState } from "react";
 // import NewProfileForm from "./NewProfileForm";
