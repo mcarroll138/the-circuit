@@ -10,12 +10,15 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import Profile from "./Profile";
+import ProfilePhoto from "./ProfilePhoto";
+
 export default function UserProfile() {
   const [userProfile, setUserProfile] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [imageUrls, setImageUrls] = useState([]);
 
   useEffect(() => {
     const unSubscribe = onSnapshot(
@@ -59,15 +62,24 @@ export default function UserProfile() {
       console.error("Error adding document: ", error);
     }
   };
-  const filteredProfiles = profiles.filter((profile) => auth.currentUser.email === profile.userProfile);
-  console.log(filteredProfiles);
+  const filteredProfiles = profiles.filter(
+    (profile) => auth.currentUser.email === profile.userProfile
+  );
 
-  const allProfiles = profiles.filter((profile) => auth.currentUser.email !== profile.userProfile);
-  console.log(allProfiles);
-  
-  if (filteredProfiles.length === 0) {
+  const allProfiles = profiles.filter(
+    (profile) => auth.currentUser.email !== profile.userProfile
+  );
+
+  const filteredProfilePhoto = imageUrls.filter((imageUrl) =>
+    imageUrl.includes(auth.currentUser.email)
+  );
+  console.log(filteredProfilePhoto);
+
+  if (filteredProfiles.length !== 0) {
     return (
       <div>
+
+        <ProfilePhoto />
         <h1>Update Profile</h1>
         <form onSubmit={handleFormSubmit}>
           <input
@@ -75,19 +87,19 @@ export default function UserProfile() {
             name="userProfile"
             value={auth.currentUser.email}
             // onChange={(e) => setUserProfile(e.target.value)}
-            />
+          />
           <input
             type="text"
             placeholder="First Name"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
-            />
+          />
           <input
             type="text"
             placeholder="Last Name"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
-            />
+          />
           <button type="submit">Update Profile</button>
         </form>
       </div>
@@ -97,26 +109,26 @@ export default function UserProfile() {
       // navigate("/sign-in")
       <div>
         <h3>Your Profile</h3>
-    {filteredProfiles.map((profile) => (
-      <ul key={profile.id}>
-        <p>First Name: {profile.firstName}</p>
-        <p>Last Name: {profile.lastName}</p>
-        <p>User Profile: {profile.userProfile}</p>
-      </ul>
-    ))}
+
+        {filteredProfilePhoto.map((imageUrl) => (
+          <p>{filteredProfilePhoto}</p>
+        ))}
+        {filteredProfiles.map((profile) => (
+          <ul key={profile.id}>
+            <p>First Name: {profile.firstName}</p>
+            <p>Last Name: {profile.lastName}</p>
+            <p>User Profile: {profile.userProfile}</p>
+          </ul>
+        ))}
         <h3>Circuit List</h3>
         {allProfiles.map((profile) => (
-      <ul key={profile.id}>
-        <p>First Name: {profile.firstName}</p>
-        <p>Last Name: {profile.lastName}</p>
+          <ul key={profile.id}>
+            <p>First Name: {profile.firstName}</p>
+            <p>Last Name: {profile.lastName}</p>
             <p>User Profile: {profile.userProfile}</p>
-            <hr/>
-      </ul>
-    ))}
-        
-        
-        
-        
+            <hr />
+          </ul>
+        ))}
       </div>
     );
   }

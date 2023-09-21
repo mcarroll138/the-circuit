@@ -26,6 +26,7 @@ function EventList(props) {
           key={event.id}
         />
       ))}
+      
     </React.Fragment>
   );
 }
