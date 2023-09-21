@@ -61,6 +61,9 @@ export default function UserProfile() {
   };
   const filteredProfiles = profiles.filter((profile) => auth.currentUser.email === profile.userProfile);
   console.log(filteredProfiles);
+
+  const allProfiles = profiles.filter((profile) => auth.currentUser.email !== profile.userProfile);
+  console.log(allProfiles);
   
   if (filteredProfiles.length === 0) {
     return (
@@ -93,8 +96,7 @@ export default function UserProfile() {
     return (
       // navigate("/sign-in")
       <div>
-        
-  <ul>
+        <h3>Your Profile</h3>
     {filteredProfiles.map((profile) => (
       <ul key={profile.id}>
         <p>First Name: {profile.firstName}</p>
@@ -102,7 +104,19 @@ export default function UserProfile() {
         <p>User Profile: {profile.userProfile}</p>
       </ul>
     ))}
-  </ul>
+        <h3>Circuit List</h3>
+        {allProfiles.map((profile) => (
+      <ul key={profile.id}>
+        <p>First Name: {profile.firstName}</p>
+        <p>Last Name: {profile.lastName}</p>
+            <p>User Profile: {profile.userProfile}</p>
+            <hr/>
+      </ul>
+    ))}
+        
+        
+        
+        
       </div>
     );
   }
