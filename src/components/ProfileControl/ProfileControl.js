@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { db, auth } from "../../firebase";
+import { Link, useNavigate } from "react-router-dom";
 import {
   collection,
   addDoc,
@@ -8,6 +9,7 @@ import {
   updateDoc,
   deleteDoc,
 } from "firebase/firestore";
+import Profile from "./Profile";
 export default function UserProfile() {
   const [userProfile, setUserProfile] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -46,7 +48,6 @@ export default function UserProfile() {
       lastName,
     };
     try {
-    
       const docRef = await addDoc(collection(db, "profiles"), newProfileData);
       console.log("Document written with ID:", docRef.id);
 
@@ -58,49 +59,71 @@ export default function UserProfile() {
       console.error("Error adding document: ", error);
     }
   };
-
-  return (
-    <div>
-      <h1>Update Profile</h1>
-      <form onSubmit={handleFormSubmit}>
-        <input
-          type="text"
-          name="userProfile"
-          value={auth.currentUser.email}
-          // onChange={(e) => setUserProfile(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="First Name"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Last Name"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-        />
-        <button type="submit">Update Profile</button>
-      </form><h2>Profiles</h2>
-      {loading ? (
-        <p>Loading profiles...</p>
-      ) : (
-        <ul>
-          {profiles.map((profile) => (
-            <li key={profile.id}>
-              <p>User Profile: {profile.userProfile}</p>
-              <p>First Name: {profile.firstName}</p>
-              <p>Last Name: {profile.lastName}</p>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
+  const filteredProfiles = profiles.filter((profile) => auth.currentUser.email === profile.userProfile);
+  console.log(filteredProfiles);
+  
+  if (filteredProfiles.length === 0) {
+    return (
+      <div>
+        <h1>Update Profile</h1>
+        <form onSubmit={handleFormSubmit}>
+          <input
+            type="text"
+            name="userProfile"
+            value={auth.currentUser.email}
+            // onChange={(e) => setUserProfile(e.target.value)}
+            />
+          <input
+            type="text"
+            placeholder="First Name"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            />
+          <input
+            type="text"
+            placeholder="Last Name"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            />
+          <button type="submit">Update Profile</button>
+        </form>
+      </div>
+    );
+  } else {
+    return (
+      // navigate("/sign-in")
+      <div>
+        
+  <ul>
+    {filteredProfiles.map((profile) => (
+      <ul key={profile.id}>
+        <p>First Name: {profile.firstName}</p>
+        <p>Last Name: {profile.lastName}</p>
+        <p>User Profile: {profile.userProfile}</p>
+      </ul>
+    ))}
+  </ul>
+      </div>
+    );
+  }
 }
- 
 
+// return (
+//   <>
+//     {filteredProfiles.map((profile) => (
+//       <Profile
+//         firstName={profile.firstName}
+//         lastName={profile.lastName}
+//       />
+//     ))}
+//   </>
+{
+  /* <h2>Profiles</h2>
+{loading ? (
+<p>Loading profiles...</p>
+) : (
+)}  */
+}
 // import React, { useEffect, useState } from "react";
 // import NewProfileForm from "./NewProfileForm";
 // import ProfileList from "./ProfileList";
