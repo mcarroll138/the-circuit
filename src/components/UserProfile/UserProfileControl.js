@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { getAuth, updateProfile } from "firebase/auth";
-// import { Link, useNavigate } from "react-router-dom";
-
-// import { auth } from "../../firebase.js";
 import { ref, uploadBytes, getDownloadURL, getStorage } from "firebase/storage";
+import ProfileEditForm from "./ProfileEditForm";
 
 export default function AuthProfile() {
   const ContainerStyles = {
@@ -35,12 +33,12 @@ export default function AuthProfile() {
     borderRadius: "4px",
     cursor: "pointer",
   };
-    const imgStyle = {
-        objectFit: "cover",
-        boarderRadius: "50%",
-        height: "100px",
-        width: "100px",
-        borderRadius: "50%",
+  const imgStyle = {
+    objectFit: "cover",
+    borderRadius: "50%",
+    height: "100px",
+    width: "100px",
+    borderRadius: "50%",
     // display: "inline",
     // margin: "0 auto",
     // height: "100%",
@@ -86,39 +84,15 @@ export default function AuthProfile() {
     setSelectedImage(event.target.files[0]);
   }
 
-  //   async function profileImageUpdate(file, currentUser, setLoading) {
-
-  function profileNameUpdate(event) {
-    event.preventDefault();
-    updateProfile(auth.currentUser, { displayName: newDisplayName })
-      .then(() => {
-        setEditProfile(false);
-        //Profile Updated
-      })
-      .catch((error) => {
-        //An error
-      });
-  }
-
   if (editProfile) {
     return (
-      <form onSubmit={profileNameUpdate} style={formStyles}>
-        <h2>Update Name</h2>
-        <input
-          style={inputStyles}
-          type="text"
-          name="displayName"
-          defaultValue={auth.currentUser.displayName}
-          onChange={(e) => setNewDisplayName(e.target.value)}
-        />
-
-        <button type="submit" style={buttonStyles}>
-          Update
-        </button>
-        <button style={buttonStyles} onClick={() => setEditProfile(false)}>
-          Cancel
-        </button>
-      </form>
+      <ProfileEditForm
+        auth={auth}
+        newDisplayName={newDisplayName}
+        setNewDisplayName={setNewDisplayName}
+        editProfile={editProfile}
+        setEditProfile={setEditProfile}
+      />
     );
   }
   if (editProfileImage === true) {
