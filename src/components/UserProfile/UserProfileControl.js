@@ -3,6 +3,15 @@ import { getAuth, updateProfile } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
 
 import { auth } from "../../firebase.js";
+import {
+  ref,
+  uploadBytes,
+  upload,
+  getDownloadURL,
+  listAll,
+  list,
+  getStorage,
+} from "firebase/storage";
 
 export default function AuthProfile() {
   const ContainerStyles = {
@@ -36,6 +45,7 @@ export default function AuthProfile() {
   };
 
   const auth = getAuth();
+  const storage = getStorage();
   const [editProfile, setEditProfile] = useState(false);
   const [newDisplayName, setNewDisplayName] = useState(
     auth.currentUser.displayName
@@ -43,7 +53,17 @@ export default function AuthProfile() {
   const [editProfileImage, setEditProfileImage] = useState(
     auth.currentUser.photoURL
   );
-  function profileImageUpdate() {}
+  async function profileImageUpdate(file, currentUser, setLoading) {
+    const fileRef = ref(storage, "profile/" + currentUser.uid + "png");
+
+    setLoading(true);
+    const snapshot = await uploadBytes(fileRef, file);
+    const photoURL = await getDownloadURL(fileRef);
+    updateProfile(currentUser, { photoURL });
+    setLoading(false);
+    alert("File Uploaded");
+  }
+
   function profileUpdate(event) {
     event.preventDefault();
     const displayName = event.target.displayName.value;
@@ -83,6 +103,8 @@ export default function AuthProfile() {
     return (
       <form onSubmit={profileImageUpdate} style={formStyles}>
         <h2>Update Image</h2>
+
+        <input type="file" />
 
         <button type="submit" style={buttonStyles}>
           Update
