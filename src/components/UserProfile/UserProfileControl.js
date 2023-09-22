@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getAuth, updateProfile } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
 
-// import { auth } from "../../firebase.js";
+import { auth } from "../../firebase.js";
 
 export default function AuthProfile() {
   const ContainerStyles = {
@@ -37,6 +37,10 @@ export default function AuthProfile() {
 
   const auth = getAuth();
   const [editProfile, setEditProfile] = useState(false);
+  const [newDisplayName, setNewDisplayName] = useState(
+    auth.currentUser.displayName
+  );
+
   function profileUpdate(event) {
     event.preventDefault();
     const displayName = event.target.displayName.value;
@@ -54,12 +58,12 @@ export default function AuthProfile() {
     return (
       <div style={ContainerStyles}>
         <h1>Profile Information</h1>
-        <h3>{auth.currentUser.displayName}</h3>
-        <h3>{auth.currentUser.email}</h3>
+        <h3>User Name: {auth.currentUser.displayName}</h3>
+        <h3>Email: {auth.currentUser.email}</h3>
         <h3>{auth.currentUser.photoURL} </h3>
         <p>
           <button style={buttonStyles} onClick={setEditProfile}>
-            Update Profile
+            Update Display Name
           </button>
         </p>
       </div>
@@ -67,16 +71,22 @@ export default function AuthProfile() {
   } else {
     return (
       <form onSubmit={profileUpdate} style={formStyles}>
-        <h2>Update Profile</h2>
+        <h2>Update Name</h2>
         <input
           style={inputStyles}
           type="text"
           name="displayName"
-          placeholder="Display Name"
+          defaultValue={auth.currentUser.displayName}
+          onChange={(e) => setNewDisplayName(e.target.value)}
         />
 
         <button type="submit" style={buttonStyles}>
           Update
+            </button>
+            <button
+                style={buttonStyles}
+                onClick={() => setEditProfile(false)}>
+          Cancel
         </button>
       </form>
     );
