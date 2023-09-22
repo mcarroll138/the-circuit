@@ -40,7 +40,10 @@ export default function AuthProfile() {
   const [newDisplayName, setNewDisplayName] = useState(
     auth.currentUser.displayName
   );
-
+  const [editProfileImage, setEditProfileImage] = useState(
+    auth.currentUser.photoURL
+  );
+  function profileImageUpdate() {}
   function profileUpdate(event) {
     event.preventDefault();
     const displayName = event.target.displayName.value;
@@ -54,21 +57,8 @@ export default function AuthProfile() {
         //An error
       });
   }
-  if (!editProfile) {
-    return (
-      <div style={ContainerStyles}>
-        <h1>Profile Information</h1>
-        <h3>User Name: {auth.currentUser.displayName}</h3>
-        <h3>Email: {auth.currentUser.email}</h3>
-        <h3>{auth.currentUser.photoURL} </h3>
-        <p>
-          <button style={buttonStyles} onClick={setEditProfile}>
-            Update Display Name
-          </button>
-        </p>
-      </div>
-    );
-  } else {
+
+  if (editProfile) {
     return (
       <form onSubmit={profileUpdate} style={formStyles}>
         <h2>Update Name</h2>
@@ -82,13 +72,43 @@ export default function AuthProfile() {
 
         <button type="submit" style={buttonStyles}>
           Update
-            </button>
-            <button
-                style={buttonStyles}
-                onClick={() => setEditProfile(false)}>
+        </button>
+        <button style={buttonStyles} onClick={() => setEditProfile(false)}>
           Cancel
         </button>
       </form>
+    );
+  }
+  if (editProfileImage) {
+    return (
+      <form onSubmit={profileImageUpdate} style={formStyles}>
+        <h2>Update Image</h2>
+
+        <button type="submit" style={buttonStyles}>
+          Update
+        </button>
+        <button style={buttonStyles} onClick={() => setEditProfileImage(false)}>
+          Cancel
+        </button>
+      </form>
+    );
+  } else {
+    return (
+      <div style={ContainerStyles}>
+        <h1>Profile Information</h1>
+        <h3>User Name: {auth.currentUser.displayName}</h3>
+        <h3>Email: {auth.currentUser.email}</h3>
+        <h3>{auth.currentUser.photoURL} </h3>
+        <p>
+          <button style={buttonStyles} onClick={setEditProfile}>
+            Update Display Name
+          </button>
+
+          <button style={buttonStyles} onClick={setEditProfileImage}>
+            Update Profile Photo
+          </button>
+        </p>
+      </div>
     );
   }
 }
