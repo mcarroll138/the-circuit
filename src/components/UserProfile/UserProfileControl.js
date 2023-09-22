@@ -53,22 +53,35 @@ export default function AuthProfile() {
   const [editProfileImage, setEditProfileImage] = useState(
     auth.currentUser.photoURL
   );
-  async function profileImageUpdate(file, currentUser, setLoading) {
-    const fileRef = ref(storage, "profile/" + currentUser.uid + "png");
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [loading, setLoading] = false;
+
+  async function profileImageUpdate(event) {
+    event.preventDefault();
+    if (!selectedImage) {
+      return;
+    }
+
+    const fileRef = ref(storage, "profile/" + auth.currentUser.uid + "png");
 
     setLoading(true);
-    const snapshot = await uploadBytes(fileRef, file);
+    await uploadBytes(fileRef, selectedImage);
     const photoURL = await getDownloadURL(fileRef);
-    updateProfile(currentUser, { photoURL });
+    await updateProfile(auth.currentUser, { photoURL });
     setLoading(false);
     alert("File Uploaded");
+
+    setEditProfileImage(false);
+  }
+  function handleImageChange(event) {
+    setSelectedImage(event.targe.files[0]);
   }
 
-  function profileUpdate(event) {
-    event.preventDefault();
-    const displayName = event.target.displayName.value;
+  //   async function profileImageUpdate(file, currentUser, setLoading) {
 
-    updateProfile(auth.currentUser, { displayName })
+  function profileNameUpdate(event) {
+    event.preventDefault();
+    updateProfile(auth.currentUser, { displayName: newDisplayName })
       .then(() => {
         setEditProfile(false);
         //Profile Updated
@@ -80,7 +93,7 @@ export default function AuthProfile() {
 
   if (editProfile) {
     return (
-      <form onSubmit={profileUpdate} style={formStyles}>
+      <form onSubmit={profileNameUpdate} style={formStyles}>
         <h2>Update Name</h2>
         <input
           style={inputStyles}
