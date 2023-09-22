@@ -35,24 +35,7 @@ export default function AuthProfile() {
     borderRadius: "4px",
     cursor: "pointer",
   };
-    const imgStyle = {
-        objectFit: "cover",
-        boarderRadius: "50%",
-        height: "100px",
-        width: "100px",
-        borderRadius: "50%",
-    // display: "inline",
-    // margin: "0 auto",
-    // height: "100%",
-    // width: "auto",
-  };
 
-  const imageCropper = {
-    // width: "100px",
-    // height: "100px",
-    // position: "relative",
-    // overflow: "hidden",
-  };
   const auth = getAuth();
   const storage = getStorage();
   const [editProfile, setEditProfile] = useState(false);
@@ -142,15 +125,9 @@ export default function AuthProfile() {
         <h1>Profile Information</h1>
         <h3>User Name: {auth.currentUser.displayName}</h3>
         <h3>Email: {auth.currentUser.email}</h3>
-        <div style={imageCropper}>
-          <h3>
-            <img
-              style={imgStyle}
-              src={auth.currentUser.photoURL}
-              alt="Profile"
-            ></img>{" "}
-          </h3>
-        </div>
+        <h3>
+          <img src={auth.currentUser.photoURL} alt="Profile"></img>{" "}
+        </h3>
         <p>
           <button style={buttonStyles} onClick={() => setEditProfile(true)}>
             Update Display Name
