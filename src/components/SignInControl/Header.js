@@ -71,7 +71,7 @@ function Header() {
         <h1>⚡️ The Circuit ⚡️</h1>
         {/* {email} */}
         <form style={formStyles}>
-          Logged in as {userEmail}
+          Logged in as {userEmail} {auth.currentUser.displayName}
           <button onClick={doSignOut} style={buttonStyles}>
             Sign out
           </button>
