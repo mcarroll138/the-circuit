@@ -3,6 +3,29 @@ import PropTypes from "prop-types";
 import { auth } from "../../firebase.js";
 
 export default function NewEventForm(props) {
+  const formStyles = {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  };
+
+  const inputStyles = {
+    margin: "4px",
+    padding: "4px",
+    border: "1px solid #ccc",
+    borderRadius: "4px",
+    fontSize: "12px",
+  };
+
+  const buttonStyles = {
+    margin: "4px",
+    padding: "4px 36px",
+    backgroundColor: "#007bff",
+    color: "#fff",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
+  };
   function handleNewEventFormSubmission(event) {
     event.preventDefault();
 
@@ -17,22 +40,26 @@ export default function NewEventForm(props) {
   return (
     <>
       <form
+        style={formStyles}
         onSubmit={handleNewEventFormSubmission}
         encType="multipart/form-data"
       >
         <input
+          style={inputStyles}
           type="hidden"
           name="eventCreator"
           value={auth.currentUser.email}
         />
         <input
+          style={inputStyles}
           required
-          style={{ textTransform: "capitalize" }}
+          // style={{ textTransform: "capitalize" }}
           type="text"
           name="eventName"
           placeholder="Event Name"
         />
         <input
+          style={inputStyles}
           // required
           type="datetime-local"
           name="eventDateTime"
@@ -40,19 +67,21 @@ export default function NewEventForm(props) {
         />
 
         <input
+          style={inputStyles}
           // required
           type="text"
           name="eventDetail"
           placeholder="Event Details"
         />
         <input
+          style={inputStyles}
           // required
           type="url"
           name="eventLocation"
           placeholder="Google Map Link"
         />
         {/* <input type="file" name="eventImage" placeholder="upload image" /> */}
-        <button type="submit">Party Time</button>
+        <button style={buttonStyles} type="submit">Party Time</button>
       </form>
     </>
   );

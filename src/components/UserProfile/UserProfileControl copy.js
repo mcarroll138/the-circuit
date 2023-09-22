@@ -43,42 +43,47 @@ export default function AuthProfile() {
 
     updateProfile(auth.currentUser, { displayName })
       .then(() => {
-        setEditProfile(false);
         //Profile Updated
       })
       .catch((error) => {
         //An error
       });
   }
-  if (!editProfile) {
-    return (
-      <div style={ContainerStyles}>
-        <h1>Profile Information</h1>
-        <h3>{auth.currentUser.displayName}</h3>
-        <h3>{auth.currentUser.email}</h3>
-        <h3>{auth.currentUser.photoURL} </h3>
-        <p>
-          <button style={buttonStyles} onClick={setEditProfile}>
-            Update Profile
-          </button>
-        </p>
-      </div>
-    );
-  } else {
-    return (
-      <form onSubmit={profileUpdate} style={formStyles}>
-        <h2>Update Profile</h2>
-        <input
-          style={inputStyles}
-          type="text"
-          name="displayName"
-          placeholder="Display Name"
-        />
 
-        <button type="submit" style={buttonStyles}>
-          Update
-        </button>
-      </form>
-    );
-  }
+  return (
+    <div style={ContainerStyles}>
+      {editProfile ? (
+        <form onSubmit={profileUpdate} style={formStyles}>
+          <h2>Update Profile</h2>
+          <input
+            style={inputStyles}
+            type="text"
+            name="displayName"
+            placeholder="Display Name"
+          />
+
+          <button
+            type="submit"
+            style={buttonStyles}
+            onClick={() => setEditProfile(false)}
+          >
+            Update
+          </button>
+        </form>
+      ) : (
+        <div>
+          <h1>Profile Information</h1>
+          <h3>{auth.currentUser.displayName}</h3>
+          <h3>{auth.currentUser.email}</h3>
+          <h3>{auth.currentUser.photoURL} </h3>
+          <p>
+            <button style={buttonStyles} onClick={() => setEditProfile(true)}>
+              Update Profile
+            </button>
+          </p>
+        </div>
+      )}
+    </div>
+  );
 }
+
