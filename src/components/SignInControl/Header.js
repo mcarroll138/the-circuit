@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../firebase.js";
 import { signOut } from "firebase/auth";
+
 function Header() {
   const [userEmail, setUserEmail] = useState(null);
   const navigate = useNavigate();
@@ -75,10 +76,13 @@ function Header() {
             Sign out
           </button>
           <Link to="/">
-            <button style={buttonStyles}>Home</button>
+            <button style={buttonStyles}>Events</button>
           </Link>
           <Link to="/profile">
             <button style={buttonStyles}>MyProfile</button>
+          </Link>
+          <Link to="/user-profile">
+            <button style={buttonStyles}>Auth Profile</button>
           </Link>
         </form>
       </div>

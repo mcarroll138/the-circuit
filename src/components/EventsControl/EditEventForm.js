@@ -19,14 +19,14 @@ export default function EditEventForm(props) {
   }, [event]);
 
   function handleEditEventFormSubmission(event) {
+    console.log("Event Id", event.id);
     event.preventDefault();
-
     props.onEditEvent({
-      eventName: eventName,
-      eventDateTime: eventDateTime,
-      eventDetail: eventDetail,
-      eventLocation: eventLocation,
-      id: event.id,
+      eventName: event.target.eventName,
+      eventDateTime: event.target.eventDateTime,
+      eventDetail: event.target.eventDetail,
+      eventLocation: event.target.eventLocation,
+      // id: event.id,
     });
   }
 

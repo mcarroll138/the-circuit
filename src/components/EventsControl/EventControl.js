@@ -91,7 +91,7 @@ export default function EventControl() {
     let buttonText = null;
     if (error) {
       currentlyVisibleState = <p>There was an error: {error}</p>;
-    } else if (editing && selectedEvent !== null) {
+    } else if (editing) {
       currentlyVisibleState = (
         <EditEventForm
           event={selectedEvent}

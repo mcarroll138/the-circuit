@@ -8,8 +8,10 @@ import Header from "./SignInControl/Header";
 import ProfileControl from "./ProfileControl/ProfileControl";
 import EventControl from "./EventsControl/EventControl";
 import SignInControl from "./SignInControl/SignInControl";
+import UserProfile from "./UserProfile/UserProfileControl.js";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import AuthProfile from "./UserProfile/UserProfileControl";
 
 function App() {
   const auth = getAuth();
@@ -30,6 +32,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/sign-in" element={<SignInControl />} />
+        <Route path="user-profile" element={<AuthProfile/>}/>
         <Route path="/" element={<EventControl />} />
         <Route path="/profile" element={<ProfileControl />} />
       </Routes>
