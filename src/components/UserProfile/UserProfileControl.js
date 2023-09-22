@@ -54,7 +54,7 @@ export default function AuthProfile() {
     auth.currentUser.photoURL
   );
   const [selectedImage, setSelectedImage] = useState(null);
-  const [loading, setLoading] = false;
+  const [loading, setLoading] = useState(false);
 
   async function profileImageUpdate(event) {
     event.preventDefault();
@@ -63,7 +63,7 @@ export default function AuthProfile() {
     }
 
     const fileRef = ref(storage, "profile/" + auth.currentUser.uid + "png");
-
+    console.log(fileRef);
     setLoading(true);
     await uploadBytes(fileRef, selectedImage);
     const photoURL = await getDownloadURL(fileRef);
@@ -74,7 +74,7 @@ export default function AuthProfile() {
     setEditProfileImage(false);
   }
   function handleImageChange(event) {
-    setSelectedImage(event.targe.files[0]);
+    setSelectedImage(event.target.files[0]);
   }
 
   //   async function profileImageUpdate(file, currentUser, setLoading) {
@@ -117,7 +117,7 @@ export default function AuthProfile() {
       <form onSubmit={profileImageUpdate} style={formStyles}>
         <h2>Update Image</h2>
 
-        <input type="file" />
+        <input type="file" onChange={handleImageChange} />
 
         <button type="submit" style={buttonStyles}>
           Update
@@ -133,13 +133,16 @@ export default function AuthProfile() {
         <h1>Profile Information</h1>
         <h3>User Name: {auth.currentUser.displayName}</h3>
         <h3>Email: {auth.currentUser.email}</h3>
-        <h3>{auth.currentUser.photoURL} </h3>
+        <h3><img src={auth.currentUser.photoURL} alt="Profile Image"></img> </h3>
         <p>
-          <button style={buttonStyles} onClick={setEditProfile}>
+          <button style={buttonStyles} onClick={() => setEditProfile(true)}>
             Update Display Name
           </button>
 
-          <button style={buttonStyles} onClick={setEditProfileImage}>
+          <button
+            style={buttonStyles}
+            onClick={() => setEditProfileImage(true)}
+          >
             Update Profile Photo
           </button>
         </p>
