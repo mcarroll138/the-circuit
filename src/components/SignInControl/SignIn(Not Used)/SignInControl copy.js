@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Redirect } from "react-router";
-import { auth } from "../../firebase.js";
+import { auth } from "../../../firebase.js";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -9,11 +9,11 @@ import {
 } from "firebase/auth";
 import PropTypes from "prop-types";
 import SignUpForm from "./SignUpForm.js";
-import Header from "./Header.js";
+import Header from "../Header.js";
 
 function SignInControl(props) {
   const navigate = useNavigate();
-  
+
   const headerContainerStyles = {
     alignItems: "center",
     backgroundColor: "pink",

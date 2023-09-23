@@ -83,7 +83,7 @@ export default function EventControl() {
   if (auth.currentUser == null) {
     return (
       <>
-        <h1>You must be logged in to access your calendar</h1>
+        <h1>Welcome to the Circuit, please log in to access your account.</h1>
       </>
     );
   } else if (auth.currentUser != null) {

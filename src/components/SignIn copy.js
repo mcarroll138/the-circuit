@@ -135,17 +135,4 @@ function SignIn() {
 
 export default SignIn;
 
-/* <input
-style={inputStyles}
-type="text"
-name="userName"
-placeholder="User Name"
-/> */
 
-/* <Link to="/">
-  <button style={buttonStyles}>Home</button>
-</Link>
-
-<Link to="/sign-in">
-  <button style={buttonStyles}>Sign In</button>
-</Link> */

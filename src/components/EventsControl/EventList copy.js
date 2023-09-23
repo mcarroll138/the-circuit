@@ -3,9 +3,13 @@ import Event from "./Event";
 import PropTypes from "prop-types";
 import { auth } from "../../firebase.js";
 
-function EventList(props) {
-  // const [showFriendsEvents, setShowFriendsEvents] = useState(false);
+function parseDateTime(dateTimeString) {
+  const parsedDate = new Date(dateTimeString);
+  return parsedDate;
+  };
 
+
+function EventList(props) {
   const filteredEvents = props.eventList.filter(
     (event) => auth.currentUser.email === event.eventCreator
   );
@@ -15,25 +19,31 @@ function EventList(props) {
   );
   return (
     <React.Fragment>
+      <h1>My Events</h1>
       <hr />
-      
+
       {filteredEvents.map((event) => (
         <Event
           whenEventClicked={props.onEventSelection}
           eventCreator={event.eventCreator}
           eventName={event.eventName}
+          // eventDateTime={new Date(event.eventDateTime)}
+          eventDate={parseDateTime(event.eventDateTime).toLocaleDateString()}
+          // eventTime={`${parseDateTime(event.eventDateTime).hours}:${
+          //   parseDateTime(event.eventDateTime).minutes
+          // }`}
           eventDateTime={event.eventDateTime}
-          eventDetail={event.eventDetail}
-          eventLocation={event.eventLocation}
-          eventImage={event.eventImage}
+          // eventDetail={event.eventDetail}
+          // eventLocation={event.eventLocation}
+          // eventImage={event.eventImage}
           id={event.id}
           key={event.id}
         />
       ))}
 
       <hr />
-      
-      {filteredEvents.map((event) => (
+      <h1>All Events</h1>
+      {allEvents.map((event) => (
         <Event
           whenEventClicked={props.onEventSelection}
           eventCreator={event.eventCreator}
@@ -46,7 +56,6 @@ function EventList(props) {
           key={event.id}
         />
       ))}
-      
     </React.Fragment>
   );
 }

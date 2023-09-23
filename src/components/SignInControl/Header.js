@@ -14,6 +14,8 @@ function Header() {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUserEmail(user.email);
+        console.log(auth.currentUser.displayName);
+        console.log(auth.currentUser.email);
       } else {
         setUserEmail(null);
       }
@@ -33,14 +35,13 @@ function Header() {
     flexDirection: "row",
     alignItems: "center",
   };
-
-  // const inputStyles = {
-  //   margin: "4px",
-  //   padding: "4px",
-  //   border: "1px solid #ccc",
-  //   borderRadius: "4px",
-  //   fontSize: "12px",
-  // };
+  const imgStyle = {
+    objectFit: "cover",
+    boarderRadius: "50%",
+    height: "50px",
+    width: "50px",
+    borderRadius: "50%",
+  };
 
   const buttonStyles = {
     margin: "4px",
@@ -52,15 +53,6 @@ function Header() {
     cursor: "pointer",
   };
 
-  // const buttonRegister = {
-  //   margin: "4px",
-  //   padding: "4px 36px",
-  //   backgroundColor: "yellow",
-  //   color: "black",
-  //   border: "none",
-  //   borderRadius: "4px",
-  //   cursor: "pointer",
-  // };
   function doSignOut(props) {
     signOut(auth);
     navigate("/sign-in");
@@ -68,10 +60,10 @@ function Header() {
   if (userEmail !== null)
     return (
       <div style={headerContainerStyles}>
-        <h1>⚡️ The Circuit ⚡️</h1>
-        {/* {email} */}
+        <h2>⚡️ The Circuit ⚡️</h2>
+
         <form style={formStyles}>
-          Logged in as {auth.currentUser.displayName}
+          {/* {auth.currentUser.displayName} */}
           <button onClick={doSignOut} style={buttonStyles}>
             Sign out
           </button>
@@ -84,6 +76,8 @@ function Header() {
           <Link to="/user-profile">
             <button style={buttonStyles}>My Profile</button>
           </Link>
+
+          <img style={imgStyle} src={auth.currentUser.photoURL}></img>
         </form>
       </div>
     );
@@ -93,17 +87,17 @@ function Header() {
         <h2>⚡️ The Circuit ⚡️</h2>
         {/* {email} */}
         <form style={formStyles}>
-          <Link to="/">
+          {/* <Link to="/">
             <button style={buttonStyles}>Home</button>
-          </Link>
+          </Link> */}
 
           <Link to="/sign-in">
             <button style={buttonStyles}>Sign In</button>
           </Link>
 
-          <Link to="/profile">
+          {/* <Link to="/profile">
             <button style={buttonStyles}>MyProfile</button>
-          </Link>
+          </Link> */}
         </form>
       </div>
     );

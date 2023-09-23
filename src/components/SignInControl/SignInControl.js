@@ -8,7 +8,7 @@ import {
   signOut,
 } from "firebase/auth";
 import PropTypes from "prop-types";
-import SignUpForm from "./SignUpForm.js";
+import SignUpForm from "./SignIn(Not Used)/SignUpForm.js";
 import Header from "./Header.js";
 
 function SignInControl(props) {
@@ -57,18 +57,18 @@ function SignInControl(props) {
       return (
         <form onSubmit={doSignUp} style={formStyles}>
           <h1>Sign Up</h1>
-          <input
+          {/* <input
             required
             style={inputStyles}
             type="text"
             name="displayName"
             placeholder="User Name"
-          />
+          /> */}
           <input
             required
             style={inputStyles}
             type="text"
-            name="email"
+            id="email"
             placeholder="Email"
           />
           <input
@@ -96,22 +96,11 @@ function SignInControl(props) {
           </p>
         </form>
       );
-    }
-    if (isSignInMode && auth.currentUser != null) {
-      return (
-        <>
-          <p>`your {userSignedIn}, would you like to sign out?`</p>
-          <p>
-            {" "}
-            <button onClick={doSignOut}>Sign out</button>
-          </p>
-        </>
-      );
     } else {
       return (
         <form onSubmit={doSignIn} style={formStyles}>
           {signInSuccess}
-          <h1>Sign In</h1>
+          <h1>Sign⚡️In</h1>
           <input
             style={inputStyles}
             type="text"
@@ -147,16 +136,16 @@ function SignInControl(props) {
 
   function doSignUp(event) {
     event.preventDefault();
-    const displayName = event.target.displayName.value;
+    // const displayName = event.target.displayName.value;
     const email = event.target.email.value;
     const password = event.target.password.value;
-   
+
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         setIsLogOffMode(false);
         setIsSignInMode(true);
         setIsSignUpMode(false);
-        console.log(displayName);
+        // console.log(displayName);
         const userEmail = event.target.email.value;
         setSignUpSuccess(
           `You've successfully signed up, with the user name of as your email address.`
@@ -178,7 +167,7 @@ function SignInControl(props) {
         setIsSignInMode(false);
         setIsSignUpMode(false);
         setIsLogOffMode(true);
-        navigate("/profile");
+        navigate("/");
         // `You've successfully signed in as ${email} ${userCredential.user.email}!`
       })
       .catch((error) => {

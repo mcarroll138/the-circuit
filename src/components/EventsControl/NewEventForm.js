@@ -81,7 +81,9 @@ export default function NewEventForm(props) {
           placeholder="Google Map Link"
         />
         {/* <input type="file" name="eventImage" placeholder="upload image" /> */}
-        <button style={buttonStyles} type="submit">Party Time</button>
+        <button style={buttonStyles} type="submit">
+          Party Time
+        </button>
       </form>
     </>
   );
