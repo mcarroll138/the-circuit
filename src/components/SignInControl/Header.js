@@ -71,7 +71,7 @@ function Header() {
         <h1>⚡️ The Circuit ⚡️</h1>
         {/* {email} */}
         <form style={formStyles}>
-          Logged in as {userEmail} {auth.currentUser.displayName}
+          Logged in as {auth.currentUser.displayName}
           <button onClick={doSignOut} style={buttonStyles}>
             Sign out
           </button>
@@ -79,10 +79,10 @@ function Header() {
             <button style={buttonStyles}>Events</button>
           </Link>
           <Link to="/profile">
-            <button style={buttonStyles}>MyProfile</button>
+            <button style={buttonStyles}>Friends</button>
           </Link>
           <Link to="/user-profile">
-            <button style={buttonStyles}>Auth Profile</button>
+            <button style={buttonStyles}>My Profile</button>
           </Link>
         </form>
       </div>

@@ -47,12 +47,6 @@ export default function AuthProfile() {
     // width: "auto",
   };
 
-  const imageCropper = {
-    // width: "100px",
-    // height: "100px",
-    // position: "relative",
-    // overflow: "hidden",
-  };
   const auth = getAuth();
   const storage = getStorage();
   const [editProfile, setEditProfile] = useState(false);
@@ -142,7 +136,7 @@ export default function AuthProfile() {
         <h1>Profile Information</h1>
         <h3>User Name: {auth.currentUser.displayName}</h3>
         <h3>Email: {auth.currentUser.email}</h3>
-        <div style={imageCropper}>
+        <div>
           <h3>
             <img
               style={imgStyle}

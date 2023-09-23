@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { db, auth } from "../../firebase";
-import { Link, useNavigate } from "react-router-dom";
+// import { Link, useNavigate } from "react-router-dom";
 import {
   collection,
   addDoc,
   onSnapshot,
-  doc,
-  updateDoc,
-  deleteDoc,
+  // doc,
+  // updateDoc,
+  // deleteDoc,
 } from "firebase/firestore";
-import Profile from "./Profile";
+// import Profile from "./Profile";
 import ProfilePhoto from "./ProfilePhoto";
 
 export default function UserProfile() {
@@ -75,7 +75,7 @@ export default function UserProfile() {
   );
   console.log(filteredProfilePhoto);
 
-  if (filteredProfiles.length !== 0) {
+  if (filteredProfiles.length === 0) {
     return (
       <div>
 

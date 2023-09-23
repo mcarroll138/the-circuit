@@ -5,7 +5,6 @@ export default function ProfileEditForm({
   auth,
   newDisplayName,
   setNewDisplayName,
-  editProfile,
   setEditProfile,
 }) {
   const ContainerStyles = {
@@ -37,16 +36,16 @@ export default function ProfileEditForm({
     borderRadius: "4px",
     cursor: "pointer",
   };
-    function handleProfileEditFormSubmission(event) {
-      event.preventDefault();
-      updateProfile(auth.currentUser, { displayName: newDisplayName })
-        .then(() => {
-          setEditProfile(false);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
+  function handleProfileEditFormSubmission(event) {
+    event.preventDefault();
+    updateProfile(auth.currentUser, { displayName: newDisplayName })
+      .then(() => {
+        setEditProfile(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   return (
     <>
