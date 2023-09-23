@@ -16,7 +16,8 @@ function EventList(props) {
   return (
     <React.Fragment>
       <hr />
-      
+      <h2>My Events</h2>
+      <hr/>
       {filteredEvents.map((event) => (
         <Event
           whenEventClicked={props.onEventSelection}
@@ -31,9 +32,9 @@ function EventList(props) {
         />
       ))}
 
-      <hr />
       
-      {filteredEvents.map((event) => (
+      <h2>All Events</h2>
+      {allEvents.map((event) => (
         <Event
           whenEventClicked={props.onEventSelection}
           eventCreator={event.eventCreator}
@@ -45,8 +46,7 @@ function EventList(props) {
           id={event.id}
           key={event.id}
         />
-      ))}
-      
+      ))} 
     </React.Fragment>
   );
 }
