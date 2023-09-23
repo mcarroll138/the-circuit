@@ -46,9 +46,10 @@ export default function UserProfile() {
     e.preventDefault();
 
     const newProfileData = {
+      uid: auth.currentUser.uid,
       userProfile: auth.currentUser.email,
-      firstName,
-      lastName,
+      displayName: auth.currentUser.displayName,
+      profilePhoto: auth.currentUser.photoURL,
     };
     try {
       const docRef = await addDoc(collection(db, "profiles"), newProfileData);
@@ -62,31 +63,72 @@ export default function UserProfile() {
       console.error("Error adding document: ", error);
     }
   };
+
+  const ContainerStyles = {
+    alignItems: "center",
+    backgroundColor: "pink",
+    padding: "10px",
+  };
+
+  const formStyles = {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  };
+
+  const inputStyles = {
+    margin: "4px",
+    padding: "4px",
+    border: "1px solid #ccc",
+    borderRadius: "4px",
+    fontSize: "12px",
+  };
+
+  const buttonStyles = {
+    margin: "4px",
+    padding: "4px 36px",
+    backgroundColor: "#007bff",
+    color: "#fff",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
+  };
+  const imgStyle = {
+    objectFit: "cover",
+    boarderRadius: "50%",
+    height: "100px",
+    width: "100px",
+    borderRadius: "50%",
+  };
   const filteredProfiles = profiles.filter(
-    (profile) => auth.currentUser.email === profile.userProfile
+    (profile) => auth.currentUser.uid === profile.uid
   );
 
   const allProfiles = profiles.filter(
-    (profile) => auth.currentUser.email !== profile.userProfile
+    (profile) => auth.currentUser.uid !== profile.uid
   );
 
   const filteredProfilePhoto = imageUrls.filter((imageUrl) =>
     imageUrl.includes(auth.currentUser.email)
   );
-  console.log(filteredProfilePhoto);
 
   if (filteredProfiles.length === 0) {
     return (
       <div>
-
         <ProfilePhoto />
         <h1>Update Profile</h1>
-        <form onSubmit={handleFormSubmit}>
+        <form style={formStyles} onSubmit={handleFormSubmit}>
+          <input type="text" name="uid" value={auth.currentUser.uid} />
           <input
             type="text"
-            name="userProfile"
+            name="userEmail"
             value={auth.currentUser.email}
             // onChange={(e) => setUserProfile(e.target.value)}
+          />
+          <input
+            type="text"
+            name="userPhoto"
+            value={auth.currentUser.photoURL}
           />
           <input
             type="text"
@@ -107,26 +149,25 @@ export default function UserProfile() {
   } else {
     return (
       // navigate("/sign-in")
-      <div>
+      <div style={ContainerStyles}>
         <h3>Your Profile</h3>
 
-        {filteredProfilePhoto.map((imageUrl) => (
-          <p>{filteredProfilePhoto}</p>
-        ))}
         {filteredProfiles.map((profile) => (
           <ul key={profile.id}>
-            <p>First Name: {profile.firstName}</p>
-            <p>Last Name: {profile.lastName}</p>
-            <p>User Profile: {profile.userProfile}</p>
+            <p>
+              {profile.displayName}{" "}
+              <img style={imgStyle} src={profile.profilePhoto}></img>
+            </p>
           </ul>
         ))}
         <h3>Circuit List</h3>
         {allProfiles.map((profile) => (
           <ul key={profile.id}>
-            <p>First Name: {profile.firstName}</p>
-            <p>Last Name: {profile.lastName}</p>
-            <p>User Profile: {profile.userProfile}</p>
             <hr />
+            <p>
+              {profile.displayName}{" "}
+              <img style={imgStyle} src={profile.profilePhoto}></img>
+            </p>
           </ul>
         ))}
       </div>
