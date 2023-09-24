@@ -69,7 +69,7 @@ function Header() {
               fontWeight: "400",
               textDecoration: "underline",
               marginLeft: "20px",
-              lineHeight: 24,
+              // lineHeight: 24,
               wordWrap: "break-word",
             }}
           >

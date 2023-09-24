@@ -12,6 +12,7 @@ import {
   updateDoc,
   deleteDoc,
 } from "firebase/firestore";
+import AddEventButton from "./AddEventButton";
 
 export default function EventControl() {
   const [formVisibleOnPage, setFormVisibleOnPage] = useState(false);
@@ -114,12 +115,14 @@ export default function EventControl() {
       );
       buttonText = "Return to Event List";
     } else {
-      currentlyVisibleState = (
-        <EventList
-          onEventSelection={handleChangingSelectedEvent}
-          eventList={mainEventList}
-        />
-      );
+      currentlyVisibleState =
+        ((<AddEventButton />),
+        (
+          <EventList
+            onEventSelection={handleChangingSelectedEvent}
+            eventList={mainEventList}
+          />
+        ));
       console.log(auth.currentUser.email);
       buttonText = "Add an Event";
     }

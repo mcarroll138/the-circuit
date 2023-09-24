@@ -2,6 +2,7 @@ import React from "react";
 import Event from "./Event";
 import PropTypes from "prop-types";
 import { auth } from "../../firebase.js";
+// import RadioButtonControl from "./RadioButtons";
 
 function EventList(props) {
   // const [showFriendsEvents, setShowFriendsEvents] = useState(false);
@@ -23,6 +24,7 @@ function EventList(props) {
           position: "sticky",
           top: "50",
           zIndex: "5000",
+          background: "black",
         }}
       >
         <div
@@ -49,9 +51,9 @@ function EventList(props) {
               color: "#E3A9FF",
               fontSize: 24,
               fontFamily: "Courier",
-              fontWeight: "400",
+
               textTransform: "uppercase",
-              lineHeight: 24,
+
               wordWrap: "break-word",
             }}
           >
@@ -59,7 +61,62 @@ function EventList(props) {
           </div>
         </div>
       </div>
-      
+      <div>
+        <div
+          style={{
+            display: "flex",
+            marginTop: "20px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "#E3A9FF",
+            fontSize: 12,
+            fontFamily: "Arial",
+            fontWeight: "400",
+            textDecoration: "underline",
+
+            wordWrap: "break-word",
+          }}
+        >
+          <div>
+            <input
+              type="radio"
+              id="all"
+              name="eventFilter"
+              value="all"
+              checked
+            />
+            <label for="all">All Events</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              id="hosting"
+              name="eventFilter"
+              value="hosting"
+            />
+            <label for="hosting">Hosted By Me</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              id="closeFriends"
+              name="eventFilter"
+              value="closeFriends"
+            />
+            <label for="closeFriends">Close Friends</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              id="attending"
+              name="eventFilter"
+              value="attending"
+            />
+            <label for="attending">Attending</label>
+          </div>
+        </div>
+      </div>
       <h2>My Events</h2>
       <hr />
       {filteredEvents.map((event) => (
