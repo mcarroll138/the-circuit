@@ -32,10 +32,10 @@ function Header() {
     return (
       <div
         style={{
-          // position: "sticky",
-          // top: "0",
-          // zIndex: "100",
-          marginBottom: "26px",
+          position: "sticky",
+          top: "0",
+          zIndex: "100",
+          marginBottom: "2px",
         }}
       >
         <div
@@ -49,32 +49,46 @@ function Header() {
             width: "auto",
           }}
         >
-          <div
+          <Link
+            to="/"
             style={{
-              color: "white",
-              fontSize: 24,
-              fontFamily: "Arial",
-              fontWeight: "700",
-              // lineHeight: 24,
-              wordWrap: "break-word",
+              textDecoration: "none",
             }}
           >
-            Events
-          </div>
-          <div
+            <div
+              style={{
+                color: "white",
+                fontSize: 24,
+                fontFamily: "Arial",
+                fontWeight: "700",
+                // lineHeight: 24,
+                wordWrap: "break-word",
+              }}
+            >
+              Events
+            </div>
+          </Link>
+          <Link
+            to="/"
             style={{
-              color: "#E3A9FF",
-              fontSize: 24,
-              fontFamily: "Arial",
-              fontWeight: "400",
-              textDecoration: "underline",
-              marginLeft: "20px",
-              // lineHeight: 24,
-              wordWrap: "break-word",
+              textDecoration: "none",
             }}
           >
-            Friends
-          </div>
+            <div
+              style={{
+                color: "#E3A9FF",
+                fontSize: 24,
+                fontFamily: "Arial",
+                fontWeight: "400",
+                textDecoration: "underline",
+                marginLeft: "20px",
+                // lineHeight: 24,
+                wordWrap: "break-word",
+              }}
+            >
+              Friends
+            </div>
+          </Link>
           <div
             style={{
               color: "white",
@@ -93,25 +107,27 @@ function Header() {
               style={{ maxWidth: "100%", maxHeight: "100%" }}
             />
           </div>
-          <div
-            style={{
-              marginLeft: "auto",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <img
+          <Link to="/user-profile">
+            <div
               style={{
-                width: 60,
-                height: 60,
-                background: "linear-gradient(0deg, black 0%, black 100%)",
-                boxShadow: "6px 6px 0px #E3A9FF",
-                borderRadius: "50%",
-                border: "2px #E3A9FF solid",
+                marginLeft: "auto",
+                display: "flex",
+                alignItems: "center",
               }}
-              src={auth.currentUser.photoURL}
-            />
-          </div>
+            >
+              <img
+                style={{
+                  width: 60,
+                  height: 60,
+                  background: "linear-gradient(0deg, black 0%, black 100%)",
+                  boxShadow: "6px 6px 0px #E3A9FF",
+                  borderRadius: "50%",
+                  border: "2px #E3A9FF solid",
+                }}
+                src={auth.currentUser.photoURL}
+              />
+            </div>
+          </Link>
 
           <div
             onClick={doSignOut}

@@ -12,6 +12,7 @@ import UserProfile from "./UserProfile/UserProfileControl.js";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import AuthProfile from "./UserProfile/UserProfileControl";
+import NewEventForm from "./EventsControl/NewEventForm";
 
 function App() {
   const auth = getAuth();
@@ -35,6 +36,7 @@ function App() {
         <Route path="user-profile" element={<AuthProfile />} />
         {/* <Route path="update-profile" element={<UpdateProfile />}/> */}
         <Route path="/" element={<EventControl />} />
+        <Route path="new-event" element={<NewEventForm />} />
         <Route path="/profile" element={<ProfileControl />} />
       </Routes>
     </Router>
