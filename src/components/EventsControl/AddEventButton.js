@@ -6,7 +6,7 @@ export default function AddEventButton({ to }) {
     <div
       style={{
         width: 180,
-        height: 40,
+        height: 20,
         paddingLeft: 24,
         paddingRight: 24,
         paddingTop: 20,

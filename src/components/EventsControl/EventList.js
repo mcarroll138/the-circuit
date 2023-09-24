@@ -7,8 +7,9 @@ import { useState } from "react";
 import AddEventButton from "./AddEventButton";
 
 function EventList(props) {
-  const [radio, setRadio] = useState("");
-  const filteredEvents = props.eventList.filter(
+  const [radio, setRadio] = useState("all");
+  console.log(radio);
+  const hostingEvents = props.eventList.filter(
     (event) => auth.currentUser.email === event.eventCreator
   );
 
@@ -29,7 +30,6 @@ function EventList(props) {
         }}
       >
         <AddEventButton to="new-event" />
-       
       </div>
 
       <div
@@ -52,71 +52,85 @@ function EventList(props) {
           }}
         >
           <input
-            inline
-            label="Response A"
             type="radio"
-            id="radioA"
-            value="radioA"
-            checked={radio === "radioA"}
+            id="sortByAll"
+            value="all"
+            checked={radio === "all"}
             onChange={(e) => {
               setRadio(e.target.value);
             }}
+            defaultChecked={radio === "all"}
           />
-          <label for="hosting">All</label>
+          <label for="sortByAll">All</label>
 
           <input
-            inline
-            label="Response B"
             type="radio"
-            id="radioB"
-            value="radioB"
-            checked={radio === "radioB"}
+            id="sortByHosting"
+            value="hosting"
+            checked={radio === "hosting"}
             onChange={(e) => {
               setRadio(e.target.value);
             }}
           />
-          <label for="hosting">Hosted by Me</label>
+          <label for="sortByHosting">Hosted by Me</label>
           <input
-            inline
-            label="Response C"
             type="radio"
-            id="radioC"
-            value="radioC"
-            checked={radio === "radioC"}
+            id="sortByCloseFriends"
+            value="closeFriends"
+            checked={radio === "closeFriends"}
             onChange={(e) => {
               setRadio(e.target.value);
             }}
           />
-          <label for="hosting">Close Friends</label>
+          <label for="sortByCloseFriends">Close Friends</label>
           <input
-            inline
-            label="Response D"
             type="radio"
-            id="radioD"
-            value="radioD"
-            checked={radio === "radioD"}
+            id="sortByAttending"
+            value="attending"
+            checked={radio === "attending"}
             onChange={(e) => {
               setRadio(e.target.value);
             }}
           />
-          <label for="hosting">Attending</label>
+          <label for="sortByAttending">Attending</label>
         </form>
       </div>
-
-      <h2>All Events</h2>
-      {allEvents.map((event) => (
-        <Event
-          whenEventClicked={props.onEventSelection}
-          eventCreator={event.eventCreator}
-          eventName={event.eventName}
-          eventDateTime={event.eventDateTime}
-          eventDetail={event.eventDetail}
-          eventLocation={event.eventLocation}
-          eventImage={event.eventImage}
-          id={event.id}
-          key={event.id}
-        />
-      ))}
+      {radio === "all" && (
+        <>
+          <h2>All Events</h2>
+          {allEvents.map((event) => (
+            <Event
+              whenEventClicked={props.onEventSelection}
+              eventCreator={event.eventCreator}
+              eventName={event.eventName}
+              eventDateTime={event.eventDateTime}
+              eventDetail={event.eventDetail}
+              eventLocation={event.eventLocation}
+              eventImage={event.eventImage}
+              id={event.id}
+              key={event.id}
+            />
+          ))}
+        </>
+      )}
+      {radio === "hosting" && (
+        <>
+          <h2>Hosting</h2>
+          {hostingEvents.map((event) => (
+            <Event
+              whenEventClicked={props.onEventSelection}
+              eventCreator={event.eventCreator}
+              eventName={event.eventName}
+              eventDateTime={event.eventDateTime}
+              eventDetail={event.eventDetail}
+              eventLocation={event.eventLocation}
+              eventImage={event.eventImage}
+              id={event.id}
+              key={event.id}
+            />
+          ))}
+        </>
+      )}
     </React.Fragment>
   );
 }
