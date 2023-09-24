@@ -115,7 +115,7 @@ function Header() {
                 alignItems: "center",
               }}
             >
-              <img
+              <img alt="Profile"
                 style={{
                   width: 60,
                   height: 60,
@@ -149,14 +149,120 @@ function Header() {
     );
   else if (userEmail === null)
     return (
-      <div>
-        <h2>⚡️ The Circuit ⚡️</h2>
-        {/* {email} */}
-        <form>
-          <Link to="/sign-in">
-            <button>Sign In</button>
+      <div
+        style={{
+          position: "sticky",
+          top: "0",
+          zIndex: "100",
+          marginBottom: "2px",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            padding: "8px",
+            justifyContent: "space-between",
+            background: "black",
+            height: "80px",
+            width: "auto",
+          }}
+        >
+          <Link
+            to="/"
+            style={{
+              textDecoration: "none",
+            }}
+          >
+            <div
+              style={{
+                color: "white",
+                fontSize: 24,
+                fontFamily: "Arial",
+                fontWeight: "700",
+                // lineHeight: 24,
+                wordWrap: "break-word",
+              }}
+            >
+              Events
+            </div>
           </Link>
-        </form>
+          <Link
+            to="/"
+            style={{
+              textDecoration: "none",
+            }}
+          >
+            <div
+              style={{
+                color: "#E3A9FF",
+                fontSize: 24,
+                fontFamily: "Arial",
+                fontWeight: "400",
+                textDecoration: "underline",
+                marginLeft: "20px",
+                // lineHeight: 24,
+                wordWrap: "break-word",
+              }}
+            >
+              Friends
+            </div>
+          </Link>
+          <div
+            style={{
+              color: "white",
+              fontSize: 40,
+              fontFamily: "Courier",
+              fontWeight: "400",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flex: "1",
+            }}
+          >
+            <img
+              src={vectorImage}
+              alt="The Circuit"
+              style={{ maxWidth: "100%", maxHeight: "100%" }}
+            />
+          </div>
+          <Link to="/user-profile">
+            <div
+              style={{
+                marginLeft: "auto",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <img alt="Profile"
+                style={{
+                  width: 60,
+                  height: 60,
+                  background: "linear-gradient(0deg, black 0%, black 100%)",
+                  boxShadow: "6px 6px 0px #E3A9FF",
+                  borderRadius: "50%",
+                  border: "2px #E3A9FF solid",
+                }}
+              />
+            </div>
+          </Link>
+          <Link to="sign-in">
+            <div
+              style={{
+                color: "#E3A9FF",
+                fontSize: "16px",
+                fontFamily: "Arial",
+                fontWeight: "400",
+                textDecoration: "underline",
+                marginLeft: "10px",
+                cursor: "pointer",
+                whiteSpace: "nowrap",
+              }}
+            >
+              Sign In
+            </div>
+          </Link>
+        </div>
       </div>
     );
 }

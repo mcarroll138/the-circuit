@@ -116,13 +116,13 @@ export default function EventControl() {
       buttonText = "Return to Event List";
     } else {
       currentlyVisibleState =
-        ((<AddEventButton />),
+        
         (
           <EventList
             onEventSelection={handleChangingSelectedEvent}
             eventList={mainEventList}
           />
-        ));
+        );
       console.log(auth.currentUser.email);
       buttonText = "Add an Event";
     }

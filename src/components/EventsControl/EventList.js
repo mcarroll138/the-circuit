@@ -4,12 +4,10 @@ import PropTypes from "prop-types";
 import { auth } from "../../firebase.js";
 import { Route, Link } from "react-router-dom";
 import { useState } from "react";
-// import RadioButtonControl from "./RadioButtons";
+import AddEventButton from "./AddEventButton";
 
 function EventList(props) {
-  // const [showFriendsEvents, setShowFriendsEvents] = useState(false);
-
-  const [radio, setRadio] = useState("false");
+  const [radio, setRadio] = useState("");
   const filteredEvents = props.eventList.filter(
     (event) => auth.currentUser.email === event.eventCreator
   );
@@ -30,46 +28,8 @@ function EventList(props) {
           background: "black",
         }}
       >
-        <Link
-          to="/new-event"
-          style={{
-            textDecoration: "none",
-          }}
-        >
-          <div
-            style={{
-              // marginTop: "26px",
-              width: 180,
-              height: 40,
-              paddingLeft: 24,
-              paddingRight: 24,
-              paddingTop: 20,
-              paddingBottom: 20,
-              background: "black",
-              boxShadow: "6px 6px 0px #E3A9FF",
-              border: "2px #E3A9FF solid",
-              display: "flex",
-              // justifyContent: "flex-end",
-              alignItems: "center",
-              gap: 10,
-            }}
-          >
-            <div
-              style={{
-                textAlign: "center",
-                color: "#E3A9FF",
-                fontSize: 24,
-                fontFamily: "Courier",
-                background: "black",
-                textTransform: "uppercase",
-
-                wordWrap: "break-word",
-              }}
-            >
-              + add event
-            </div>
-          </div>
-        </Link>
+        <AddEventButton to="new-event" />
+       
       </div>
 
       <div
@@ -79,24 +39,19 @@ function EventList(props) {
           fontSize: 24,
           fontFamily: "Courier",
           background: "black",
-          color: "#E3A9FF",
-          fontSize: 20,
-          fontFamily: "Arial",
           fontWeight: "400",
           textDecoration: "underline",
           lineHeight: 2,
           wordWrap: "break-word",
-
-          //  textTransform: "uppercase",
-
-          wordWrap: "break-word",
         }}
       >
-        <form style={{
-          paddingLeft: 16,
-          paddingRight: 16,
-        }}>
-          <input 
+        <form
+          style={{
+            paddingLeft: 16,
+            paddingRight: 16,
+          }}
+        >
+          <input
             inline
             label="Response A"
             type="radio"
@@ -147,7 +102,7 @@ function EventList(props) {
           <label for="hosting">Attending</label>
         </form>
       </div>
-     
+
       <h2>All Events</h2>
       {allEvents.map((event) => (
         <Event
