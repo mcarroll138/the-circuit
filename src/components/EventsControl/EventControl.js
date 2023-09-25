@@ -113,6 +113,7 @@ export default function EventControl() {
       currentlyVisibleState = (
         <NewEventForm onNewEventCreation={handleAddingNewEventToList} />
       );
+      
       buttonText = "Return to Event List";
     } else {
       currentlyVisibleState =

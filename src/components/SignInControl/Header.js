@@ -115,7 +115,8 @@ function Header() {
                 alignItems: "center",
               }}
             >
-              <img alt="Profile"
+              <img
+                alt="Profile"
                 style={{
                   width: 60,
                   height: 60,
@@ -226,26 +227,27 @@ function Header() {
               style={{ maxWidth: "100%", maxHeight: "100%" }}
             />
           </div>
-          <Link to="/user-profile">
-            <div
+
+          <div
+            style={{
+              marginLeft: "auto",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <img
+              alt="Profile"
               style={{
-                marginLeft: "auto",
-                display: "flex",
-                alignItems: "center",
+                width: 60,
+                height: 60,
+                background: "linear-gradient(0deg, black 0%, black 100%)",
+                boxShadow: "6px 6px 0px #E3A9FF",
+                borderRadius: "50%",
+                border: "2px #E3A9FF solid",
               }}
-            >
-              <img alt="Profile"
-                style={{
-                  width: 60,
-                  height: 60,
-                  background: "linear-gradient(0deg, black 0%, black 100%)",
-                  boxShadow: "6px 6px 0px #E3A9FF",
-                  borderRadius: "50%",
-                  border: "2px #E3A9FF solid",
-                }}
-              />
-            </div>
-          </Link>
+            />
+          </div>
+
           <Link to="sign-in">
             <div
               style={{
