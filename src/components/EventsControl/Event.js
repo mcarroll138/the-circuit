@@ -41,10 +41,11 @@ export default function Event(props) {
       </div>
 
       <div
+        id="card"
         style={{
-          width: "100%",
+          width: "90%",
           height: "100%",
-          padding: 48,
+          padding: 40,
           background: "black",
           boxShadow: "6px 6px 0px white",
           borderRadius: 24,
@@ -52,7 +53,7 @@ export default function Event(props) {
           flexDirection: "column",
           justifyContent: "flex-start",
           alignItems: "flex-start",
-          gap: 32,
+          gap: 20,
           display: "inline-flex",
         }}
       >
@@ -175,7 +176,7 @@ export default function Event(props) {
               wordWrap: "break-word",
             }}
           >
-            {formattedTime}-Xpm
+            {formattedTime}
           </div>
           <div
             style={{
@@ -200,7 +201,13 @@ export default function Event(props) {
               wordWrap: "break-word",
             }}
           >
-            Location {props.eventLocation}
+            <a
+              href={props.eventLocation}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Location
+            </a>
           </div>
         </div>
         <div
@@ -338,8 +345,9 @@ export default function Event(props) {
           </div>
         </div>
         <div
+          id="editEventDiv"
           style={{
-            width: 604,
+            width: 100,
             paddingLeft: 24,
             paddingRight: 24,
             paddingTop: 20,
@@ -354,12 +362,13 @@ export default function Event(props) {
           }}
         >
           <div
+            id="editEvent"
             style={{
               textAlign: "center",
               color: "#E3A9FF",
-              fontSize: 24,
+              fontSize: 14,
               fontFamily: "Courier",
-              fontWeight: "400",
+              fontWeight: "40",
               textTransform: "uppercase",
               lineHeight: 2,
               wordWrap: "break-word",
