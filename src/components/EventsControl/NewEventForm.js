@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { auth } from "../../firebase.js";
+import { serverTimestamp } from "firebase/firestore";
 
 export default function NewEventForm(props) {
   const formStyles = {
@@ -36,6 +37,7 @@ export default function NewEventForm(props) {
       eventDateTime: event.target.eventDateTime.value,
       eventDetail: event.target.eventDetail.value,
       eventLocation: event.target.eventLocation.value,
+      timeOpen: serverTimestamp()
     });
   }
   return (

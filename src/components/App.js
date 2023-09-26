@@ -8,10 +8,10 @@ import Header from "./SignInControl/Header";
 import ProfileControl from "./ProfileControl/ProfileControl";
 import EventControl from "./EventsControl/EventControl";
 import SignInControl from "./SignInControl/SignInControl";
-import UserProfile from "./UserProfile/UserProfileControl.js";
+import UserProfile from "./UserProfileFBAuth/UserProfileControl.js";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import AuthProfile from "./UserProfile/UserProfileControl";
+import AuthProfile from "./UserProfileFBAuth/UserProfileControl";
 import NewEventForm from "./EventsControl/NewEventForm";
 
 function App() {

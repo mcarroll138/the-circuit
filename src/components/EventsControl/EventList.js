@@ -59,7 +59,7 @@ function EventList(props) {
             onChange={(e) => {
               setRadio(e.target.value);
             }}
-            defaultChecked={radio === "all"}
+            // defaultChecked={radio === "all"}
           />
           <label for="sortByAll">All</label>
 
@@ -107,6 +107,7 @@ function EventList(props) {
               eventDateTime={event.eventDateTime}
               eventDetail={event.eventDetail}
               eventLocation={event.eventLocation}
+              formattedPostTime={event.formattedPostTime}
               id={event.id}
               key={event.id}
             />
@@ -125,6 +126,7 @@ function EventList(props) {
               eventDateTime={event.eventDateTime}
               eventDetail={event.eventDetail}
               eventLocation={event.eventLocation}
+              formattedPostTime={event.formattedPostTime}
               id={event.id}
               key={event.id}
             />

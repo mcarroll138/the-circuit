@@ -11,6 +11,7 @@ import {
   doc,
   updateDoc,
   deleteDoc,
+  Timestamp,
 } from "firebase/firestore";
 import { formatDistanceToNow } from "date-fns";
 import AddEventButton from "./AddEventButton";
@@ -27,11 +28,11 @@ export default function EventControl() {
       collection(db, "events"),
       (collectionSnapshot) => {
         const events = [];
-        const currentDate = new Date();
         collectionSnapshot.forEach((doc) => {
-          const eventData = doc.data();
-          const eventDateTime = new Date(eventData.eventDateTime);
-          const timeDifference = eventDateTime - currentDate;
+          const timePosted = doc
+            .get("timePosted", { serverTimestamps: "estimate" })
+            .toDate();
+          const jsDate = new Date(timePosted);
           events.push({
             eventCreator: doc.data().eventCreator,
             eventCreatorPhoto: doc.data().eventCreatorPhoto,
@@ -40,11 +41,11 @@ export default function EventControl() {
             eventDetail: doc.data().eventDetail,
             eventLocation: doc.data().eventLocation,
             eventImage: doc.data().eventImage,
-            timeDifference: timeDifference,
+            timePosted: jsDate,
+            formattedPostedTime: formatDistanceToNow(jsDate),
             id: doc.id,
           });
         });
-        events.sort((a, b) => a.timeDifference - b.timeDifference);
         setMainEventList(events);
       },
       (error) => {
@@ -53,6 +54,24 @@ export default function EventControl() {
     );
     return () => unSubscribe();
   }, []);
+
+  useEffect(() => {
+    function updateEventElapsedPostTime() {
+      const newMainEventList = mainEventList.map((event) => {
+        const newFormattedPostedTime = formatDistanceToNow(event.timePosted);
+        return { ...event, formattedPostedTime: newFormattedPostedTime };
+      });
+      setMainEventList(newMainEventList);
+    }
+
+    const postTimeUpdateTimer = setInterval(
+      () => updateEventElapsedPostTime(),
+      60000
+    );
+    return function cleanup() {
+      clearInterval(postTimeUpdateTimer);
+    };
+  }, [mainEventList]);
 
   const handleClick = () => {
     if (selectedEvent != null) {

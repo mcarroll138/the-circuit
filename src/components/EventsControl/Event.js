@@ -20,7 +20,7 @@ export default function Event(props) {
     }
     return `${formmatedHour}:${timeParts[1]} ${amPm}`;
   }
- 
+
   return (
     <>
       <div
@@ -226,7 +226,8 @@ export default function Event(props) {
           >
             {props.eventDetail}
           </div>
-          <div onClick={() => props.whenEventClicked(props.id)}
+          <div
+            onClick={() => props.whenEventClicked(props.id)}
             style={{
               width: 604,
               color: "#E3A9FF",
@@ -241,7 +242,7 @@ export default function Event(props) {
             onMouseOver={(e) => (e.target.style.color = "#B3FFB1")}
             onMouseOut={(e) => (e.target.style.color = "#E3A9FF")}
           >
-            Read more  
+            Read more
           </div>
         </div>
         <div
@@ -283,7 +284,7 @@ export default function Event(props) {
               }}
               src={props.eventCreatorPhoto}
             />
-            
+
             <div
               style={{
                 justifyContent: "flex-start",
@@ -337,7 +338,7 @@ export default function Event(props) {
                 wordWrap: "break-word",
               }}
             >
-              Posted X days ago
+              Posted {props.formattedPostTime}X days ago
             </div>
           </div>
         </div>
@@ -387,6 +388,7 @@ Event.propTypes = {
   eventDetail: PropTypes.string,
   eventLocation: PropTypes.string,
   eventImage: PropTypes.object,
+  formattedPostTime: PropTypes.string,
   id: PropTypes.string,
   whenEventClicked: PropTypes.func,
 };
