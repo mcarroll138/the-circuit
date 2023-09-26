@@ -6,7 +6,7 @@ import { collection, addDoc, onSnapshot } from "firebase/firestore";
 import ProfilePhoto from "./ProfilePhoto";
 
 export default function UserProfile() {
-  const [radio, setRadio] = useState("all");
+  const [radio, setRadio] = useState("mightKnow");
   const [userProfile, setUserProfile] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -124,7 +124,6 @@ export default function UserProfile() {
             onChange={(e) => {
               setRadio(e.target.value);
             }}
-            defaultChecked={radio === "allFriends"}
           />
           <label for="sortByAll">All Friends</label>
 
@@ -146,6 +145,7 @@ export default function UserProfile() {
             onChange={(e) => {
               setRadio(e.target.value);
             }}
+            defaultChecked={radio === "mightKnow"}
           />
           <label for="sortByMightKnow">Might Know</label>
         </form>
@@ -178,7 +178,7 @@ export default function UserProfile() {
             ))}
           </>
         )}
-         {radio === "mightKnow" && (
+        {radio === "mightKnow" && (
           <>
             <h3>People you may know</h3>
             {allProfiles.map((profile) => (
