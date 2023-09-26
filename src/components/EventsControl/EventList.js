@@ -108,6 +108,7 @@ function EventList(props) {
               eventDetail={event.eventDetail}
               eventLocation={event.eventLocation}
               formattedPostTime={event.formattedPostTime}
+              daysAgo={event.daysAgo}
               id={event.id}
               key={event.id}
             />
@@ -126,6 +127,7 @@ function EventList(props) {
               eventDateTime={event.eventDateTime}
               eventDetail={event.eventDetail}
               eventLocation={event.eventLocation}
+              daysAgo={event.daysAgo}
               formattedPostTime={event.formattedPostTime}
               id={event.id}
               key={event.id}

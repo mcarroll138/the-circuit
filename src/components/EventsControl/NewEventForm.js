@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { auth } from "../../firebase.js";
 import { serverTimestamp } from "firebase/firestore";
+import { differenceInDays } from "date-fns";
 
 export default function NewEventForm(props) {
   const formStyles = {
@@ -29,7 +30,9 @@ export default function NewEventForm(props) {
   };
   function handleNewEventFormSubmission(event) {
     event.preventDefault();
-
+    // const currentDate = new Date();
+    // const eventDateTime = new Date(event.targe.eventDateTime.value);
+    // const daysAgo = differenceInDays(currentDate, eventDateTime);
     props.onNewEventCreation({
       eventCreator: event.target.eventCreator.value,
       eventCreatorPhoto: event.target.eventCreatorPhoto.value,
@@ -37,7 +40,8 @@ export default function NewEventForm(props) {
       eventDateTime: event.target.eventDateTime.value,
       eventDetail: event.target.eventDetail.value,
       eventLocation: event.target.eventLocation.value,
-      timeOpen: serverTimestamp()
+      // daysAgo: daysAgo,
+      timeOpen: serverTimestamp(),
     });
   }
   return (

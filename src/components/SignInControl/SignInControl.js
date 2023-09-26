@@ -15,32 +15,53 @@ function SignInControl(props) {
   const navigate = useNavigate();
 
   const headerContainerStyles = {
+    color: "white",
+    fontSize: 20,
+    fontFamily: "courier",
+    fontWeight: "400",
+    // lineHeight: 20,
     alignItems: "center",
-    backgroundColor: "pink",
+    backgroundColor: "black",
     padding: "10px",
   };
 
   const formStyles = {
     display: "flex",
+    padding: "20px 24px",
     flexDirection: "column",
     alignItems: "center",
+    flexShrink: 0,
+    backgroundColor: "black",
+    // border: "2px solid var(white)",
+    // backgroundColor: "black",
   };
 
   const inputStyles = {
+    color: "gray",
+    // color: "#99999",
+    fontFamily: "arial",
+    fontSize: "14px",
+    fontStyle: "normal",
+    backgroundColor: "black",
+    width: "460px",
+    gap: "2px",
     margin: "4px",
-    padding: "4px",
+    padding: "14px",
     border: "1px solid #ccc",
     borderRadius: "4px",
-    fontSize: "12px",
   };
-
+  const noAccount = {
+    color: "white",
+    fontSize: "10",
+    fontFamily: "arial",
+  };
   const buttonStyles = {
     margin: "4px",
     padding: "4px 36px",
-    backgroundColor: "#007bff",
-    color: "#fff",
+    backgroundColor: "black",
+    color: "white",
     border: "none",
-    borderRadius: "4px",
+    border: "1px solid white",
     cursor: "pointer",
   };
 
@@ -58,13 +79,7 @@ function SignInControl(props) {
         <form onSubmit={doSignUp} style={formStyles}>
           {signUpSuccess}
           <h1>Sign Up</h1>
-          {/* <input
-            required
-            style={inputStyles}
-            type="text"
-            name="displayName"
-            placeholder="User Name"
-          /> */}
+
           <input
             required
             style={inputStyles}
@@ -82,11 +97,11 @@ function SignInControl(props) {
           <button type="submit" style={buttonStyles}>
             Sign Up
           </button>
-          <p>
+          <p style={noAccount}>
             Return to {"    "}
             <span
               style={{
-                color: "blue",
+                color: "gray",
                 textDecoration: "underline",
                 cursor: "pointer",
               }}
@@ -101,7 +116,7 @@ function SignInControl(props) {
       return (
         <form onSubmit={doSignIn} style={formStyles}>
           {signInSuccess}
-          <h1>Sign⚡️In</h1>
+          <h1>Sign In</h1>
           <input
             style={inputStyles}
             type="text"
@@ -117,11 +132,11 @@ function SignInControl(props) {
           <button type="submit" style={buttonStyles}>
             Sign in
           </button>
-          <p>
+          <p style={noAccount}>
             Don't have an account?{"    "}
             <span
               style={{
-                color: "blue",
+                color: "grey",
                 textDecoration: "underline",
                 cursor: "pointer",
               }}
