@@ -236,6 +236,7 @@ export default function Event(props) {
               textDecoration: "underline",
               lineHeight: 2,
               wordWrap: "break-word",
+              cursor: "pointer",
             }}
             onMouseOver={(e) => (e.target.style.color = "#B3FFB1")}
             onMouseOut={(e) => (e.target.style.color = "#E3A9FF")}

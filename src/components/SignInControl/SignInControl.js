@@ -56,6 +56,7 @@ function SignInControl(props) {
     if (isSignUpMode) {
       return (
         <form onSubmit={doSignUp} style={formStyles}>
+          {signUpSuccess}
           <h1>Sign Up</h1>
           {/* <input
             required
@@ -142,11 +143,12 @@ function SignInControl(props) {
 
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        setIsLogOffMode(false);
-        setIsSignInMode(true);
-        setIsSignUpMode(false);
+        // setIsLogOffMode(false);
+        // setIsSignInMode(true);
+        // setIsSignUpMode(false);
+        navigate("/user-profile");
         // console.log(displayName);
-        const userEmail = event.target.email.value;
+        // const userEmail = event.target.email.value;
         setSignUpSuccess(
           `You've successfully signed up, with the user name of as your email address.`
         );

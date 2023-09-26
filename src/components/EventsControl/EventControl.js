@@ -130,10 +130,6 @@ export default function EventControl() {
       <React.Fragment>
         {currentlyVisibleState}
         {error ? null : <button onClick={handleClick}>{buttonText}</button>}
-        <AddEventButton
-          to="/add-event"
-          onAddEventClick={handleAddingNewEventToList}
-        />
       </React.Fragment>
     );
   }

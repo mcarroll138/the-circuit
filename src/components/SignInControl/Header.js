@@ -69,7 +69,7 @@ function Header() {
             </div>
           </Link>
           <Link
-            to="/"
+            to="/profile"
             style={{
               textDecoration: "none",
             }}

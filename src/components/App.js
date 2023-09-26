@@ -34,7 +34,7 @@ function App() {
       <Routes>
         <Route path="/sign-in" element={<SignInControl />} />
         <Route path="user-profile" element={<AuthProfile />} />
-        {/* <Route path="update-profile" element={<UpdateProfile />}/> */}
+        {/* <Route path="/friends" element={<FriendControl />} /> */}
         <Route path="/" element={<EventControl />} />
         <Route path="new-event" element={<NewEventForm />} />
         <Route path="/profile" element={<ProfileControl />} />
