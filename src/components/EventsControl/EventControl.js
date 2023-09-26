@@ -29,6 +29,7 @@ export default function EventControl() {
         collectionSnapshot.forEach((doc) => {
           events.push({
             eventCreator: doc.data().eventCreator,
+            eventCreatorPhoto: doc.data().eventCreatorPhoto,
             eventName: doc.data().eventName,
             eventDateTime: doc.data().eventDateTime,
             eventDetail: doc.data().eventDetail,
@@ -113,17 +114,15 @@ export default function EventControl() {
       currentlyVisibleState = (
         <NewEventForm onNewEventCreation={handleAddingNewEventToList} />
       );
-      
+
       buttonText = "Return to Event List";
     } else {
-      currentlyVisibleState =
-        
-        (
-          <EventList
-            onEventSelection={handleChangingSelectedEvent}
-            eventList={mainEventList}
-          />
-        );
+      currentlyVisibleState = (
+        <EventList
+          onEventSelection={handleChangingSelectedEvent}
+          eventList={mainEventList}
+        />
+      );
       console.log(auth.currentUser.email);
       buttonText = "Add an Event";
     }
@@ -131,6 +130,10 @@ export default function EventControl() {
       <React.Fragment>
         {currentlyVisibleState}
         {error ? null : <button onClick={handleClick}>{buttonText}</button>}
+        <AddEventButton
+          to="/add-event"
+          onAddEventClick={handleAddingNewEventToList}
+        />
       </React.Fragment>
     );
   }

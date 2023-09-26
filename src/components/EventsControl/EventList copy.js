@@ -42,7 +42,7 @@ function EventList(props) {
       ))}
 
       <hr />
-      <h1>All Events</h1>
+      {/* <h1>All Events</h1> */}
       {allEvents.map((event) => (
         <Event
           whenEventClicked={props.onEventSelection}

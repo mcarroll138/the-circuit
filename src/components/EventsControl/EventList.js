@@ -8,15 +8,7 @@ import AddEventButton from "./AddEventButton";
 
 function EventList(props) {
   const [radio, setRadio] = useState("all");
-  // const dateTimeValue = props.eventDateTime.split("T");
-  // const dateParts = dateTimeValue[0].split("-");
-  // const timeParts = dateTimeValue[1].split(":");
 
-  // const formattedDate = `${dateParts[1]}/${dateParts[2]}/${dateParts[0]}`;
-  // const formattedTime = `${timeParts[0]}:${timeParts[0]}`;
-  // console.log(formattedTime);
-  // console.log(formattedDate);
-  console.log(radio);
   const hostingEvents = props.eventList.filter(
     (event) => auth.currentUser.email === event.eventCreator
   );
@@ -105,16 +97,16 @@ function EventList(props) {
       </div>
       {radio === "all" && (
         <>
-          <h2>All Events</h2>
+          {/* All Events  */}
           {allEvents.map((event) => (
             <Event
               whenEventClicked={props.onEventSelection}
               eventCreator={event.eventCreator}
+              eventCreatorPhoto={event.eventCreatorPhoto}
               eventName={event.eventName}
               eventDateTime={event.eventDateTime}
               eventDetail={event.eventDetail}
               eventLocation={event.eventLocation}
-              eventImage={event.eventImage}
               id={event.id}
               key={event.id}
             />
@@ -123,16 +115,16 @@ function EventList(props) {
       )}
       {radio === "hosting" && (
         <>
-          <h2>Hosting</h2>
+          {/* Hosted By Me */}
           {hostingEvents.map((event) => (
             <Event
               whenEventClicked={props.onEventSelection}
               eventCreator={event.eventCreator}
+              eventCreatorPhoto={event.eventCreatorPhoto}
               eventName={event.eventName}
               eventDateTime={event.eventDateTime}
               eventDetail={event.eventDetail}
               eventLocation={event.eventLocation}
-              eventImage={event.eventImage}
               id={event.id}
               key={event.id}
             />

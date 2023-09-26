@@ -1,7 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function AddEventButton({ to }) {
+export default function AddEventButton({ to, onAddEventClick }) {
+  const handleClick = () => {
+    if (onAddEventClick) {
+      onAddEventClick();
+    }
+  };
   return (
     <div
       style={{

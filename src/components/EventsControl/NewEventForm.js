@@ -31,6 +31,7 @@ export default function NewEventForm(props) {
 
     props.onNewEventCreation({
       eventCreator: event.target.eventCreator.value,
+      eventCreatorPhoto: event.target.eventCreatorPhoto.value,
       eventName: event.target.eventName.value,
       eventDateTime: event.target.eventDateTime.value,
       eventDetail: event.target.eventDetail.value,
@@ -49,6 +50,12 @@ export default function NewEventForm(props) {
           type="hidden"
           name="eventCreator"
           value={auth.currentUser.email}
+        />
+        <input
+          style={inputStyles}
+          type="hidden"
+          name="eventCreatorPhoto"
+          value={auth.currentUser.photoURL}
         />
         <input
           style={inputStyles}
@@ -76,7 +83,7 @@ export default function NewEventForm(props) {
         <input
           style={inputStyles}
           // required
-          type="url"
+          type="text"
           name="eventLocation"
           placeholder="Google Map Link"
         />

@@ -5,10 +5,7 @@ export default function Event(props) {
   const dateTimeValue = props.eventDateTime.split("T");
   const dateParts = dateTimeValue[0].split("-");
   const timeParts = dateTimeValue[1].split(":");
-
   const formattedDate = `${dateParts[1]}.${dateParts[2]}.${dateParts[0]}`;
-  // const formattedTime = `${timeParts[0]}:${timeParts[0]}`;
-
   const formattedTime = timeFormatAmPm();
 
   function timeFormatAmPm() {
@@ -23,38 +20,39 @@ export default function Event(props) {
     }
     return `${formmatedHour}:${timeParts[1]} ${amPm}`;
   }
-  console.log(formattedTime);
-  console.log(formattedDate);
+ 
   return (
     <>
-      <div onClick={() => props.whenEventClicked(props.id)}>
-        <h3>{props.eventCreator}</h3>
-        <h3>{props.eventName}</h3>
-        <h3>
-          {props.eventDateTime}
-          {formattedDate} {formattedTime}
-        </h3>
-        <h3>{props.eventDetail}</h3>
-        <h3>{props.eventLocation}</h3>
-        <h3>{props.eventImage}</h3>
-        <hr />
-      </div>
-
       <div
+        // onClick={() => props.whenEventClicked(props.id)}
         id="card"
+        // style={{
+        //   display: "flex",
+        //   flexDirection: "column",
+        //   alignItems: "center",
+        //   justifyContent: "center",
+        //   gap: 48,
+        //   width: 700,
+        //   height: 609,
+        //   padding: 48,
+        //   background: "black",
+        //   boxShadow: "6px 6px 0px white",
+        //   borderRadius: 24,
+        //   border: "2px white solid",
+        // }}
         style={{
-          width: "90%",
-          height: "100%",
-          padding: 40,
+          display: "inline-flex",
+          flexDirection: "column",
+          alignItems: "flex-start",
+          justifyContent: "flex-start",
+          gap: 48,
+          width: 700,
+          height: 609,
+          padding: 48,
           background: "black",
           boxShadow: "6px 6px 0px white",
           borderRadius: 24,
           border: "2px white solid",
-          flexDirection: "column",
-          justifyContent: "flex-start",
-          alignItems: "flex-start",
-          gap: 20,
-          display: "inline-flex",
         }}
       >
         <div
@@ -69,11 +67,11 @@ export default function Event(props) {
           <div
             style={{
               color: "white",
-              fontSize: 24,
               fontFamily: "Courier",
-              // fontWeight: "200",
+              fontSize: "24px",
+              fontWeight: "400",
+              lineHeight: "100%",
               textTransform: "uppercase",
-              lineHeight: 2,
               wordWrap: "break-word",
             }}
           >
@@ -147,13 +145,14 @@ export default function Event(props) {
         </div>
         <div
           style={{
-            width: 604,
-            color: "#B3FFB1",
-            fontSize: 40,
             fontFamily: "Courier",
+            fontSize: "40px",
+            fontStyle: "normal",
             fontWeight: "400",
-            lineHeight: 2,
-            wordWrap: "break-word",
+            lineHeight: "100%",
+            color: "#B3FFB1",
+            // width: 604,
+            // wordWrap: "break-word",
           }}
         >
           {props.eventName}
@@ -201,13 +200,7 @@ export default function Event(props) {
               wordWrap: "break-word",
             }}
           >
-            <a
-              href={props.eventLocation}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Location
-            </a>
+            {props.eventLocation}
           </div>
         </div>
         <div
@@ -231,10 +224,9 @@ export default function Event(props) {
               wordWrap: "break-word",
             }}
           >
-            Event description goes here. Lorem ipsum dolor sit amet, consectetur
-            adipiscing elit.
+            {props.eventDetail}
           </div>
-          <div
+          <div onClick={() => props.whenEventClicked(props.id)}
             style={{
               width: 604,
               color: "#E3A9FF",
@@ -245,8 +237,10 @@ export default function Event(props) {
               lineHeight: 2,
               wordWrap: "break-word",
             }}
+            onMouseOver={(e) => (e.target.style.color = "#B3FFB1")}
+            onMouseOut={(e) => (e.target.style.color = "#E3A9FF")}
           >
-            Read more
+            Read more  
           </div>
         </div>
         <div
@@ -279,14 +273,16 @@ export default function Event(props) {
             }}
           >
             <img
+              alt="Profile"
               style={{
                 width: 48,
                 height: 48,
                 background: "linear-gradient(0deg, #D9D9D9 0%, #D9D9D9 100%)",
                 borderRadius: 9999,
               }}
-              src="https://via.placeholder.com/48x48"
+              src={props.eventCreatorPhoto}
             />
+            
             <div
               style={{
                 justifyContent: "flex-start",
@@ -318,7 +314,7 @@ export default function Event(props) {
                   wordWrap: "break-word",
                 }}
               >
-                @xxxxxxxx
+                @{props.eventCreator}
               </div>
             </div>
           </div>
@@ -373,6 +369,8 @@ export default function Event(props) {
               lineHeight: 2,
               wordWrap: "break-word",
             }}
+            onMouseOver={(e) => (e.target.style.color = "#B3FFB1")}
+            onMouseOut={(e) => (e.target.style.color = "#E3A9FF")}
           >
             edit event
           </div>
