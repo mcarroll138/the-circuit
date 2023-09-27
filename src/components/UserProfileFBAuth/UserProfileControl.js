@@ -5,9 +5,19 @@ import ProfileEditForm from "./ProfileEditForm";
 
 export default function AuthProfile() {
   const ContainerStyles = {
+    display: "flex",
+    justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "pink",
+    color: "white",
+    fontSize: 20,
+    fontFamily: "courier",
+    fontWeight: "400",
+
+    alignItems: "center",
+    backgroundColor: "black",
     padding: "10px",
+    height: 720,
+    border: "1px solid #ccc",
   };
 
   const formStyles = {
@@ -15,7 +25,34 @@ export default function AuthProfile() {
     flexDirection: "column",
     alignItems: "center",
   };
+  const userInfoStyle = {
+    color: "white",
+    fontSize: 20,
+    fontFamily: "courier",
+    fontWeight: "400",
 
+    alignItems: "center",
+    backgroundColor: "black",
+    padding: "10px",
+    width: 360,
+    border: "1px solid #ccc",
+  };
+  const userImageStyle = {
+    display: "flex",
+    justifyContent: "center",
+
+    fontWeight: "400",
+    color: "white",
+    fontSize: 20,
+    fontFamily: "courier",
+    fontWeight: "400",
+
+    alignItems: "center",
+    backgroundColor: "black",
+    padding: "10px",
+    width: 360,
+    border: "1px solid #ccc",
+  };
   const inputStyles = {
     margin: "4px",
     padding: "4px",
@@ -36,9 +73,10 @@ export default function AuthProfile() {
   const imgStyle = {
     objectFit: "cover",
     borderRadius: "50%",
-    height: "100px",
-    width: "100px",
+    height: "259px",
+    width: "259px",
     borderRadius: "50%",
+
     // display: "inline",
     // margin: "0 auto",
     // height: "100%",
@@ -112,32 +150,47 @@ export default function AuthProfile() {
     );
   } else {
     return (
-      <div style={ContainerStyles}>
-        <h1>Profile Information</h1>
-        <h3>User Name: {auth.currentUser.displayName}</h3>
-        <h3>Email: {auth.currentUser.email}</h3>
-        <div style={imageCropper}>
-          <h3>
-            <img
-              style={imgStyle}
-              src={auth.currentUser.photoURL}
-              alt="Profile"
-            ></img>{" "}
-          </h3>
+      <>
+        <div style={ContainerStyles}>
+          <div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                fontFamily: "Courier",
+                fontSize: 40,
+                fontWeight: "400",
+              }}
+            >
+              My Profile
+            </div>
+            <div style={userImageStyle}>
+              <img
+                style={imgStyle}
+                src={auth.currentUser.photoURL}
+                alt="Profile"
+              ></img>{" "}
+            </div>
+            <div style={userInfoStyle}>
+              <h3>User Name: {auth.currentUser.displayName}</h3>
+              <button style={buttonStyles} onClick={() => setEditProfile(true)}>
+                Update Display Name
+              </button>
+            </div>
+            <div style={userInfoStyle}>
+              <h3>Email: {auth.currentUser.email}</h3>
+              <p>
+                <button
+                  style={buttonStyles}
+                  onClick={() => setEditProfileImage(true)}
+                >
+                  Update Profile Photo
+                </button>
+              </p>
+            </div>
+          </div>
         </div>
-        <p>
-          <button style={buttonStyles} onClick={() => setEditProfile(true)}>
-            Update Display Name
-          </button>
-
-          <button
-            style={buttonStyles}
-            onClick={() => setEditProfileImage(true)}
-          >
-            Update Profile Photo
-          </button>
-        </p>
-      </div>
+      </>
     );
   }
 }
