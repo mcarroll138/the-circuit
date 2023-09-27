@@ -7,17 +7,15 @@ export default function AuthProfile() {
   const ContainerStyles = {
     display: "flex",
     justifyContent: "center",
-    alignItems: "center",
     color: "white",
     fontSize: 20,
     fontFamily: "courier",
     fontWeight: "400",
-
-    alignItems: "center",
     backgroundColor: "black",
     padding: "10px",
-    height: 720,
+    // height: 720,
     border: "1px solid #ccc",
+    gap: 32,
   };
 
   const formStyles = {
@@ -26,11 +24,13 @@ export default function AuthProfile() {
     alignItems: "center",
   };
   const userInfoStyle = {
+    display: "flex",
+    flexDirection: "column",
+    borderRadius: "25px",
     color: "white",
     fontSize: 20,
     fontFamily: "courier",
     fontWeight: "400",
-
     alignItems: "center",
     backgroundColor: "black",
     padding: "10px",
@@ -38,19 +38,18 @@ export default function AuthProfile() {
     border: "1px solid #ccc",
   };
   const userImageStyle = {
-    // display: "flex",
-    justifyContent: "center",
-
+    display: "flex",
+    flexDirection: "column",
+    borderRadius: "25px",
     fontWeight: "400",
     color: "white",
     fontSize: 20,
     fontFamily: "courier",
     fontWeight: "400",
-
     alignItems: "center",
     backgroundColor: "black",
-    padding: "10px",
-    width: 360,
+    // paddingTop: "100px",
+    width: "100%",
     border: "1px solid #ccc",
   };
   const inputStyles = {
@@ -62,13 +61,23 @@ export default function AuthProfile() {
   };
 
   const buttonStyles = {
-    margin: "4px",
-    padding: "4px 36px",
-    backgroundColor: "#007bff",
-    color: "#fff",
-    border: "none",
-    borderRadius: "4px",
+    textAlign: "center",
+    color: "#E3A9FF",
+    fontSize: 24,
+    fontFamily: "Courier",
+    background: "black",
+    textTransform: "uppercase",
+    transition: "color 0.3s",
+    wordWrap: "break-word",
+    // border: "none",
     cursor: "pointer",
+    // margin: "4px",
+    // padding: "4px 36px",
+    // backgroundColor: "#007bff",
+    // color: "#fff",
+    // border: "none",
+    // borderRadius: "4px",
+    // cursor: "pointer",
   };
   const imgStyle = {
     objectFit: "cover",
@@ -76,6 +85,7 @@ export default function AuthProfile() {
     height: "259px",
     width: "259px",
     borderRadius: "50%",
+    paddingTop: "20px",
   };
 
   const auth = getAuth();
@@ -153,6 +163,7 @@ export default function AuthProfile() {
             >
               My Profile
             </div>
+
             <div style={userImageStyle}>
               <img
                 style={imgStyle}
@@ -160,22 +171,25 @@ export default function AuthProfile() {
                 alt="Profile"
               ></img>{" "}
               <br></br>
-              
               <button
                 style={buttonStyles}
                 onClick={() => setEditProfileImage(true)}
               >
-                Update Profile Photo
+                Update Photo
               </button>
             </div>
-            <div>
-            </div>
+            <div style={{
+  paddingTop: "32px",
+}}></div>
             <div style={userInfoStyle}>
               <h3>User Name: {auth.currentUser.displayName}</h3>
               <button style={buttonStyles} onClick={() => setEditProfile(true)}>
-                Update Display Name
+                Update Name
               </button>
             </div>
+            <div style={{
+  paddingTop: "32px",
+}}></div>
             <div style={userInfoStyle}>
               <h3>Email: {auth.currentUser.email}</h3>
               <p></p>
