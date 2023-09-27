@@ -21,12 +21,12 @@ function EventList(props) {
       <div
         style={{
           display: "flex",
-          alignItems: "center",
           justifyContent: "center",
-          position: "sticky",
-          top: "50",
+          // background: "black",
+          // position: "sticky",
+          // alignItems: "center",
+          // top: "50",
           // zIndex: "100",
-          background: "black",
         }}
       >
         <AddEventButton to="new-event" />
@@ -42,7 +42,8 @@ function EventList(props) {
           fontWeight: "400",
           textDecoration: "underline",
           lineHeight: 2,
-          wordWrap: "break-word",
+
+          // wordWrap: "break-word",
         }}
       >
         <form
@@ -52,6 +53,10 @@ function EventList(props) {
           }}
         >
           <input
+            style={{
+              
+              // marginLeft: 12,
+            }}
             type="radio"
             id="sortByAll"
             value="all"
@@ -64,6 +69,10 @@ function EventList(props) {
           <label for="sortByAll">All</label>
 
           <input
+             style={{
+              
+              marginLeft: 32,
+            }}
             type="radio"
             id="sortByHosting"
             value="hosting"
@@ -74,6 +83,10 @@ function EventList(props) {
           />
           <label for="sortByHosting">Hosted by Me</label>
           <input
+              style={{
+                
+                marginLeft: 32,
+              }}
             type="radio"
             id="sortByCloseFriends"
             value="closeFriends"
@@ -84,6 +97,10 @@ function EventList(props) {
           />
           <label for="sortByCloseFriends">Close Friends</label>
           <input
+              style={{
+                
+                marginLeft: 32,
+              }}
             type="radio"
             id="sortByAttending"
             value="attending"

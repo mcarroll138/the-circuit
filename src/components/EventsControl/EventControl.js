@@ -135,8 +135,13 @@ export default function EventControl() {
     }
     return (
       <React.Fragment>
-        {currentlyVisibleState}
-        {error ? null : <button onClick={handleClick}>{buttonText}</button>}
+        <div>
+        {error ? null : <button onClick={handleClick}>{buttonText}</button>}</div>
+        <div style={{
+          // background: "red",
+          alignItems: "center",
+          // paddingLeft: "25%",
+        }}>{currentlyVisibleState}</div>
       </React.Fragment>
     );
   }
