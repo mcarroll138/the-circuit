@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { db, auth } from "../../firebase";
 
-import { collection, addDoc, onSnapshot } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getDoc,
+  onSnapshot,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
 
 // import ProfilePhoto from "./ProfilePhoto";
 
@@ -45,6 +52,7 @@ export default function UserProfile() {
       userProfile: auth.currentUser.email,
       displayName: auth.currentUser.displayName,
       profilePhoto: auth.currentUser.photoURL,
+      friends: [],
     };
     try {
       const docRef = await addDoc(collection(db, "profiles"), newProfileData);
@@ -56,6 +64,22 @@ export default function UserProfile() {
       setLastName("");
     } catch (error) {
       console.error("Error adding document: ", error);
+    }
+  };
+
+  const handleAddingNewFriend = async (newFriendId) => {
+    const newFriend = profiles.find((profile) => profile.id === newFriendId);
+
+    if (newFriend) {
+      const userRef = doc(db, "profiles", auth.currentUser.uid);
+
+      const userDoc = await getDoc(userRef);
+      const currentFriends = userDoc.data().friends || [];
+
+      await updateDoc(userRef, {
+        friends: [...currentFriends, newFriendId],
+      });
+      console.log(newFriend);
     }
   };
 
@@ -127,7 +151,22 @@ export default function UserProfile() {
   } else {
     return (
       <React.Fragment>
-        <div>
+        <div
+          style={{
+            background: "black",
+            color: "white",
+            paddingTop: 32,
+            paddingBottom: 24,
+            textAlign: "center",
+            color: "white",
+            fontSize: 16,
+            fontFamily: "arial",
+            background: "black",
+            fontWeight: "400",
+            lineHeight: 2,
+            // height: "700px",
+          }}
+        >
           <form
             style={{
               paddingLeft: 16,
@@ -172,12 +211,13 @@ export default function UserProfile() {
 
           {radio === "allFriends" && (
             <>
-              <div style={{
-                background: "black",
-                color: "white",
-              }}>
-              </div>
-                <p>People you may know</p>
+              <div
+                style={{
+                  background: "black",
+                  color: "white",
+                }}
+              ></div>
+              <p>People you may know</p>
               <div
                 id="container"
                 style={{
@@ -186,6 +226,7 @@ export default function UserProfile() {
                   flexDirection: "row",
                   justifyContent: "flex-start",
                   background: "black",
+                  height: "100%",
                   // alignItems: "center",
                   // // height: "100vh",
                   // width: 200,
@@ -200,14 +241,10 @@ export default function UserProfile() {
                     key={profile.id}
                     style={{
                       flex: "1 0 auto",
-                      // background: "black",
                     }}
                   >
                     <div
                       style={{
-                        // display: "flex",
-                        // flexDirection: "row",
-                        // justifyContent: "center",
                         alignItems: "center",
                         background: "black",
                         width: 200,
@@ -224,7 +261,11 @@ export default function UserProfile() {
                       </div>
                       <div>{profile.displayName}</div>
                       <div>
-                        <button>Add Friend</button>
+                        <button
+                          onClick={() => handleAddingNewFriend(profile.id)}
+                        >
+                          Add Friend
+                        </button>
                       </div>
                     </div>
                   </div>
