@@ -107,7 +107,7 @@ export default function EventControl() {
           onEditEvent={handleEditingEventInList}
         />
       );
-      buttonText = "Return to Event List";
+      buttonText = "Return to Events";
     } else if (selectedEvent != null) {
       currentlyVisibleState = (
         <EventDetail
@@ -116,13 +116,13 @@ export default function EventControl() {
           onClickingEdit={handleEditClick}
         />
       );
-      buttonText = "Return to Event List";
+      buttonText = "Return to Events";
     } else if (formVisibleOnPage) {
       currentlyVisibleState = (
         <NewEventForm onNewEventCreation={handleAddingNewEventToList} />
       );
 
-      buttonText = "Return to Event List";
+      buttonText = "Return to Events";
     } else {
       currentlyVisibleState = (
         <EventList
@@ -131,17 +131,60 @@ export default function EventControl() {
         />
       );
       console.log(auth.currentUser.email);
-      buttonText = "Add an Event";
+      buttonText = "+ Add Event";
     }
     return (
       <React.Fragment>
-        <div>
-        {error ? null : <button onClick={handleClick}>{buttonText}</button>}</div>
         <div style={{
-          // background: "red",
-          // alignItems: "center",
-          // paddingLeft: "25%",
-        }}>{currentlyVisibleState}</div>
+            display: "flex",
+            justifyContent: "center",
+          alignItems: "center",
+          background: "black",
+            // height: "100vh",
+        }}>
+          <div
+            style={{
+              width: 180,
+              height: 20,
+              paddingLeft: 24,
+              paddingRight: 24,
+              paddingTop: 20,
+              paddingBottom: 20,
+              background: "black",
+              boxShadow: "6px 6px 6px #E3A9FF",
+              border: "2px #E3A9FF solid",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 10,
+            }}
+            // onMouseOver={(e) => (e.target.style.color = "#B3FFB1")}
+            // onMouseOut={(e) => (e.target.style.color = "#E3A9FF")}
+          >
+            {error ? null : (
+              <button
+                style={{
+                  textAlign: "center",
+                  color: "#E3A9FF",
+                  fontSize: 24,
+                  fontFamily: "Courier",
+                  background: "black",
+                  textTransform: "uppercase",
+                  transition: "color 0.3s",
+                  wordWrap: "break-word",
+                  border: "none",
+                  cursor: "pointer",
+                }}
+                onMouseOver={(e) => (e.target.style.color = "#B3FFB1")}
+                onMouseOut={(e) => (e.target.style.color = "#E3A9FF")}
+                onClick={handleClick}
+              >
+                {buttonText}
+              </button>
+            )}
+          </div>
+        </div>
+        <div style={{}}>{currentlyVisibleState}</div>
       </React.Fragment>
     );
   }

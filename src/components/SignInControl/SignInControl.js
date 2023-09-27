@@ -44,7 +44,7 @@ function SignInControl(props) {
     fontSize: "14px",
     fontStyle: "normal",
     backgroundColor: "black",
-    width: "460px",
+    width: "300px",
     gap: "2px",
     margin: "4px",
     padding: "14px",
@@ -58,12 +58,13 @@ function SignInControl(props) {
   };
   const buttonStyles = {
     margin: "4px",
-    padding: "4px 36px",
+    padding: "10px 36px",
     backgroundColor: "black",
     color: "white",
     border: "none",
     border: "1px solid white",
     cursor: "pointer",
+    fontSize: "16px",
   };
 
   const [signUpSuccess, setSignUpSuccess] = useState(null);
