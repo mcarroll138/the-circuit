@@ -34,7 +34,7 @@ export default function AuthProfile() {
     alignItems: "center",
     backgroundColor: "black",
     padding: "10px",
-    width: 360,
+    width: 580,
     border: "1px solid #ccc",
   };
   const userImageStyle = {
@@ -123,13 +123,19 @@ export default function AuthProfile() {
 
   if (editProfile) {
     return (
-      <ProfileEditForm
-        auth={auth}
-        newDisplayName={newDisplayName}
-        setNewDisplayName={setNewDisplayName}
-        editProfile={editProfile}
-        setEditProfile={setEditProfile}
-      />
+      <>
+        <div style={ContainerStyles}>
+          <div>
+            <ProfileEditForm
+              auth={auth}
+              newDisplayName={newDisplayName}
+              setNewDisplayName={setNewDisplayName}
+              editProfile={editProfile}
+              setEditProfile={setEditProfile}
+            />
+          </div>
+        </div>
+      </>
     );
   }
   if (editProfileImage === true) {
@@ -159,6 +165,8 @@ export default function AuthProfile() {
                 fontFamily: "Courier",
                 fontSize: 40,
                 fontWeight: "400",
+                paddingBottom: 36,
+                paddingTop: 36,
               }}
             >
               My Profile
@@ -170,29 +178,40 @@ export default function AuthProfile() {
                 src={auth.currentUser.photoURL}
                 alt="Profile"
               ></img>{" "}
-              <br></br>
+              <div
+                style={{
+                  marginTop: "10px",
+                }}
+              ></div>
               <button
                 style={buttonStyles}
                 onClick={() => setEditProfileImage(true)}
               >
                 Update Photo
-              </button>
+              </button> <div
+                style={{
+                  marginTop: "10px",
+                }}
+              ></div>
             </div>
-            <div style={{
-  paddingTop: "32px",
-}}></div>
+            <div
+              style={{
+                paddingTop: 36,
+              }}
+            ></div>
             <div style={userInfoStyle}>
-              <h3>User Name: {auth.currentUser.displayName}</h3>
+              <p>User Name: {auth.currentUser.displayName}</p>
               <button style={buttonStyles} onClick={() => setEditProfile(true)}>
                 Update Name
               </button>
             </div>
-            <div style={{
-  paddingTop: "32px",
-}}></div>
+            <div
+              style={{
+                paddingTop: 36,
+              }}
+            ></div>
             <div style={userInfoStyle}>
-              <h3>Email: {auth.currentUser.email}</h3>
-              <p></p>
+              <p>Email: {auth.currentUser.email}</p>
             </div>
           </div>
         </div>
