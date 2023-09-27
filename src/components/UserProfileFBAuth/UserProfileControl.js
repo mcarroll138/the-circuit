@@ -170,6 +170,14 @@ export default function AuthProfile() {
                 src={auth.currentUser.photoURL}
                 alt="Profile"
               ></img>{" "}
+              <p>
+                <button
+                  style={buttonStyles}
+                  onClick={() => setEditProfileImage(true)}
+                >
+                  Update Profile Photo
+                </button>
+              </p>
             </div>
             <div style={userInfoStyle}>
               <h3>User Name: {auth.currentUser.displayName}</h3>
@@ -179,14 +187,7 @@ export default function AuthProfile() {
             </div>
             <div style={userInfoStyle}>
               <h3>Email: {auth.currentUser.email}</h3>
-              <p>
-                <button
-                  style={buttonStyles}
-                  onClick={() => setEditProfileImage(true)}
-                >
-                  Update Profile Photo
-                </button>
-              </p>
+              <p></p>
             </div>
           </div>
         </div>

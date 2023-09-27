@@ -22,14 +22,15 @@ function EventList(props) {
           paddingTop: 32,
           paddingBottom: 24,
           textAlign: "center",
-          color: "#E3A9FF",
+          color: "white",
           fontSize: 16,
           fontFamily: "arial",
           background: "black",
           fontWeight: "400",
-          textDecoration: "underline",
           lineHeight: 2,
 
+          // textDecoration: "underline",
+          // color: "#E3A9FF",
           // wordWrap: "break-word",
         }}
       >
@@ -99,7 +100,8 @@ function EventList(props) {
       </div>
       {radio === "all" && (
         <>
-          <div id="eventListDiv"
+          <div
+            id="eventListDiv"
             style={{
               display: "flex",
               justifyContent: "center",

@@ -72,34 +72,7 @@ export default function Event(props) {
               display: "flex",
             }}
           >
-            {/* <div theyeahdiv
-              style={{
-                paddingLeft: 12,
-                paddingRight: 12,
-                // paddingTop: 10,
-                // paddingBottom: 10,
-                background: "#B3FFB1",
-                borderRadius: 100,
-                // justifyContent: "flex-end",
-                alignItems: "center",
-                gap: 10,
-                display: "flex",
-              }}
-            >
-              <div
-                style={{
-                  textAlign: "center",
-                  color: "black",
-                  fontSize: 20,
-                  fontFamily: "Arial",
-                  fontWeight: "400",
-                  lineHeight: 2,
-                  wordWrap: "break-word",
-                }}
-              >
-                Yeah!
-              </div>
-            </div> */}
+          
             <div
               style={{
                 textAlign: "center",
@@ -156,7 +129,7 @@ export default function Event(props) {
             </div>
           </div>
         </div>
-        <div
+        <div id="eventNameDiv"
           style={{
             fontFamily: "Courier",
             fontSize: "40px",
@@ -216,7 +189,7 @@ export default function Event(props) {
             {props.eventLocation}
           </div>
         </div>
-        <div
+        <div id="eventDetailDiv"
           style={{
             flexDirection: "column",
             justifyContent: "flex-start",
@@ -239,6 +212,7 @@ export default function Event(props) {
           >
             {props.eventDetail}
           </div>
+          </div>
           <div
             onClick={() => props.whenEventClicked(props.id)}
             style={{
@@ -256,7 +230,6 @@ export default function Event(props) {
             onMouseOut={(e) => (e.target.style.color = "#E3A9FF")}
           >
             Read more
-          </div>
         </div>
         <div
           style={{
@@ -333,6 +306,7 @@ export default function Event(props) {
               </div>
             </div>
           </div>
+          </div>
           <div
             style={{
               justifyContent: "flex-start",
@@ -352,10 +326,9 @@ export default function Event(props) {
               }}
             >
               Posted {props.formattedPostTime}X days ago
-            </div>
           </div>
         </div>
-        <div
+        {/* <div
           id="editEventDiv"
           style={{
             width: 100,
@@ -389,7 +362,7 @@ export default function Event(props) {
           >
             edit event
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );
