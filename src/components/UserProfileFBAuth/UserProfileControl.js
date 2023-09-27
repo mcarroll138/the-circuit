@@ -38,7 +38,7 @@ export default function AuthProfile() {
     border: "1px solid #ccc",
   };
   const userImageStyle = {
-    display: "flex",
+    // display: "flex",
     justifyContent: "center",
 
     fontWeight: "400",
@@ -76,19 +76,8 @@ export default function AuthProfile() {
     height: "259px",
     width: "259px",
     borderRadius: "50%",
-
-    // display: "inline",
-    // margin: "0 auto",
-    // height: "100%",
-    // width: "auto",
   };
 
-  const imageCropper = {
-    // width: "100px",
-    // height: "100px",
-    // position: "relative",
-    // overflow: "hidden",
-  };
   const auth = getAuth();
   const storage = getStorage();
   const [editProfile, setEditProfile] = useState(false);
@@ -170,14 +159,16 @@ export default function AuthProfile() {
                 src={auth.currentUser.photoURL}
                 alt="Profile"
               ></img>{" "}
-              <p>
-                <button
-                  style={buttonStyles}
-                  onClick={() => setEditProfileImage(true)}
-                >
-                  Update Profile Photo
-                </button>
-              </p>
+              <br></br>
+              
+              <button
+                style={buttonStyles}
+                onClick={() => setEditProfileImage(true)}
+              >
+                Update Profile Photo
+              </button>
+            </div>
+            <div>
             </div>
             <div style={userInfoStyle}>
               <h3>User Name: {auth.currentUser.displayName}</h3>

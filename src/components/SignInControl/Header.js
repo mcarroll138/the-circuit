@@ -49,7 +49,7 @@ function Header() {
             width: "auto",
           }}
           onMouseOver={(e) => (e.target.style.color = "#B3FFB1")}
-          onMouseOut={(e) => (e.target.style.color = "#E3A9FF")}
+          onMouseOut={(e) => (e.target.style.color = "white")}
         >
           <Link
             to="/"
@@ -62,7 +62,7 @@ function Header() {
                 color: "white",
                 fontSize: 24,
                 fontFamily: "Arial",
-                fontWeight: "700",
+                fontWeight: "400",
                 width: 90,
                 paddingLeft: "10",
                 // lineHeight: 24,
@@ -74,19 +74,16 @@ function Header() {
           </Link>
           <Link
             to="/profile"
-            style={
-              {
-                // textDecoration: "none",
-              }
-            }
+            style={{
+              textDecoration: "none",
+            }}
           >
             <div
               style={{
-                color: "#E3A9FF",
+                color: "white",
                 fontSize: 24,
                 fontFamily: "Arial",
                 fontWeight: "400",
-                textDecoration: "underline",
                 marginLeft: "20px",
                 width: 90,
                 paddingLeft: "10",
@@ -143,16 +140,15 @@ function Header() {
           <div
             onClick={doSignOut}
             style={{
-              color: "#E3A9FF",
+              color: "white",
               fontSize: "16px",
               fontFamily: "Arial",
               fontWeight: "400",
-              textDecoration: "underline",
+              textDecoration: "none",
               marginLeft: "50px",
               cursor: "pointer",
               whiteSpace: "nowrap",
               width: 80,
-              
             }}
           >
             Sign Out
@@ -181,7 +177,7 @@ function Header() {
             width: "auto",
           }}
         >
-          <Link
+          {/* <Link
             to="/"
             style={{
               textDecoration: "none",
@@ -220,7 +216,7 @@ function Header() {
             >
               Friends
             </div>
-          </Link>
+          </Link> */}
           <div
             style={{
               color: "white",
@@ -240,7 +236,7 @@ function Header() {
             />
           </div>
 
-          <div
+          {/* <div
             style={{
               marginLeft: "auto",
               display: "flex",
@@ -258,9 +254,9 @@ function Header() {
                 border: "2px #E3A9FF solid",
               }}
             />
-          </div>
+          </div> */}
 
-          <Link to="sign-in">
+          {/* <Link to="sign-in">
             <div
               style={{
                 color: "#E3A9FF",
@@ -275,7 +271,7 @@ function Header() {
             >
               Sign In
             </div>
-          </Link>
+          </Link> */}
         </div>
       </div>
     );

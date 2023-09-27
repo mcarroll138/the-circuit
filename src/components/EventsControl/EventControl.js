@@ -13,7 +13,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { formatDistanceToNow } from "date-fns";
-
+import { Link, useNavigate } from "react-router-dom";
 
 export default function EventControl() {
   const [formVisibleOnPage, setFormVisibleOnPage] = useState(false);
@@ -92,7 +92,10 @@ export default function EventControl() {
   if (auth.currentUser == null) {
     return (
       <>
-        <h1>Welcome to the Circuit, please log in to access your account.</h1>
+        <div>
+          Welcome to the Circuit, please<Link to="/sign-in">Log In</Link>
+          to access your account.
+        </div>
       </>
     );
   } else if (auth.currentUser != null) {
@@ -135,13 +138,15 @@ export default function EventControl() {
     }
     return (
       <React.Fragment>
-        <div style={{
+        <div
+          style={{
             display: "flex",
             justifyContent: "center",
-          alignItems: "center",
-          background: "black",
+            alignItems: "center",
+            background: "black",
             // height: "100vh",
-        }}>
+          }}
+        >
           <div
             style={{
               width: 180,
