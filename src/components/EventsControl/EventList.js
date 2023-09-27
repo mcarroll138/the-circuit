@@ -34,10 +34,12 @@ function EventList(props) {
 
       <div
         style={{
+          paddingTop: 32,
+          paddingBottom: 24,
           textAlign: "center",
           color: "#E3A9FF",
-          fontSize: 24,
-          fontFamily: "Courier",
+          fontSize: 16,
+          fontFamily: "arial",
           background: "black",
           fontWeight: "400",
           textDecoration: "underline",
@@ -53,10 +55,11 @@ function EventList(props) {
           }}
         >
           <input
-            style={{
-              
-              // marginLeft: 12,
-            }}
+            style={
+              {
+                // marginLeft: 12,
+              }
+            }
             type="radio"
             id="sortByAll"
             value="all"
@@ -69,8 +72,7 @@ function EventList(props) {
           <label for="sortByAll">All</label>
 
           <input
-             style={{
-              
+            style={{
               marginLeft: 32,
             }}
             type="radio"
@@ -83,10 +85,9 @@ function EventList(props) {
           />
           <label for="sortByHosting">Hosted by Me</label>
           <input
-              style={{
-                
-                marginLeft: 32,
-              }}
+            style={{
+              marginLeft: 32,
+            }}
             type="radio"
             id="sortByCloseFriends"
             value="closeFriends"
@@ -97,10 +98,9 @@ function EventList(props) {
           />
           <label for="sortByCloseFriends">Close Friends</label>
           <input
-              style={{
-                
-                marginLeft: 32,
-              }}
+            style={{
+              marginLeft: 32,
+            }}
             type="radio"
             id="sortByAttending"
             value="attending"
@@ -114,22 +114,32 @@ function EventList(props) {
       </div>
       {radio === "all" && (
         <>
-          {/* All Events  */}
-          {allEvents.map((event) => (
-            <Event
-              whenEventClicked={props.onEventSelection}
-              eventCreator={event.eventCreator}
-              eventCreatorPhoto={event.eventCreatorPhoto}
-              eventName={event.eventName}
-              eventDateTime={event.eventDateTime}
-              eventDetail={event.eventDetail}
-              eventLocation={event.eventLocation}
-              formattedPostTime={event.formattedPostTime}
-              daysAgo={event.daysAgo}
-              id={event.id}
-              key={event.id}
-            />
-          ))}
+          <div
+            style={{
+              background: "red",
+              // alignText: "center",
+              display: "flex",
+              flexDirection: "column",
+              
+            }}
+          >
+            {/* All Events  */}
+            {allEvents.map((event) => (
+              <Event
+                whenEventClicked={props.onEventSelection}
+                eventCreator={event.eventCreator}
+                eventCreatorPhoto={event.eventCreatorPhoto}
+                eventName={event.eventName}
+                eventDateTime={event.eventDateTime}
+                eventDetail={event.eventDetail}
+                eventLocation={event.eventLocation}
+                formattedPostTime={event.formattedPostTime}
+                daysAgo={event.daysAgo}
+                id={event.id}
+                key={event.id}
+              />
+            ))}
+          </div>
         </>
       )}
       {radio === "hosting" && (

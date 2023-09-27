@@ -45,10 +45,11 @@ export default function Event(props) {
           flexDirection: "column",
           alignItems: "flex-start",
           justifyContent: "flex-start",
-          gap: 48,
-          width: 700,
-          height: 609,
-          padding: 48,
+          gap: 20,
+          width: 500,
+          // height: 609,
+          padding: "5%",
+          // padding: 48,
           background: "black",
           boxShadow: "6px 6px 0px white",
           borderRadius: 24,
@@ -57,10 +58,10 @@ export default function Event(props) {
       >
         <div
           style={{
-            width: 604,
-            height: 2,
+            // width: 604,
+            height: 22,
             justifyContent: "space-between",
-            alignItems: "center",
+            // alignItems: "left",
             display: "inline-flex",
           }}
         >
@@ -73,19 +74,20 @@ export default function Event(props) {
               lineHeight: "100%",
               textTransform: "uppercase",
               wordWrap: "break-word",
+              paddingRight: "30%",
             }}
           >
             {formattedDate}
           </div>
           <div
             style={{
-              justifyContent: "center",
+              justifyContent: "right",
               alignItems: "center",
               gap: 16,
               display: "flex",
             }}
           >
-            <div
+            {/* <div theyeahdiv
               style={{
                 paddingLeft: 12,
                 paddingRight: 12,
@@ -112,12 +114,38 @@ export default function Event(props) {
               >
                 Yeah!
               </div>
+            </div> */}
+            <div
+              style={{
+                textAlign: "center",
+                color: "#E3A9FF",
+                fontSize: 20,
+                fontFamily: "Arial",
+                fontWeight: "400",
+                textDecoration: "underline",
+                lineHeight: 2,
+                wordWrap: "break-word",
+              }}
+            >
+              Yeah!
             </div>
             <div
               style={{
                 textAlign: "center",
                 color: "#E3A9FF",
-                fontSize: 16,
+                fontSize: 20,
+                fontFamily: "Arial",
+                fontWeight: "400",
+                textDecoration: "underline",
+                lineHeight: 2,
+                wordWrap: "break-word",
+              }}
+            ></div>
+            <div
+              style={{
+                textAlign: "center",
+                color: "#E3A9FF",
+                fontSize: 20,
                 fontFamily: "Arial",
                 fontWeight: "400",
                 textDecoration: "underline",
@@ -131,7 +159,7 @@ export default function Event(props) {
               style={{
                 textAlign: "center",
                 color: "#E3A9FF",
-                fontSize: 16,
+                fontSize: 20,
                 fontFamily: "Arial",
                 fontWeight: "400",
                 textDecoration: "underline",
@@ -208,19 +236,19 @@ export default function Event(props) {
             flexDirection: "column",
             justifyContent: "flex-start",
             alignItems: "flex-start",
-            gap: 16,
+            gap: 4,
             display: "flex",
           }}
         >
           <div
             style={{
-              width: 604,
-              height: 68,
+              // width: 604,
+              // height: 68,
               color: "white",
               fontSize: 24,
               fontFamily: "Arial",
               fontWeight: "400",
-              lineHeight: 2,
+              lineHeight: 1.2,
               wordWrap: "break-word",
             }}
           >
@@ -346,10 +374,10 @@ export default function Event(props) {
           id="editEventDiv"
           style={{
             width: 100,
-            paddingLeft: 24,
-            paddingRight: 24,
-            paddingTop: 20,
-            paddingBottom: 20,
+            paddingLeft: 18,
+            paddingRight: 18,
+            paddingTop: 10,
+            paddingBottom: 10,
             background: "black",
             boxShadow: "6px 6px 0px #E3A9FF",
             border: "2px #E3A9FF solid",
@@ -364,7 +392,7 @@ export default function Event(props) {
             style={{
               textAlign: "center",
               color: "#E3A9FF",
-              fontSize: 14,
+              fontSize: 16,
               fontFamily: "Courier",
               fontWeight: "40",
               textTransform: "uppercase",
