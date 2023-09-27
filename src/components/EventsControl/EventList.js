@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import { auth } from "../../firebase.js";
 import { Route, Link } from "react-router-dom";
 import { useState } from "react";
-import AddEventButton from "./AddEventButton";
 
 function EventList(props) {
   const [radio, setRadio] = useState("all");
@@ -18,20 +17,6 @@ function EventList(props) {
   );
   return (
     <React.Fragment>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          // background: "black",
-          // position: "sticky",
-          // alignItems: "center",
-          // top: "50",
-          // zIndex: "100",
-        }}
-      >
-        <AddEventButton to="new-event" />
-      </div>
-
       <div
         style={{
           paddingTop: 32,
@@ -114,13 +99,16 @@ function EventList(props) {
       </div>
       {radio === "all" && (
         <>
-          <div
+          <div id="eventListDiv"
             style={{
-              background: "red",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              // height: "100vh",
+              background: "black",
               // alignText: "center",
               display: "flex",
               flexDirection: "column",
-              
             }}
           >
             {/* All Events  */}

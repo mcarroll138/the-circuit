@@ -24,22 +24,7 @@ export default function Event(props) {
   return (
     <>
       <div
-        // onClick={() => props.whenEventClicked(props.id)}
-        id="card"
-        // style={{
-        //   display: "flex",
-        //   flexDirection: "column",
-        //   alignItems: "center",
-        //   justifyContent: "center",
-        //   gap: 48,
-        //   width: 700,
-        //   height: 609,
-        //   padding: 48,
-        //   background: "black",
-        //   boxShadow: "6px 6px 0px white",
-        //   borderRadius: 24,
-        //   border: "2px white solid",
-        // }}
+        id="eventCard"
         style={{
           display: "inline-flex",
           flexDirection: "column",
@@ -47,25 +32,25 @@ export default function Event(props) {
           justifyContent: "flex-start",
           gap: 20,
           width: 500,
-          // height: 609,
           padding: "5%",
-          // padding: 48,
           background: "black",
           boxShadow: "6px 6px 0px white",
           borderRadius: 24,
           border: "2px white solid",
+          // padding: 48,
+          // height: 609,
         }}
       >
-        <div
+        <div id="dateAndResponseDiv"
           style={{
-            // width: 604,
             height: 22,
             justifyContent: "space-between",
-            // alignItems: "left",
             display: "inline-flex",
+            // width: 604,
+            // alignItems: "left",
           }}
         >
-          <div
+          <div id="dateDisplay"
             style={{
               color: "white",
               fontFamily: "Courier",
