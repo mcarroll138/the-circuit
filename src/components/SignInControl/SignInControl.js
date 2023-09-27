@@ -23,6 +23,7 @@ function SignInControl(props) {
     alignItems: "center",
     backgroundColor: "black",
     padding: "10px",
+    height: 720,
   };
 
   const formStyles = {

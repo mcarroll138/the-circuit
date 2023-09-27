@@ -48,6 +48,8 @@ function Header() {
             height: "80px",
             width: "auto",
           }}
+          onMouseOver={(e) => (e.target.style.color = "#B3FFB1")}
+          onMouseOut={(e) => (e.target.style.color = "#E3A9FF")}
         >
           <Link
             to="/"
@@ -61,8 +63,10 @@ function Header() {
                 fontSize: 24,
                 fontFamily: "Arial",
                 fontWeight: "700",
+                width: 90,
+                paddingLeft: "10",
                 // lineHeight: 24,
-                wordWrap: "break-word",
+                // wordWrap: "break-word",
               }}
             >
               Events
@@ -70,9 +74,11 @@ function Header() {
           </Link>
           <Link
             to="/profile"
-            style={{
-              textDecoration: "none",
-            }}
+            style={
+              {
+                // textDecoration: "none",
+              }
+            }
           >
             <div
               style={{
@@ -82,6 +88,8 @@ function Header() {
                 fontWeight: "400",
                 textDecoration: "underline",
                 marginLeft: "20px",
+                width: 90,
+                paddingLeft: "10",
                 // lineHeight: 24,
                 wordWrap: "break-word",
               }}
@@ -92,7 +100,7 @@ function Header() {
           <div
             style={{
               color: "white",
-              fontSize: 40,
+              fontSize: 20,
               fontFamily: "Courier",
               fontWeight: "400",
               display: "flex",
@@ -104,7 +112,7 @@ function Header() {
             <img
               src={vectorImage}
               alt="The Circuit"
-              style={{ maxWidth: "100%", maxHeight: "100%" }}
+              // style={{ maxWidth: "100%", maxHeight: "100%" }}
             />
           </div>
           <Link to="/user-profile">
@@ -120,6 +128,8 @@ function Header() {
                 style={{
                   width: 60,
                   height: 60,
+                  // width: 80,
+                  paddingRight: 1,
                   background: "linear-gradient(0deg, black 0%, black 100%)",
                   boxShadow: "6px 6px 0px #E3A9FF",
                   borderRadius: "50%",
@@ -138,9 +148,11 @@ function Header() {
               fontFamily: "Arial",
               fontWeight: "400",
               textDecoration: "underline",
-              marginLeft: "10px",
+              marginLeft: "50px",
               cursor: "pointer",
               whiteSpace: "nowrap",
+              width: 80,
+              
             }}
           >
             Sign Out
