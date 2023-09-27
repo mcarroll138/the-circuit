@@ -132,6 +132,8 @@ export default function UserProfile() {
             style={{
               paddingLeft: 16,
               paddingRight: 16,
+              background: "black",
+              color: "white",
             }}
           >
             <input
@@ -170,16 +172,64 @@ export default function UserProfile() {
 
           {radio === "allFriends" && (
             <>
-              <h3>People you may know</h3>
-              {allProfiles.map((profile) => (
-                <ul key={profile.id}>
-                  <hr />
-                  <p>
-                    <img style={imgStyle} src={profile.profilePhoto}></img>
-                    {profile.displayName} <button>Add Friend</button>
-                  </p>
-                </ul>
-              ))}
+              <div style={{
+                background: "black",
+                color: "white",
+              }}>
+              </div>
+                <p>People you may know</p>
+              <div
+                id="container"
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  flexDirection: "row",
+                  justifyContent: "flex-start",
+                  background: "black",
+                  // alignItems: "center",
+                  // // height: "100vh",
+                  // width: 200,
+                  // display: "flex",
+                  // flexDirection: "column",
+                  // color: "white",
+                  // borderRadius: "25px",
+                }}
+              >
+                {allProfiles.map((profile) => (
+                  <div
+                    key={profile.id}
+                    style={{
+                      flex: "1 0 auto",
+                      // background: "black",
+                    }}
+                  >
+                    <div
+                      style={{
+                        // display: "flex",
+                        // flexDirection: "row",
+                        // justifyContent: "center",
+                        alignItems: "center",
+                        background: "black",
+                        width: 200,
+                        padding: 20,
+                        display: "flex",
+                        flexDirection: "column",
+                        color: "white",
+                        borderRadius: "25px",
+                        border: "6px solid #ccc",
+                      }}
+                    >
+                      <div>
+                        <img style={imgStyle} src={profile.profilePhoto}></img>
+                      </div>
+                      <div>{profile.displayName}</div>
+                      <div>
+                        <button>Add Friend</button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </>
           )}
           {radio === "closeFriends" && (
