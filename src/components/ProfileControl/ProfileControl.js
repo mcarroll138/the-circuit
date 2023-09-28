@@ -20,7 +20,8 @@ export default function UserProfile() {
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [imageUrls, setImageUrls] = useState([]);
-  console.log(radio);
+  const [friendUid, setFriendUid] = useState("");
+  console.log(friendUid);
 
   useEffect(() => {
     const unSubscribe = onSnapshot(
@@ -67,20 +68,9 @@ export default function UserProfile() {
     }
   };
 
-  const handleAddingNewFriend = async (newFriendId) => {
-    const newFriend = profiles.find((profile) => profile.id === newFriendId);
-
-    if (newFriend) {
-      const userRef = doc(db, "profiles", auth.currentUser.uid);
-
-      const userDoc = await getDoc(userRef);
-      const currentFriends = userDoc.data().friends || [];
-
-      await updateDoc(userRef, {
-        friends: [...currentFriends, newFriendId],
-      });
-      console.log(newFriend);
-    }
+  const handleAddingNewFriend = async (newFriendUid) => {
+    const friendRef = doc(db, "profiles", newFriendUid.uid);
+    await updateDoc(friendRef, newFriendUid);
   };
 
   const ContainerStyles = {
@@ -238,7 +228,7 @@ export default function UserProfile() {
               >
                 {allProfiles.map((profile) => (
                   <div
-                    key={profile.id}
+                    key={profile.uid}
                     style={{
                       flex: "1 0 auto",
                     }}
@@ -262,7 +252,8 @@ export default function UserProfile() {
                       <div>{profile.displayName}</div>
                       <div>
                         <button
-                          onClick={() => handleAddingNewFriend(profile.id)}
+                          // onClick={() => setFriendUid(profile.uid)}
+                          onClick={() => handleAddingNewFriend(profile.uid)}
                         >
                           Add Friend
                         </button>
