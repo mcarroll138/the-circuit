@@ -110,13 +110,20 @@ export default function UserProfile() {
   };
 
   const buttonStyles = {
-    margin: "4px",
-    padding: "4px 36px",
-    backgroundColor: "#007bff",
-    color: "#fff",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
+    width: 180,
+    height: 20,
+    paddingLeft: 24,
+    paddingRight: 24,
+    paddingTop: 20,
+    paddingBottom: 20,
+    background: "black",
+    boxShadow: "6px 6px 6px #E3A9FF",
+    border: "2px #E3A9FF solid",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 10,
+    color: "white",
   };
   const imgStyle = {
     objectFit: "cover",
@@ -274,21 +281,7 @@ export default function UserProfile() {
               </div>
             </>
           )}
-          {/* {radio === "closeFriends" && (
-            <>
-              <h3>Friends</h3>
-              {peopleYouKnowProfiles.map((profile) => (
-                <ul key={profile.id}>
-                  <hr />
-                  <p>
-                    User ID:{profile.displayName}{" "}
-                    <img style={imgStyle} src={profile.profilePhoto}></img>{" "}
-                    {profile.friendUid}
-                  </p>
-                </ul>
-              ))}
-            </>
-          )} */}
+
           {radio === "mightKnow" && (
             <>
               <div
@@ -334,7 +327,7 @@ export default function UserProfile() {
                       </div>
                       <div>{profile.displayName}</div>
                       <div>
-                        <button
+                        <button style={buttonStyles}
                           // onClick={() => setFriendUid(profile.uid)}
                           onClick={() => {
                             handleAddingNewFriend(profile.uid);

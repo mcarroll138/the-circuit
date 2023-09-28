@@ -61,23 +61,20 @@ export default function AuthProfile() {
   };
 
   const buttonStyles = {
-    textAlign: "center",
-    color: "#E3A9FF",
-    fontSize: 24,
-    fontFamily: "Courier",
+    width: 180,
+    height: 20,
+    paddingLeft: 24,
+    paddingRight: 24,
+    paddingTop: 20,
+    paddingBottom: 20,
     background: "black",
-    textTransform: "uppercase",
-    transition: "color 0.3s",
-    wordWrap: "break-word",
-    // border: "none",
-    cursor: "pointer",
-    // margin: "4px",
-    // padding: "4px 36px",
-    // backgroundColor: "#007bff",
-    // color: "#fff",
-    // border: "none",
-    // borderRadius: "4px",
-    // cursor: "pointer",
+    boxShadow: "6px 6px 6px #E3A9FF",
+    border: "2px #E3A9FF solid",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 10,
+    color: "white",
   };
   const imgStyle = {
     objectFit: "cover",
@@ -188,7 +185,8 @@ export default function AuthProfile() {
                 onClick={() => setEditProfileImage(true)}
               >
                 Update Photo
-              </button> <div
+              </button>{" "}
+              <div
                 style={{
                   marginTop: "10px",
                 }}
