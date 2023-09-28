@@ -8,7 +8,7 @@ import {
   signOut,
 } from "firebase/auth";
 import PropTypes from "prop-types";
-import SignUpForm from "./SignIn(Not Used)/SignUpForm.js";
+
 import Header from "./Header.js";
 
 function SignInControl(props) {
@@ -19,11 +19,11 @@ function SignInControl(props) {
     fontSize: 20,
     fontFamily: "courier",
     fontWeight: "400",
-    // lineHeight: 20,
     alignItems: "center",
     backgroundColor: "black",
     padding: "10px",
     height: 720,
+    // lineHeight: 20,
   };
 
   const formStyles = {

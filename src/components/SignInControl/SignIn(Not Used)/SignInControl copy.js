@@ -14,35 +14,6 @@ import Header from "./Header.js";
 function SignInControl(props) {
   const navigate = useNavigate();
 
-  // const headerContainerStyles = {
-  //   alignItems: "center",
-  //   backgroundColor: "pink",
-  //   padding: "10px",
-  // };
-
-  // const formStyles = {
-  //   display: "flex",
-  //   flexDirection: "column",
-  //   alignItems: "center",
-  // };
-
-  // const inputStyles = {
-  //   margin: "4px",
-  //   padding: "4px",
-  //   border: "1px solid #ccc",
-  //   borderRadius: "4px",
-  //   fontSize: "12px",
-  // };
-
-  // const buttonStyles = {
-  //   margin: "4px",
-  //   padding: "4px 36px",
-  //   backgroundColor: "#007bff",
-  //   color: "#fff",
-  //   border: "none",
-  //   borderRadius: "4px",
-  //   cursor: "pointer",
-  // };
 
   const [signUpSuccess, setSignUpSuccess] = useState(null);
   const [signInSuccess, setSignInSuccess] = useState(null);
@@ -156,19 +127,7 @@ function SignInControl(props) {
                 </span>
               </p>
             </form>
-            {/* <div style={{width: 1440, height: 120, left: 0, top: 0, position: 'absolute'}}>
-        <div style={{width: 1440, height: 120, left: 0, top: 0, position: 'absolute', background: 'black'}} />
-        <div style={{width: 304.94, height: 40, left: 568, top: 40, position: 'absolute'}}>
-        <div style={{width: 26.64, height: 39.76, left: 0, top: 0.12, position: 'absolute', background: 'white'}}></div>
-        <div style={{width: 23.05, height: 39.76, left: 29.62, top: 0.12, position: 'absolute', background: 'white'}}></div>
-        <div style={{width: 23.25, height: 39.75, left: 57.46, top: 0.12, position: 'absolute', background: 'white'}}></div>
-        <div style={{width: 25.54, height: 40, left: 111.72, top: 0, position: 'absolute', background: 'white'}}></div>
-        <div style={{width: 25.84, height: 39.75, left: 139.55, top: 0.12, position: 'absolute', background: 'white'}}></div>
-        <div style={{width: 23.97, height: 39.76, left: 169.58, top: 0.12, position: 'absolute', background: 'white'}}></div>
-        <div style={{width: 25.54, height: 40, left: 195.21, top: 0, position: 'absolute', background: 'white'}}></div>
-        <div style={{width: 25.29, height: 39.76, left: 223.32, top: 0.12, position: 'absolute', background: 'white'}}></div>
-        <div style={{width: 25.84, height: 39.75, left: 250.88, top: 0.12, position: 'absolute', background: 'white'}}></div>
-        <div style={{width: 26.63, height: 39.76, left: 278.32, top: 0.12, position: 'absolute', background: 'white'}}></div> */}
+           
           </div>
         </>
       );

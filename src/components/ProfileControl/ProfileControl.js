@@ -104,9 +104,10 @@ export default function UserProfile() {
   const inputStyles = {
     margin: "4px",
     padding: "4px",
-    border: "1px solid #ccc",
+    border: "12px solid #ccc",
     borderRadius: "4px",
     fontSize: "12px",
+    width: 380,
   };
 
   const buttonStyles = {
@@ -157,27 +158,16 @@ export default function UserProfile() {
 
   if (filteredProfiles.length === 0) {
     return (
-      <div>
-        {/* <ProfilePhoto /> */}
-        <h1>Finish Registration before contiunine</h1>
-        <form onSubmit={handleFormSubmit}>
-          <input type="text" name="userEmail" value={auth.currentUser.email} />
-          <input type="text" name="uid" value={auth.currentUser.uid} />
-          <input
-            type="text"
-            name="userPhoto"
-            value={auth.currentUser.photoURL}
-          />
-          <input type="text" name="displayName" placeholder="Display Name" />
-          <button type="submit">Complete Registration</button>
-        </form>
-      </div>
-    );
-  } else {
-    return (
-      <React.Fragment>
+      <div
+        style={{
+          background: "black",
+          height: "100vh",
+        }}
+      >
         <div
           style={{
+            borderRadius: "25px",
+            border: "2px solid #ccc",
             background: "black",
             color: "white",
             padding: 32,
@@ -190,12 +180,66 @@ export default function UserProfile() {
             lineHeight: 2,
           }}
         >
+          {/* <ProfilePhoto /> */}
+          <h1>Please Enter a Display Name</h1>
+          <form style={formStyles} onSubmit={handleFormSubmit}>
+            <input
+              style={inputStyles}
+              type="hidden"
+              name="userEmail"
+              value={auth.currentUser.email}
+            />
+            <input
+              style={inputStyles}
+              type="hidden"
+              name="uid"
+              value={auth.currentUser.uid}
+            />
+            <input
+              style={inputStyles}
+              type="hidden"
+              name="userPhoto"
+              value={auth.currentUser.photoURL}
+            />
+            <input
+              style={inputStyles}
+              type="text"
+              name="displayName"
+              placeholder="Display Name"
+            />
+            <button style={buttonStyles} type="submit">
+              Complete Registration
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <React.Fragment>
+        <div
+          style={{
+            background: "black",
+            color: "white",
+            // paddingLeft: 32,
+            // paddingRight: 32,
+            textAlign: "center",
+            color: "white",
+            fontSize: 16,
+            fontFamily: "arial",
+            background: "black",
+            fontWeight: "400",
+            lineHeight: 2,
+            height: "100vh",
+          }}
+        >
           <form
             style={{
               paddingLeft: 16,
               paddingRight: 16,
               background: "black",
               color: "white",
+              
             }}
           >
             <input
@@ -327,7 +371,8 @@ export default function UserProfile() {
                       </div>
                       <div>{profile.displayName}</div>
                       <div>
-                        <button style={buttonStyles}
+                        <button
+                          style={buttonStyles}
                           // onClick={() => setFriendUid(profile.uid)}
                           onClick={() => {
                             handleAddingNewFriend(profile.uid);
