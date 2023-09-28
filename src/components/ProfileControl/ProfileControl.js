@@ -42,6 +42,8 @@ export default function UserProfile() {
         });
         setProfiles(profileList);
         setLoading(false);
+        console.log(auth.currentUser.uid);
+        console.log("User Data:", collectionSnapshot.data());
       }
     );
     return () => unSubscribe;
@@ -69,9 +71,22 @@ export default function UserProfile() {
     }
   };
 
- 
+  const userDocRef = doc(db, "profiles", auth.currentUser.uid);
 
-  
+  const friendsCollectionRef = collection(userDocRef, "friends");
+  console.log(friendsCollectionRef);
+  const handleAddingNewFriend = async (friendUid) => {
+    await addDoc(friendsCollectionRef, {
+      friendUid,
+    });
+  };
+
+  // const uid = auth.currentUser.uid;
+  // const handleAddingNewFriend = async (friendUid) => {
+  //   const friendRef = doc(db, "profiles", uid);
+  //   await updateDoc(friendRef, { friends: arrayUnion(friendUid) });
+  // };
+
   // const friendUid = "friendUid";
   // const handleAddingNewFriend = async (newFriendId) => {
   //   const userDocRef = doc(db, "profiles", userUid);
@@ -138,6 +153,20 @@ export default function UserProfile() {
   const allProfiles = profiles.filter(
     (profile) => auth.currentUser.uid !== profile.uid
   );
+
+
+  const firestoreProfile = auth.currentUser.uid;
+
+
+const profile = [
+  { uid: "uid1", displayName: "User 1" },
+  { uid: "uid2", displayName: "User 2" },
+  { uid: "uid3", displayName: "User 3" },
+  { uid: "uid4", displayName: "User 4" },
+];
+
+const friendsProfiles = profiles.filter((profile) => !userProfile.friends.includes(profile.uid));
+
 
   const filteredProfilePhoto = imageUrls.filter((imageUrl) =>
     imageUrl.includes(auth.currentUser.email)
@@ -306,7 +335,7 @@ export default function UserProfile() {
           {radio === "mightKnow" && (
             <>
               <h3>People you may know</h3>
-              {allProfiles.map((profile) => (
+              {friendsProfiles.map((profile) => (
                 <ul key={profile.id}>
                   <hr />
                   <p>
