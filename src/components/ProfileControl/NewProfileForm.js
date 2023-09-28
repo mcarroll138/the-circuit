@@ -32,16 +32,15 @@ function NewProfileForm(props) {
           name="userProfile"
           value={auth.currentUser.email}
         />
-        <input required type="text" name="firstName" placeholder="First Name" />
+        <input
+          required
+          type="text"
+          name="firstName"
+          placeholder="First Name"
+          defaultValue={""}
+        />
         <input required type="text" name="lastName" placeholder="Last Name" />
-        {/* <label>
-          Birthday
-          <input required type="date" name="birthdate" label="Birth Date" />
-        </label> */}
-        {/* <label>
-          Private Profile
-          <input type="checkbox" name="privateProfile" value="true" />
-        </label> */}
+
         <button type="submit">Update Profile</button>
       </form>
     </>

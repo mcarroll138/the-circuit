@@ -21,8 +21,7 @@ export default function UserProfile() {
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [imageUrls, setImageUrls] = useState([]);
-  const [friendUid, setFriendUid] = useState("");
-  console.log(friendUid);
+  const [friendListUid, setFriendListUid] = useState([]);
 
   useEffect(() => {
     const unSubscribe = onSnapshot(
@@ -31,23 +30,34 @@ export default function UserProfile() {
         const profileList = [];
         collectionSnapshot.forEach((doc) => {
           profileList.push({
-            // userProfile: doc.data().userProfile,
-            // firstName: doc.data().firstName,
-            // lastName: doc.data().lastName,
-            // birthdate: doc.data().birthdate,
-            // privateProfile: doc.data().privateProfile,
             id: doc.id,
             ...doc.data(),
           });
         });
         setProfiles(profileList);
         setLoading(false);
-        console.log(auth.currentUser.uid);
-        console.log("User Data:", collectionSnapshot.data());
       }
     );
-    return () => unSubscribe;
+    const friendListUnSubscribe = onSnapshot(
+      collection(db, "profiles", auth.currentUser.uid, "friends"),
+      (collectionSnapshot) => {
+        const friendList = [];
+        collectionSnapshot.forEach((doc) => {
+          friendList.push({
+            id: doc.id,
+            ...doc.data(),
+          });
+        });
+        setFriendListUid(friendList);
+        setLoading(false);
+      }
+    );
+    return () => {
+      unSubscribe();
+      friendListUnSubscribe();
+    };
   }, []);
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
@@ -66,49 +76,18 @@ export default function UserProfile() {
       setUserProfile("");
       setFirstName("");
       setLastName("");
-    } catch (error) {
-      console.error("Error adding document: ", error);
-    }
+    } catch (error) {}
   };
 
   const userDocRef = doc(db, "profiles", auth.currentUser.uid);
 
   const friendsCollectionRef = collection(userDocRef, "friends");
-  console.log(friendsCollectionRef);
+
   const handleAddingNewFriend = async (friendUid) => {
     await addDoc(friendsCollectionRef, {
       friendUid,
     });
   };
-
-  // const uid = auth.currentUser.uid;
-  // const handleAddingNewFriend = async (friendUid) => {
-  //   const friendRef = doc(db, "profiles", uid);
-  //   await updateDoc(friendRef, { friends: arrayUnion(friendUid) });
-  // };
-
-  // const friendUid = "friendUid";
-  // const handleAddingNewFriend = async (newFriendId) => {
-  //   const userDocRef = doc(db, "profiles", userUid);
-
-  //   try {
-  //     await updateDoc(userDocRef, {
-  //       friends: arrayUnion("BBS6BLewUFZYQyrH0Co56JwZs5O2"),
-  //     });
-  //     console.log("Friend added successfully!");
-  //   } catch (error) {
-  //     console.error("Error adding friend: ", error);
-  //   }
-  // };
-  // const handleAddingNewFriend = async (newFriendId) => {
-  //   const friendRef = doc(db, "profiles", `uid${profilesUid}`);
-  //   await updateDoc(friendRef, { [`profiles.friends.${newFriendId}`]: true });
-  // };
-  // const handleAddingNewFriend = async (newFriendUid) => {
-  //   const friendRef = doc(db, "profiles", "friends");
-  //   setFriendUid(newFriendUid);
-  //   await updateDoc(friendRef, { friends: arrayUnion(newFriendUid) });
-  // };
 
   const ContainerStyles = {
     alignItems: "center",
@@ -153,24 +132,22 @@ export default function UserProfile() {
   const allProfiles = profiles.filter(
     (profile) => auth.currentUser.uid !== profile.uid
   );
+  const peopleYouMayKnowProfiles = profiles.filter((profile) => {
+    const isNotFriend = !friendListUid.some((friend) => {
+      const isMatch = friend.friendUid === profile.uid;
+      return isMatch;
+    });
+    return isNotFriend;
+  });
 
+  const peopleYouKnowProfiles = profiles.filter((profile) => {
+    const isFriend = friendListUid.some((friend) => {
+      const isNotMatch = friend.friendUid === profile.uid;
+      return isNotMatch;
+    });
+    return isFriend;
+  });
 
-  const firestoreProfile = auth.currentUser.uid;
-
-
-const profile = [
-  { uid: "uid1", displayName: "User 1" },
-  { uid: "uid2", displayName: "User 2" },
-  { uid: "uid3", displayName: "User 3" },
-  { uid: "uid4", displayName: "User 4" },
-];
-
-const friendsProfiles = profiles.filter((profile) => !userProfile.friends.includes(profile.uid));
-
-
-  const filteredProfilePhoto = imageUrls.filter((imageUrl) =>
-    imageUrl.includes(auth.currentUser.email)
-  );
   if (filteredProfiles.length === 0) {
     return (
       <div>
@@ -196,8 +173,7 @@ const friendsProfiles = profiles.filter((profile) => !userProfile.friends.includ
           style={{
             background: "black",
             color: "white",
-            paddingTop: 32,
-            paddingBottom: 24,
+            padding: 32,
             textAlign: "center",
             color: "white",
             fontSize: 16,
@@ -205,7 +181,6 @@ const friendsProfiles = profiles.filter((profile) => !userProfile.friends.includ
             background: "black",
             fontWeight: "400",
             lineHeight: 2,
-            // height: "700px",
           }}
         >
           <form
@@ -229,16 +204,6 @@ const friendsProfiles = profiles.filter((profile) => !userProfile.friends.includ
 
             <input
               type="radio"
-              id="sortByCloseFriends"
-              value="closeFriends"
-              checked={radio === "closeFriends"}
-              onChange={(e) => {
-                setRadio(e.target.value);
-              }}
-            />
-            <label for="sortByCloseFriends">Close Friends</label>
-            <input
-              type="radio"
               id="sortByMightKnow"
               value="mightKnow"
               checked={radio === "mightKnow"}
@@ -258,7 +223,7 @@ const friendsProfiles = profiles.filter((profile) => !userProfile.friends.includ
                   color: "white",
                 }}
               ></div>
-              <p>People you may know</p>
+              <p>Friends</p>
               <div
                 id="container"
                 style={{
@@ -268,16 +233,83 @@ const friendsProfiles = profiles.filter((profile) => !userProfile.friends.includ
                   justifyContent: "flex-start",
                   background: "black",
                   height: "100%",
-                  // alignItems: "center",
-                  // // height: "100vh",
-                  // width: 200,
-                  // display: "flex",
-                  // flexDirection: "column",
-                  // color: "white",
-                  // borderRadius: "25px",
                 }}
               >
-                {allProfiles.map((profile) => (
+                {peopleYouKnowProfiles.map((profile) => (
+                  <div
+                    key={profile.uid}
+                    style={{
+                      flex: "1 0 auto",
+                    }}
+                  >
+                    <div
+                      style={{
+                        alignItems: "center",
+                        background: "black",
+                        width: 200,
+                        padding: 20,
+                        display: "flex",
+                        flexDirection: "column",
+                        color: "white",
+                        borderRadius: "25px",
+                        border: "6px solid #ccc",
+                      }}
+                    >
+                      <div>
+                        <img style={imgStyle} src={profile.profilePhoto}></img>
+                      </div>
+                      <div>{profile.displayName}</div>
+                      <div>
+                        {/* <button
+                          onClick={() => {
+                            handleAddingNewFriend(profile.uid);
+                          }}
+                        >
+                          Add Friend
+                        </button> */}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+          {/* {radio === "closeFriends" && (
+            <>
+              <h3>Friends</h3>
+              {peopleYouKnowProfiles.map((profile) => (
+                <ul key={profile.id}>
+                  <hr />
+                  <p>
+                    User ID:{profile.displayName}{" "}
+                    <img style={imgStyle} src={profile.profilePhoto}></img>{" "}
+                    {profile.friendUid}
+                  </p>
+                </ul>
+              ))}
+            </>
+          )} */}
+          {radio === "mightKnow" && (
+            <>
+              <div
+                style={{
+                  background: "black",
+                  color: "white",
+                }}
+              ></div>
+              <p>Friends</p>
+              <div
+                id="container"
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  flexDirection: "row",
+                  justifyContent: "flex-start",
+                  background: "black",
+                  height: "100%",
+                }}
+              >
+                {peopleYouMayKnowProfiles.map((profile) => (
                   <div
                     key={profile.uid}
                     style={{
@@ -306,7 +338,7 @@ const friendsProfiles = profiles.filter((profile) => !userProfile.friends.includ
                           // onClick={() => setFriendUid(profile.uid)}
                           onClick={() => {
                             handleAddingNewFriend(profile.uid);
-                            setFriendUid(profile.uid);
+                            // setFriendListUid(profile.uid);
                           }}
                         >
                           Add Friend
@@ -316,34 +348,6 @@ const friendsProfiles = profiles.filter((profile) => !userProfile.friends.includ
                   </div>
                 ))}
               </div>
-            </>
-          )}
-          {radio === "closeFriends" && (
-            <>
-              <h3>People you may know</h3>
-              {filteredProfiles.map((profile) => (
-                <ul key={profile.id}>
-                  <hr />
-                  <p>
-                    <img style={imgStyle} src={profile.profilePhoto}></img>
-                    {profile.displayName} <button>Add Friend</button>
-                  </p>
-                </ul>
-              ))}
-            </>
-          )}
-          {radio === "mightKnow" && (
-            <>
-              <h3>People you may know</h3>
-              {friendsProfiles.map((profile) => (
-                <ul key={profile.id}>
-                  <hr />
-                  <p>
-                    <img style={imgStyle} src={profile.profilePhoto}></img>
-                    {profile.displayName} <button>Add Friend</button>
-                  </p>
-                </ul>
-              ))}
             </>
           )}
         </div>

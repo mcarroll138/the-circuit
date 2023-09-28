@@ -23,7 +23,6 @@ export default function EditEventForm(props) {
     backgroundColor: "black",
     padding: "10px",
     height: 720,
-  
   };
 
   const formStyles = {
@@ -59,7 +58,6 @@ export default function EditEventForm(props) {
     color: "white",
   };
 
-
   useEffect(() => {
     if (event) {
       setEventName(event.eventName || "");
@@ -87,48 +85,44 @@ export default function EditEventForm(props) {
   return (
     <>
       <form onSubmit={handleEditEventFormSubmission}>
-      <input
-            style={inputStyles}
-            type="hidden"
-            name="eventCreator"
-            value={auth.currentUser.email}
-          />
-          <input
-            style={inputStyles}
-            type="hidden"
-            name="eventCreatorPhoto"
-            value={auth.currentUser.photoURL}
-          />
-          <input
-            style={inputStyles}
-            required
-            // style={{ textTransform: "capitalize" }}
-            type="text"
-            name="eventName"
-            placeholder="Event Name"
-          />
-          <input
-            style={inputStyles}
-            // required
-            type="datetime-local"
-            name="eventDateTime"
-            placeholder="Date/Time"
-          />
+        <input
+          style={inputStyles}
+          type="hidden"
+          name="eventCreator"
+          value={auth.currentUser.email}
+        />
+        <input
+          style={inputStyles}
+          type="hidden"
+          name="eventCreatorPhoto"
+          value={auth.currentUser.photoURL}
+        />
+        <input
+          style={inputStyles}
+          required
+          type="text"
+          name="eventName"
+          placeholder="Event Name"
+        />
+        <input
+          style={inputStyles}
+          type="datetime-local"
+          name="eventDateTime"
+          placeholder="Date/Time"
+        />
 
-          <input
-            style={inputStyles}
-            // required
-            type="text"
-            name="eventDetail"
-            placeholder="Event Details"
-          />
-          <input
-            style={inputStyles}
-            // required
-            type="text"
-            name="eventLocation"
-            placeholder="Google Map Link"
-          />
+        <input
+          style={inputStyles}
+          type="text"
+          name="eventDetail"
+          placeholder="Event Details"
+        />
+        <input
+          style={inputStyles}
+          type="text"
+          name="eventLocation"
+          placeholder="Google Map Link"
+        />
         <button type="submit">Update Event</button>
       </form>
     </>
