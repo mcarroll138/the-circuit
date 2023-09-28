@@ -8,6 +8,7 @@ import {
   onSnapshot,
   updateDoc,
   doc,
+  arrayUnion,
 } from "firebase/firestore";
 
 // import ProfilePhoto from "./ProfilePhoto";
@@ -68,10 +69,31 @@ export default function UserProfile() {
     }
   };
 
-  const handleAddingNewFriend = async (newFriendUid) => {
-    const friendRef = doc(db, "profiles", newFriendUid.uid);
-    await updateDoc(friendRef, newFriendUid);
-  };
+ 
+
+  
+  // const friendUid = "friendUid";
+  // const handleAddingNewFriend = async (newFriendId) => {
+  //   const userDocRef = doc(db, "profiles", userUid);
+
+  //   try {
+  //     await updateDoc(userDocRef, {
+  //       friends: arrayUnion("BBS6BLewUFZYQyrH0Co56JwZs5O2"),
+  //     });
+  //     console.log("Friend added successfully!");
+  //   } catch (error) {
+  //     console.error("Error adding friend: ", error);
+  //   }
+  // };
+  // const handleAddingNewFriend = async (newFriendId) => {
+  //   const friendRef = doc(db, "profiles", `uid${profilesUid}`);
+  //   await updateDoc(friendRef, { [`profiles.friends.${newFriendId}`]: true });
+  // };
+  // const handleAddingNewFriend = async (newFriendUid) => {
+  //   const friendRef = doc(db, "profiles", "friends");
+  //   setFriendUid(newFriendUid);
+  //   await updateDoc(friendRef, { friends: arrayUnion(newFriendUid) });
+  // };
 
   const ContainerStyles = {
     alignItems: "center",
@@ -253,7 +275,10 @@ export default function UserProfile() {
                       <div>
                         <button
                           // onClick={() => setFriendUid(profile.uid)}
-                          onClick={() => handleAddingNewFriend(profile.uid)}
+                          onClick={() => {
+                            handleAddingNewFriend(profile.uid);
+                            setFriendUid(profile.uid);
+                          }}
                         >
                           Add Friend
                         </button>
