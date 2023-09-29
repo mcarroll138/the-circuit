@@ -364,7 +364,7 @@ export default function UserProfile() {
                   color: "white",
                 }}
               ></div>
-              <p>Friends</p>
+              <p>People You Might Know</p>
               <div
                 id="container"
                 style={{
