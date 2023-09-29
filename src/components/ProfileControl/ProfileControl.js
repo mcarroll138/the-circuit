@@ -16,13 +16,13 @@ import {
 
 export default function UserProfile() {
   const [radio, setRadio] = useState("mightKnow");
+  const [profiles, setProfiles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [friendListUid, setFriendListUid] = useState([]);
+  // const [imageUrls, setImageUrls] = useState([]);
   // const [userProfile, setUserProfile] = useState("");
   // const [firstName, setFirstName] = useState("");
   // const [lastName, setLastName] = useState("");
-  const [profiles, setProfiles] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [imageUrls, setImageUrls] = useState([]);
-  const [friendListUid, setFriendListUid] = useState([]);
 
   useEffect(() => {
     const unSubscribe = onSnapshot(
@@ -303,7 +303,8 @@ export default function UserProfile() {
                   flexDirection: "row",
                   justifyContent: "flex-start",
                   background: "black",
-                  padding: 80,
+
+                  paddingLeft: 20,
                   // height: "100%",
                 }}
               >
@@ -315,6 +316,7 @@ export default function UserProfile() {
                     }}
                   >
                     <div
+                      id="youKnowCards"
                       style={{
                         alignItems: "center",
                         background: "black",
@@ -325,14 +327,20 @@ export default function UserProfile() {
                         color: "white",
                         borderRadius: "25px",
                         border: "6px solid #ccc",
+                        margin: 10,
                       }}
                     >
                       <div>
-                        <img style={imgStyle} src={profile.profilePhoto}></img>
+                        <img
+                          alt="Profile"
+                          style={imgStyle}
+                          src={profile.profilePhoto}
+                        ></img>
                       </div>
                       <div>{profile.displayName}</div>
                       <div>
                         <button
+                          style={buttonStyles}
                           onClick={() => {
                             handleRemovingFriend(profile.uid);
                             console.log(profile.uid);
@@ -365,7 +373,9 @@ export default function UserProfile() {
                   flexDirection: "row",
                   justifyContent: "flex-start",
                   background: "black",
-                  height: "100%",
+                  paddingLeft: "1%",
+                  // paddingRight: "5%",
+                  // height: "100%",
                 }}
               >
                 {peopleYouMayKnowProfiles.map((profile) => (
@@ -376,6 +386,7 @@ export default function UserProfile() {
                     }}
                   >
                     <div
+                      id="mightKnowCards"
                       style={{
                         alignItems: "center",
                         background: "black",
@@ -386,10 +397,15 @@ export default function UserProfile() {
                         color: "white",
                         borderRadius: "25px",
                         border: "6px solid #ccc",
+                        margin: 10,
                       }}
                     >
                       <div>
-                        <img style={imgStyle} src={profile.profilePhoto}></img>
+                        <img
+                          alt="Profile"
+                          style={imgStyle}
+                          src={profile.profilePhoto}
+                        ></img>
                       </div>
                       <div>{profile.displayName}</div>
                       <div>
