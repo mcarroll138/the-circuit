@@ -4,20 +4,21 @@ import { db, auth } from "../../firebase";
 import {
   collection,
   addDoc,
-  getDoc,
+  deleteDoc,
   onSnapshot,
-  updateDoc,
+  getDocs,
   doc,
-  arrayUnion,
+  query,
+  where,
 } from "firebase/firestore";
 
 // import ProfilePhoto from "./ProfilePhoto";
 
 export default function UserProfile() {
   const [radio, setRadio] = useState("mightKnow");
-  const [userProfile, setUserProfile] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  // const [userProfile, setUserProfile] = useState("");
+  // const [firstName, setFirstName] = useState("");
+  // const [lastName, setLastName] = useState("");
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [imageUrls, setImageUrls] = useState([]);
@@ -73,9 +74,9 @@ export default function UserProfile() {
       console.log("Document written with ID:", docRef.id);
 
       // Clear the form fields after submission
-      setUserProfile("");
-      setFirstName("");
-      setLastName("");
+      // setUserProfile("");
+      // setFirstName("");
+      // setLastName("");
     } catch (error) {}
   };
 
@@ -89,11 +90,34 @@ export default function UserProfile() {
     });
   };
 
-  const ContainerStyles = {
-    alignItems: "center",
-    backgroundColor: "pink",
-    padding: "10px",
+  const handleRemovingFriend = async (friendUid) => {
+    try {
+      console.log("Friend UID:", friendUid);
+      const friendQuery = query(
+        friendsCollectionRef,
+        where("friendUid", "==", friendUid)
+      );
+      console.log("Friend Query:", friendQuery);
+      const querySnapshot = await getDocs(friendQuery);
+
+      if (!querySnapshot.empty) {
+        const friendDoc = querySnapshot.docs[0];
+        await deleteDoc(friendDoc.ref);
+        console.log("Friend Removed Successfully");
+        console.log(`logged in as ${auth.currentUser.uid}`);
+      } else {
+        console.log("Friend Not Found");
+      }
+    } catch (error) {
+      console.error("Error Removing Friend: ", error);
+    }
   };
+
+  // const ContainerStyles = {
+  //   alignItems: "center",
+  //   backgroundColor: "pink",
+  //   padding: "10px",
+  // };
 
   const formStyles = {
     display: "flex",
@@ -137,9 +161,9 @@ export default function UserProfile() {
     (profile) => auth.currentUser.uid === profile.uid
   );
 
-  const allProfiles = profiles.filter(
-    (profile) => auth.currentUser.uid !== profile.uid
-  );
+  // const allProfiles = profiles.filter(
+  //   (profile) => auth.currentUser.uid !== profile.uid
+  // );
   const peopleYouMayKnowProfiles = profiles.filter((profile) => {
     const isNotFriend = !friendListUid.some((friend) => {
       const isMatch = friend.friendUid === profile.uid;
@@ -172,10 +196,9 @@ export default function UserProfile() {
             color: "white",
             padding: 32,
             textAlign: "center",
-            color: "white",
             fontSize: 16,
             fontFamily: "arial",
-            background: "black",
+
             fontWeight: "400",
             lineHeight: 2,
           }}
@@ -221,16 +244,14 @@ export default function UserProfile() {
           style={{
             background: "black",
             color: "white",
-            // paddingLeft: 32,
-            // paddingRight: 32,
             textAlign: "center",
-            color: "white",
             fontSize: 16,
             fontFamily: "arial",
-            background: "black",
             fontWeight: "400",
             lineHeight: 2,
-            height: "100vh",
+            // paddingLeft: 32,
+            // paddingRight: 32,
+            // height: "100vh",
           }}
         >
           <form
@@ -239,7 +260,6 @@ export default function UserProfile() {
               paddingRight: 16,
               background: "black",
               color: "white",
-              
             }}
           >
             <input
@@ -283,7 +303,8 @@ export default function UserProfile() {
                   flexDirection: "row",
                   justifyContent: "flex-start",
                   background: "black",
-                  height: "100%",
+                  padding: 80,
+                  // height: "100%",
                 }}
               >
                 {peopleYouKnowProfiles.map((profile) => (
@@ -311,13 +332,14 @@ export default function UserProfile() {
                       </div>
                       <div>{profile.displayName}</div>
                       <div>
-                        {/* <button
+                        <button
                           onClick={() => {
-                            handleAddingNewFriend(profile.uid);
+                            handleRemovingFriend(profile.uid);
+                            console.log(profile.uid);
                           }}
                         >
-                          Add Friend
-                        </button> */}
+                          Remove Friend
+                        </button>
                       </div>
                     </div>
                   </div>
