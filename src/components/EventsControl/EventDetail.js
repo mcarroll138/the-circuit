@@ -8,7 +8,7 @@ export default function EventDetail(props) {
     <h1>{event.eventName}</h1>
       
       <h3>Hosted By {event.eventCreator}</h3>
-      <h3><img src={event.eventCreatorPhoto}></img></h3>
+      {/* <h3><img src={event.eventCreatorPhoto}></img></h3> */}
       <h3>{event.eventDateTime}</h3>
       <h3>{event.eventDetail}</h3>
       <h3>{event.eventLocation}</h3>

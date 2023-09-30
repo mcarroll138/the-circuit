@@ -182,27 +182,51 @@ export default function NewEventForm(props) {
               // required
               type="text"
               name="eventLocation"
-              placeholder="Google Map Link"
+              placeholder="Location"
             />
             <input
               style={inputStyles}
               // required
               type="text"
               name="long form"
-              placeholder="Long Form"
+              placeholder="Website Link"
             />
-            <label>
-              21+
-              <input type="checkbox" />
-            </label>
-            <label>
-              Family Friendly
-              <input type="checkbox" />
-            </label>
-            <label>
-              Sober Event
-              <input type="checkbox" />
-            </label>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                alignItems: "center",
+                width: 320,
+              }}
+            >
+              <div>
+                <label>
+                  21+
+                  <input type="checkbox" />
+                </label>
+              </div>
+              <div>
+                <label>
+                  Family Friendly
+                  <input type="checkbox" />
+                </label>
+              </div>
+              <div>
+                {" "}
+                <label>
+                  Sober Event
+                  <input type="checkbox" />
+                </label>
+              </div>
+              
+              <div>
+                <label>
+                  Family Friendly
+                  <input type="checkbox" />
+                </label>
+              </div>
+            </div>
             <button style={buttonStyles} onClick={() => setFullForm(false)}>
               View less
             </button>

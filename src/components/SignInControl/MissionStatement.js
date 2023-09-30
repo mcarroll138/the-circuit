@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import vectorImage from "../../assets/Logo.png";
 
 export default function MissionStatement() {
   const mainDivContainerStyle = {
@@ -46,7 +47,20 @@ export default function MissionStatement() {
               fiends and family.
             </p>
           </div>
-          <div>PhotoHere</div>
+          <div>  <img
+                alt="Profile"
+                style={{
+                //   width: 60,
+                //   height: 60,
+                  // width: 80,
+                  paddingRight: 1,
+                  background: "linear-gradient(0deg, black 0%, black 100%)",
+                //   boxShadow: "6px 6px 0px #E3A9FF",
+                //   borderRadius: "50%",
+                //   border: "2px #E3A9FF solid",
+                }}
+                src={vectorImage}
+              /></div>
         </div>
         <div style={secondaryDivContainerStyle}>
           <div>

@@ -106,9 +106,7 @@ function EventList(props) {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              // height: "100vh",
               background: "black",
-              // alignText: "center",
               display: "flex",
               flexDirection: "column",
             }}
@@ -134,22 +132,34 @@ function EventList(props) {
       )}
       {radio === "hosting" && (
         <>
-          {/* Hosted By Me */}
-          {hostingEvents.map((event) => (
-            <Event
-              whenEventClicked={props.onEventSelection}
-              eventCreator={event.eventCreator}
-              eventCreatorPhoto={event.eventCreatorPhoto}
-              eventName={event.eventName}
-              eventDateTime={event.eventDateTime}
-              eventDetail={event.eventDetail}
-              eventLocation={event.eventLocation}
-              daysAgo={event.daysAgo}
-              formattedPostTime={event.formattedPostTime}
-              id={event.id}
-              key={event.id}
-            />
-          ))}
+          <div
+            id="eventListDiv"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              background: "black",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            {/* Hosted By Me */}
+            {hostingEvents.map((event) => (
+              <Event
+                whenEventClicked={props.onEventSelection}
+                eventCreator={event.eventCreator}
+                eventCreatorPhoto={event.eventCreatorPhoto}
+                eventName={event.eventName}
+                eventDateTime={event.eventDateTime}
+                eventDetail={event.eventDetail}
+                eventLocation={event.eventLocation}
+                daysAgo={event.daysAgo}
+                formattedPostTime={event.formattedPostTime}
+                id={event.id}
+                key={event.id}
+              />
+            ))}
+          </div>
         </>
       )}
       {radio === "closeFriends" && (
