@@ -23,7 +23,6 @@ function SignInControl(props) {
     backgroundColor: "black",
     padding: "10px",
     height: 720,
-    // lineHeight: 20,
   };
 
   const formStyles = {
@@ -33,13 +32,10 @@ function SignInControl(props) {
     alignItems: "center",
     flexShrink: 0,
     backgroundColor: "black",
-    // border: "2px solid var(white)",
-    // backgroundColor: "black",
   };
 
   const inputStyles = {
     color: "gray",
-    // color: "#99999",
     fontFamily: "arial",
     fontSize: "14px",
     fontStyle: "normal",
@@ -123,7 +119,7 @@ function SignInControl(props) {
             style={inputStyles}
             type="text"
             name="signinEmail"
-            placeholder="email"
+            placeholder="Email"
           />
           <input
             style={inputStyles}
@@ -154,18 +150,12 @@ function SignInControl(props) {
 
   function doSignUp(event) {
     event.preventDefault();
-    // const displayName = event.target.displayName.value;
     const email = event.target.email.value;
     const password = event.target.password.value;
 
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // setIsLogOffMode(false);
-        // setIsSignInMode(true);
-        // setIsSignUpMode(false);
         navigate("/user-profile");
-        // console.log(displayName);
-        // const userEmail = event.target.email.value;
         setSignUpSuccess(
           `You've successfully signed up, with the user name of as your email address.`
         );
@@ -187,7 +177,6 @@ function SignInControl(props) {
         setIsSignUpMode(false);
         setIsLogOffMode(true);
         navigate("/");
-        // `You've successfully signed in as ${email} ${userCredential.user.email}!`
       })
       .catch((error) => {
         setSignInSuccess(`There was an error signing in: ${error.message}!`);

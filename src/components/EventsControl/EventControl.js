@@ -14,6 +14,7 @@ import {
 } from "firebase/firestore";
 import { formatDistanceToNow } from "date-fns";
 import { Link, useNavigate } from "react-router-dom";
+import MissionStatement from "../SignInControl/MissionStatement";
 
 export default function EventControl() {
   const [formVisibleOnPage, setFormVisibleOnPage] = useState(false);
@@ -93,10 +94,7 @@ export default function EventControl() {
   if (auth.currentUser == null) {
     return (
       <>
-        <div>
-          Welcome to the Circuit, please<Link to="/sign-in">Log In</Link>
-          to access your account.
-        </div>
+        <MissionStatement />
       </>
     );
   } else if (auth.currentUser != null) {

@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import AuthProfile from "./UserProfileFBAuth/UserProfileControl";
 import NewEventForm from "./EventsControl/NewEventForm";
+import Footer from "./SignInControl/Footer";
 
 function App() {
   const auth = getAuth();
@@ -33,6 +34,7 @@ function App() {
         <Route path="new-event" element={<NewEventForm />} />
         <Route path="/profile" element={<ProfileControl />} />
       </Routes>
+      <Footer />
     </Router>
   );
 }
