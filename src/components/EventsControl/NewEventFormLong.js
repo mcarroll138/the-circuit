@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { auth } from "../../firebase.js";
 import { serverTimestamp } from "firebase/firestore";
 import { differenceInDays } from "date-fns";
+import AutoFill from "../GoogleApi/PlacesAutoFill.js";
 
 export default function NewEventFormLong(props) {
   const formDivStyles = {
@@ -131,7 +132,7 @@ export default function NewEventFormLong(props) {
             name="eventLocation"
             placeholder="Google Map Link"
           />
-         <button style={buttonStyles} type="submit">
+          <button style={buttonStyles} type="submit">
             check address
           </button>
           <button style={buttonStyles} type="submit">
@@ -146,5 +147,3 @@ NewEventForm.propTypes = {
   onNewEventCreation: PropTypes.func,
 };
 //Left off at step 5
-
-

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { auth } from "../../firebase.js";
 import { serverTimestamp } from "firebase/firestore";
 import { differenceInDays } from "date-fns";
+import AutoFill from "../GoogleApi/PlacesAutoFill.js";
 
 export default function NewEventForm(props) {
   const formDivStyles = {
@@ -17,7 +18,6 @@ export default function NewEventForm(props) {
     backgroundColor: "black",
     padding: "10px",
     height: 720,
-  
   };
 
   const formStyles = {
@@ -70,6 +70,7 @@ export default function NewEventForm(props) {
   }
   return (
     <>
+      <AutoFill style={{ inputStyles }} />
       <div style={formDivStyles}>
         <form
           style={formStyles}

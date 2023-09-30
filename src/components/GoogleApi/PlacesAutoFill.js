@@ -15,6 +15,7 @@ const AutoFill = () => {
   return (
     <div>
       <GooglePlacesAutocomplete
+        apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
         value={address}
         onChange={handleChange}
         onSelect={handleSelect}
@@ -22,10 +23,12 @@ const AutoFill = () => {
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
           <div>
             <input
+              type="text"
               {...getInputProps({
                 placeHolder: "Enter Address",
               })}
             />
+
             <div>
               {loading && <div>Loading...</div>}
               {suggestions.map((suggestion) => {
@@ -36,6 +39,7 @@ const AutoFill = () => {
                 return (
                   <div {...getSuggestionItemProps(suggestion, { style })}>
                     {suggestion.description}
+                    console.log(suggestion);
                   </div>
                 );
               })}
