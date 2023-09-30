@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
+
 import { auth } from "../../firebase.js";
 import { serverTimestamp } from "firebase/firestore";
 import { differenceInDays } from "date-fns";
@@ -52,6 +53,9 @@ export default function NewEventForm(props) {
     gap: 10,
     color: "white",
   };
+
+  const [fullForm, setFullForm] = useState(false);
+
   function handleNewEventFormSubmission(event) {
     event.preventDefault();
     // const currentDate = new Date();
@@ -68,65 +72,148 @@ export default function NewEventForm(props) {
       timeOpen: serverTimestamp(),
     });
   }
-  return (
-    <>
-      <AutoFill style={{ inputStyles }} />
-      <div style={formDivStyles}>
-        <form
-          style={formStyles}
-          onSubmit={handleNewEventFormSubmission}
-          encType="multipart/form-data"
-        >
-          <input
-            style={inputStyles}
-            type="hidden"
-            name="eventCreator"
-            value={auth.currentUser.email}
-          />
-          <input
-            style={inputStyles}
-            type="hidden"
-            name="eventCreatorPhoto"
-            value={auth.currentUser.photoURL}
-          />
-          <input
-            style={inputStyles}
-            required
-            // style={{ textTransform: "capitalize" }}
-            type="text"
-            name="eventName"
-            placeholder="Event Name"
-          />
-          <input
-            style={inputStyles}
-            // required
-            type="datetime-local"
-            name="eventDateTime"
-            placeholder="Date/Time"
-          />
+  if (fullForm === false) {
+    return (
+      <>
+        <div style={formDivStyles}>
+          <form
+            style={formStyles}
+            onSubmit={handleNewEventFormSubmission}
+            encType="multipart/form-data"
+          >
+            <input
+              style={inputStyles}
+              type="hidden"
+              name="eventCreator"
+              value={auth.currentUser.email}
+            />
+            <input
+              style={inputStyles}
+              type="hidden"
+              name="eventCreatorPhoto"
+              value={auth.currentUser.photoURL}
+            />
+            <input
+              style={inputStyles}
+              required
+              type="text"
+              name="eventName"
+              placeholder="Event Name"
+            />
+            <input
+              style={inputStyles}
+              required
+              type="datetime-local"
+              name="eventDateTime"
+              placeholder="Date/Time"
+            />
 
-          <input
-            style={inputStyles}
-            // required
-            type="text"
-            name="eventDetail"
-            placeholder="Event Details"
-          />
-          <input
-            style={inputStyles}
-            // required
-            type="text"
-            name="eventLocation"
-            placeholder="Google Map Link"
-          />
-          {/* <input type="file" name="eventImage" placeholder="upload image" /> */}
-          <button style={buttonStyles} type="submit">
-            Party Time
-          </button>
-        </form>
-      </div>
-    </>
-  );
+            <input
+              style={inputStyles}
+              required
+              type="text"
+              name="eventDetail"
+              placeholder="Event Details"
+            />
+            <input
+              style={inputStyles}
+              // required
+              type="text"
+              name="eventLocation"
+              placeholder="Location"
+            />
+
+            <button style={buttonStyles} onClick={() => setFullForm(true)}>
+              View More
+            </button>
+            <button style={buttonStyles} type="submit">
+              Party Time
+            </button>
+          </form>
+        </div>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <div style={formDivStyles}>
+          <form
+            style={formStyles}
+            onSubmit={handleNewEventFormSubmission}
+            encType="multipart/form-data"
+          >
+            <input
+              style={inputStyles}
+              type="hidden"
+              name="eventCreator"
+              value={auth.currentUser.email}
+            />
+            <input
+              style={inputStyles}
+              type="hidden"
+              name="eventCreatorPhoto"
+              value={auth.currentUser.photoURL}
+            />
+            <input
+              style={inputStyles}
+              required
+              // style={{ textTransform: "capitalize" }}
+              type="text"
+              name="eventName"
+              placeholder="Event Name"
+            />
+            <input
+              style={inputStyles}
+              // required
+              type="datetime-local"
+              name="eventDateTime"
+              placeholder="Date/Time"
+            />
+
+            <input
+              style={inputStyles}
+              // required
+              type="text"
+              name="eventDetail"
+              placeholder="Event Details"
+            />
+            <input
+              style={inputStyles}
+              // required
+              type="text"
+              name="eventLocation"
+              placeholder="Google Map Link"
+            />
+            <input
+              style={inputStyles}
+              // required
+              type="text"
+              name="long form"
+              placeholder="Long Form"
+            />
+            <label>
+              21+
+              <input type="checkbox" />
+            </label>
+            <label>
+              Family Friendly
+              <input type="checkbox" />
+            </label>
+            <label>
+              Sober Event
+              <input type="checkbox" />
+            </label>
+            <button style={buttonStyles} onClick={() => setFullForm(false)}>
+              View less
+            </button>
+            <button style={buttonStyles} type="submit">
+              Party Time
+            </button>
+          </form>
+        </div>
+      </>
+    );
+  }
 }
 NewEventForm.propTypes = {
   onNewEventCreation: PropTypes.func,

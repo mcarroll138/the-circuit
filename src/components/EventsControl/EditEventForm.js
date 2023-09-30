@@ -5,11 +5,12 @@ import { auth } from "../../firebase.js";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
 export default function EditEventForm() {
-  // const AutoFill = () => {
   const [address, setAddress] = useState("");
   console.log(address);
+
   const handleChange = (value) => {
     setAddress(value);
+    console.log(value);
   };
 
   const handleSelect = (value) => {
@@ -19,6 +20,7 @@ export default function EditEventForm() {
   return (
     <div>
       <GooglePlacesAutocomplete
+        apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
         value={address}
         onChange={handleChange}
         onSelect={handleSelect}
@@ -26,10 +28,12 @@ export default function EditEventForm() {
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
           <div>
             <input
+              type="text"
               {...getInputProps({
                 placeHolder: "Enter Address",
               })}
             />
+
             <div>
               {loading && <div>Loading...</div>}
               {suggestions.map((suggestion) => {
