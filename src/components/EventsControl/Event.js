@@ -37,20 +37,18 @@ export default function Event(props) {
           boxShadow: "6px 6px 0px white",
           borderRadius: 24,
           border: "2px white solid",
-          // padding: 48,
-          // height: 609,
         }}
       >
-        <div id="dateAndResponseDiv"
+        <div
+          id="dateAndResponseDiv"
           style={{
             height: 22,
             justifyContent: "space-between",
             display: "inline-flex",
-            // width: 604,
-            // alignItems: "left",
           }}
         >
-          <div id="dateDisplay"
+          <div
+            id="dateDisplay"
             style={{
               color: "white",
               fontFamily: "Courier",
@@ -72,7 +70,6 @@ export default function Event(props) {
               display: "flex",
             }}
           >
-          
             <div
               style={{
                 textAlign: "center",
@@ -129,7 +126,8 @@ export default function Event(props) {
             </div>
           </div>
         </div>
-        <div id="eventNameDiv"
+        <div
+          id="eventNameDiv"
           style={{
             fontFamily: "Courier",
             fontSize: "40px",
@@ -137,8 +135,6 @@ export default function Event(props) {
             fontWeight: "400",
             lineHeight: "100%",
             color: "#B3FFB1",
-            // width: 604,
-            // wordWrap: "break-word",
           }}
         >
           {props.eventName}
@@ -189,7 +185,8 @@ export default function Event(props) {
             {props.eventLocation}
           </div>
         </div>
-        <div id="eventDetailDiv"
+        <div
+          id="eventDetailDiv"
           style={{
             flexDirection: "column",
             justifyContent: "flex-start",
@@ -200,8 +197,6 @@ export default function Event(props) {
         >
           <div
             style={{
-              // width: 604,
-              // height: 68,
               color: "white",
               fontSize: 24,
               fontFamily: "Arial",
@@ -212,24 +207,24 @@ export default function Event(props) {
           >
             {props.eventDetail}
           </div>
-          </div>
-          <div
-            onClick={() => props.whenEventClicked(props.id)}
-            style={{
-              width: 604,
-              color: "#E3A9FF",
-              fontSize: 16,
-              fontFamily: "Arial",
-              fontWeight: "400",
-              textDecoration: "underline",
-              lineHeight: 2,
-              wordWrap: "break-word",
-              cursor: "pointer",
-            }}
-            onMouseOver={(e) => (e.target.style.color = "#B3FFB1")}
-            onMouseOut={(e) => (e.target.style.color = "#E3A9FF")}
-          >
-            Read more
+        </div>
+        <div
+          onClick={() => props.whenEventClicked(props.id)}
+          style={{
+            width: 604,
+            color: "#E3A9FF",
+            fontSize: 16,
+            fontFamily: "Arial",
+            fontWeight: "400",
+            textDecoration: "underline",
+            lineHeight: 2,
+            wordWrap: "break-word",
+            cursor: "pointer",
+          }}
+          onMouseOver={(e) => (e.target.style.color = "#B3FFB1")}
+          onMouseOut={(e) => (e.target.style.color = "#E3A9FF")}
+        >
+          Read more
         </div>
         <div
           style={{
@@ -306,63 +301,28 @@ export default function Event(props) {
               </div>
             </div>
           </div>
-          </div>
-          <div
-            style={{
-              justifyContent: "flex-start",
-              alignItems: "flex-start",
-              gap: 16,
-              display: "flex",
-            }}
-          >
-            <div
-              style={{
-                color: "#999999",
-                fontSize: 16,
-                fontFamily: "Arial",
-                fontWeight: "400",
-                lineHeight: 2,
-                wordWrap: "break-word",
-              }}
-            >
-              Posted {props.formattedPostTime}X days ago
-          </div>
         </div>
-        {/* <div
-          id="editEventDiv"
+        <div
           style={{
-            width: 100,
-            paddingLeft: 18,
-            paddingRight: 18,
-            paddingTop: 10,
-            paddingBottom: 10,
-            background: "black",
-            boxShadow: "6px 6px 0px #E3A9FF",
-            border: "2px #E3A9FF solid",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: 10,
-            display: "inline-flex",
+            justifyContent: "flex-start",
+            alignItems: "flex-start",
+            gap: 16,
+            display: "flex",
           }}
         >
           <div
-            id="editEvent"
             style={{
-              textAlign: "center",
-              color: "#E3A9FF",
+              color: "#999999",
               fontSize: 16,
-              fontFamily: "Courier",
-              fontWeight: "40",
-              textTransform: "uppercase",
+              fontFamily: "Arial",
+              fontWeight: "400",
               lineHeight: 2,
               wordWrap: "break-word",
             }}
-            onMouseOver={(e) => (e.target.style.color = "#B3FFB1")}
-            onMouseOut={(e) => (e.target.style.color = "#E3A9FF")}
           >
-            edit event
+            Posted {props.formattedPostTime}X days ago
           </div>
-        </div> */}
+        </div>
       </div>
     </>
   );
