@@ -5,18 +5,31 @@ export default function Footer() {
   return (
     <div
       style={{
-        display: "flex",
-        alignItems: "center",
-        padding: "8px",
-        justifyContent: "space-between",
         background: "black",
         height: "80px",
         width: "auto",
-              color: "white",
-        
+        color: "white",
+        padding: "8px",
       }}
     >
-      <p>I am a footer</p>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          flexShrink: 0,
+        //   backgroundColor: "black",
+          justifyContent: "space-between",
+          alignItems: "center",
+
+        //   background: "black",
+          //   height: "80px",
+          width: "auto",
+          color: "white",
+        }}
+      >
+        <p>Help</p> <p>About Us</p> <p>Careers</p>
+      </div>
+      <div>© 2023 The Circuit</div>
     </div>
   );
 }
