@@ -12,17 +12,11 @@ import {
   where,
 } from "firebase/firestore";
 
-// import ProfilePhoto from "./ProfilePhoto";
-
 export default function UserProfile() {
   const [radio, setRadio] = useState("mightKnow");
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [friendListUid, setFriendListUid] = useState([]);
-  // const [imageUrls, setImageUrls] = useState([]);
-  // const [userProfile, setUserProfile] = useState("");
-  // const [firstName, setFirstName] = useState("");
-  // const [lastName, setLastName] = useState("");
 
   useEffect(() => {
     const unSubscribe = onSnapshot(
@@ -113,12 +107,6 @@ export default function UserProfile() {
     }
   };
 
-  // const ContainerStyles = {
-  //   alignItems: "center",
-  //   backgroundColor: "pink",
-  //   padding: "10px",
-  // };
-
   const formStyles = {
     display: "flex",
     flexDirection: "column",
@@ -161,9 +149,6 @@ export default function UserProfile() {
     (profile) => auth.currentUser.uid === profile.uid
   );
 
-  // const allProfiles = profiles.filter(
-  //   (profile) => auth.currentUser.uid !== profile.uid
-  // );
   const peopleYouMayKnowProfiles = profiles.filter((profile) => {
     const isNotFriend = !friendListUid.some((friend) => {
       const isMatch = friend.friendUid === profile.uid;
@@ -249,9 +234,7 @@ export default function UserProfile() {
             fontFamily: "arial",
             fontWeight: "400",
             lineHeight: 2,
-            // paddingLeft: 32,
-            // paddingRight: 32,
-            // height: "100vh",
+          
           }}
         >
           <form

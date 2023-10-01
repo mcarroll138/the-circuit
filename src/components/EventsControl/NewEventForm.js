@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import { auth } from "../../firebase.js";
 import { serverTimestamp } from "firebase/firestore";
 import { differenceInDays } from "date-fns";
-import AutoFill from "../GoogleApi/PlacesAutoFill.js";
 
 export default function NewEventForm(props) {
   const formDivStyles = {
@@ -26,6 +25,8 @@ export default function NewEventForm(props) {
     flexDirection: "column",
     alignItems: "center",
     paddingTop: 25,
+    border: "1px solid #ccc",
+    borderRadius: "4px",
   };
 
   const inputStyles = {
@@ -54,13 +55,25 @@ export default function NewEventForm(props) {
     color: "white",
   };
 
-  const [fullForm, setFullForm] = useState(false);
+  const checkboxStyles = {
+    margin: "4px",
+    padding: "4px",
+    border: "12px solid #ccc",
+    borderRadius: "4px",
+    fontSize: "12px",
+    width: 380,
+    fontSize: 12,
+    background: "white",
+    color: "gray",
+  };
 
+  const [fullForm, setFullForm] = useState(false);
+  const [makePrivate, setMakePrivate] = useState(false);
+
+  console.log(makePrivate);
   function handleNewEventFormSubmission(event) {
     event.preventDefault();
-    // const currentDate = new Date();
-    // const eventDateTime = new Date(event.targe.eventDateTime.value);
-    // const daysAgo = differenceInDays(currentDate, eventDateTime);
+
     props.onNewEventCreation({
       eventCreator: event.target.eventCreator.value,
       eventCreatorPhoto: event.target.eventCreatorPhoto.value,
@@ -98,6 +111,12 @@ export default function NewEventForm(props) {
               name="eventCreatorPhoto"
               value={auth.currentUser.photoURL}
             />
+            <div style={checkboxStyles}>
+              <label>
+                Private Event
+                <input type="checkbox" name="privateEvent" />
+              </label>
+            </div>
             <input
               style={inputStyles}
               required
@@ -117,6 +136,7 @@ export default function NewEventForm(props) {
               style={inputStyles}
               required
               type="text"
+              rows="5"
               name="eventDetail"
               placeholder="Event Details"
             />
@@ -127,7 +147,14 @@ export default function NewEventForm(props) {
               name="eventLocation"
               placeholder="Location"
             />
-
+            {/* <button
+              style={buttonStyles}
+              onClick={() =>
+                setMakePrivate((prevMakePrivate) => !prevMakePrivate)
+              }
+            >
+              {makePrivate}
+            </button> */}
             <button style={buttonStyles} onClick={() => setFullForm(true)}>
               View More
             </button>
@@ -158,7 +185,13 @@ export default function NewEventForm(props) {
               type="hidden"
               name="eventCreatorPhoto"
               value={auth.currentUser.photoURL}
-            />
+            />{" "}
+            <div style={checkboxStyles}>
+              <label>
+                Private Event
+                <input type="checkbox" name="privateEvent" />
+              </label>
+            </div>
             <input
               style={inputStyles}
               required
@@ -174,7 +207,6 @@ export default function NewEventForm(props) {
               name="eventDateTime"
               placeholder="Date/Time"
             />
-
             <input
               style={inputStyles}
               // required
@@ -205,29 +237,22 @@ export default function NewEventForm(props) {
                 width: 320,
               }}
             >
-              <div>
+              <div style={checkboxStyles}>
                 <label>
                   21+
                   <input type="checkbox" name="drinkingAge" />
                 </label>
               </div>
-              <div>
+              <div style={checkboxStyles}>
                 <label>
                   Family Friendly
                   <input type="checkbox" name="familyFriendly" />
                 </label>
               </div>
-              <div>
+              <div style={checkboxStyles}>
                 <label>
                   Sober Event
                   <input type="checkbox" name="soberEvent" />
-                </label>
-              </div>
-
-              <div>
-                <label>
-                  Private Event/ Invite Only?
-                  <input type="checkbox" name="privateEvent" />
                 </label>
               </div>
             </div>
