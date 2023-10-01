@@ -67,10 +67,6 @@ export default function UserProfile() {
       const docRef = await addDoc(collection(db, "profiles"), newProfileData);
       console.log("Document written with ID:", docRef.id);
 
-      // Clear the form fields after submission
-      // setUserProfile("");
-      // setFirstName("");
-      // setLastName("");
     } catch (error) {}
   };
 
