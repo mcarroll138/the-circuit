@@ -14,11 +14,8 @@ function NewProfileForm(props) {
     console.log("First Name:", newFirstName);
     console.log("Last Name:", newLastName);
     props.onProfileCreation({
-      // userProfile: event.target.userProfile.value,
       firstName: event.target.firstName.value,
       lastName: event.target.lastName.value,
-      // birthdate: event.target.birthdate.value,
-      // privateProfile: event.target.privateProfile.value,
     });
   }
   return (

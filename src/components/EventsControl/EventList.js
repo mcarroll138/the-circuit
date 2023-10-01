@@ -13,7 +13,8 @@ function EventList(props) {
   );
 
   const allEvents = props.eventList.filter(
-    (event) => auth.currentUser.email !== event.eventCreator
+    (event) =>
+      auth.currentUser.email !== event.eventCreator && event.privateEvent !== "on"
   );
   return (
     <React.Fragment>
@@ -28,10 +29,6 @@ function EventList(props) {
           background: "black",
           fontWeight: "400",
           lineHeight: 2,
-
-          // textDecoration: "underline",
-          // color: "#E3A9FF",
-          // wordWrap: "break-word",
         }}
       >
         <form

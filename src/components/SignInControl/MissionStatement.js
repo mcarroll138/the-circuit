@@ -6,18 +6,20 @@ export default function MissionStatement() {
   const mainDivContainerStyle = {
     background: "black",
     color: "white",
-    padding: 20,
-  };
-
-  const secondaryDivContainerStyle = {
-    display: "flex",
-    fontSize: 36,
-    // padding: 20,
+      padding: 20,
+    };
+    
+    const secondaryDivContainerStyle = {
+        display: "flex",
+        fontSize: 36,
+        // padding: 20,
+        width: 400,
     flexDirection: "row",
     alignItems: "center",
     flexShrink: 0,
     backgroundColor: "black",
-    justifyContent: "space-between",
+      justifyContent: "space-between",
+    
   };
 
   const headingStyle = {

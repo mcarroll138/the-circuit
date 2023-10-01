@@ -68,6 +68,11 @@ export default function NewEventForm(props) {
       eventDateTime: event.target.eventDateTime.value,
       eventDetail: event.target.eventDetail.value,
       eventLocation: event.target.eventLocation.value,
+      longForm: event.target.longForm.value,
+      drinkingAge: event.target.drinkingAge.value,
+      familyFriendly: event.target.familyFriendly.value,
+      soberEvent: event.target.soberEvent.value,
+      privateEvent: event.target.privateEvent.value,
       // daysAgo: daysAgo,
       timeOpen: serverTimestamp(),
     });
@@ -188,7 +193,7 @@ export default function NewEventForm(props) {
               style={inputStyles}
               // required
               type="text"
-              name="long form"
+              name="longForm"
               placeholder="Website Link"
             />
             <div
@@ -203,27 +208,26 @@ export default function NewEventForm(props) {
               <div>
                 <label>
                   21+
-                  <input type="checkbox" />
+                  <input type="checkbox" name="drinkingAge" />
                 </label>
               </div>
               <div>
                 <label>
                   Family Friendly
-                  <input type="checkbox" />
+                  <input type="checkbox" name="familyFriendly" />
                 </label>
               </div>
               <div>
-                {" "}
                 <label>
                   Sober Event
-                  <input type="checkbox" />
+                  <input type="checkbox" name="soberEvent" />
                 </label>
               </div>
-              
+
               <div>
                 <label>
-                  Family Friendly
-                  <input type="checkbox" />
+                  Private Event/ Invite Only?
+                  <input type="checkbox" name="privateEvent" />
                 </label>
               </div>
             </div>
