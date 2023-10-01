@@ -20,7 +20,10 @@ export default function NewEventForm(props) {
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [friendListUid, setFriendListUid] = useState([]);
-
+  const [inviteFriend, setInviteFriend] = useState([]);
+  const [name, setName] = useState("");
+  let nextId = 0;
+  console.log(inviteFriend);
   useEffect(() => {
     const unSubscribe = onSnapshot(
       collection(db, "profiles"),
@@ -63,6 +66,10 @@ export default function NewEventForm(props) {
     });
     return isFriend;
   });
+
+  const handleInvitingFriend = (uid) => {
+    setInviteFriend([...inviteFriend, uid]);
+  };
 
   const formDivStyles = {
     backgroundColor: "black",
@@ -226,7 +233,15 @@ export default function NewEventForm(props) {
               Party Time
             </button>
           </form>
-
+          {/* <div style={{
+            textSize: "10px",
+          }}>Friend Invite list {inviteFriend}??</div> */}
+          {/* <div>
+            <input
+              value={inviteFriend}
+              onChange={(e) => setInviteFriend(e.target.value)}
+            />
+          </div> */}
           <div
             style={{
               background: "black",
@@ -280,15 +295,14 @@ export default function NewEventForm(props) {
                   </div>
                   <div>{profile.displayName}</div>
                   <div>
-                    {/* <button
-                          style={buttonStyles}
-                          onClick={() => {
-                            // handleRemovingFriend(profile.uid);
-                            console.log(profile.uid);
-                          }}
-                        >
-                          Remove Friend
-                        </button> */}
+                    <button
+                      style={buttonStyles}
+                      onClick={() => {
+                        handleInvitingFriend(profile.uid);
+                      }}
+                    >
+                      Invite Friend
+                    </button>
                   </div>
                 </div>
               </div>
