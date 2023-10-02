@@ -113,6 +113,7 @@ function EventList(props) {
               <Event
                 whenEventClicked={props.onEventSelection}
                 eventCreator={event.eventCreator}
+                eventCreatorName={event.eventCreatorName}
                 eventCreatorPhoto={event.eventCreatorPhoto}
                 eventName={event.eventName}
                 eventDateTime={event.eventDateTime}
@@ -145,6 +146,7 @@ function EventList(props) {
               <Event
                 whenEventClicked={props.onEventSelection}
                 eventCreator={event.eventCreator}
+                eventCreatorName={event.eventCreatorName}
                 eventCreatorPhoto={event.eventCreatorPhoto}
                 eventName={event.eventName}
                 eventDateTime={event.eventDateTime}
@@ -348,7 +350,7 @@ function EventList(props) {
                 Event description goes here. Lorem ipsum dolor sit amet,
                 consectetur adipiscing elit.
               </div>
-              <div
+              {/* <div
                 style={{
                   width: 604,
                   color: "#E3A9FF",
@@ -361,7 +363,7 @@ function EventList(props) {
                 }}
               >
                 Read more
-              </div>
+              </div> */}
             </div>
             <div
               style={{

@@ -208,7 +208,7 @@ export default function Event(props) {
             {props.eventDetail}
           </div>
         </div>
-        <div
+        {/* <div
           onClick={() => props.whenEventClicked(props.id)}
           style={{
             width: 604,
@@ -225,8 +225,8 @@ export default function Event(props) {
           onMouseOut={(e) => (e.target.style.color = "#E3A9FF")}
         >
           Read more
-        </div>
-        <div
+        </div> */}
+        {/* <div
           style={{
             color: "#B3FFB1",
             fontSize: 16,
@@ -237,7 +237,7 @@ export default function Event(props) {
           }}
         >
           X close friends are a yeah!
-        </div>
+        </div> */}
         <div
           style={{
             width: 604,
@@ -297,7 +297,8 @@ export default function Event(props) {
                   wordWrap: "break-word",
                 }}
               >
-                @{props.eventCreator}
+                @{props.eventCreatorName}
+                {props.privateEvent}
               </div>
             </div>
           </div>

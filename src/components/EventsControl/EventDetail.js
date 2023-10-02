@@ -210,7 +210,7 @@ export default function EventDetail(props) {
               {event.eventDetail}
             </div>
           </div>
-          <div
+          {/* <div
             onClick={() => props.whenEventClicked(props.id)}
             style={{
               width: 604,
@@ -227,7 +227,7 @@ export default function EventDetail(props) {
             onMouseOut={(e) => (e.target.style.color = "#E3A9FF")}
           >
             Read more
-          </div>
+          </div> */}
           <div
             style={{
               color: "#B3FFB1",

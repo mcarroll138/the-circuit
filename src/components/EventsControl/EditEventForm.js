@@ -1,69 +1,69 @@
-import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import { serverTimestamp } from "firebase/firestore";
-import { auth } from "../../firebase.js";
-import GooglePlacesAutocomplete from "react-google-places-autocomplete";
+// import React, { useState, useEffect } from "react";
+// import PropTypes from "prop-types";
+// import { serverTimestamp } from "firebase/firestore";
+// import { auth } from "../../firebase.js";
+// import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
-export default function EditEventForm() {
-  const [address, setAddress] = useState("");
-  const [rows, setRows] = useState([]);
-  console.log(rows);
-  console.log(address);
+// export default function EditEventForm() {
+//   const [address, setAddress] = useState("");
+//   const [rows, setRows] = useState([]);
+//   console.log(rows);
+//   console.log(address);
 
-  const handleChange = (value) => {
-    setAddress(value);
-    console.log(value);
-  };
+//   const handleChange = (value) => {
+//     setAddress(value);
+//     console.log(value);
+//   };
 
-  const handleSelect = (value) => {
-    setAddress(value);
-  };
+//   const handleSelect = (value) => {
+//     setAddress(value);
+//   };
 
-  return (
-    <div>
-      <GooglePlacesAutocomplete
-        apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
-        placeholder="Type in an address"
-        inputStyle={{
-          height: 40,
-          fontSize: 28,
-        }}
-        suggestionsStyles={{
-          container: {
-            padding: 16,
-            background: "#efefef",
-          },
-          suggestion: {
-            background: "#eee",
-            cursor: "pointer",
-          },
-          suggestionActive: {
-            background: "#bbb",
-          },
-        }}
-        onSelect={(result) => {
-          const { description, place_id } = result;
-          setRows([{ description, place_id }, ...rows]);
-        }}
-      />
+//   return (
+//     <div>
+//       <GooglePlacesAutocomplete
+//         apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
+//         placeholder="Type in an address"
+//         inputStyle={{
+//           height: 40,
+//           fontSize: 28,
+//         }}
+//         suggestionsStyles={{
+//           container: {
+//             padding: 16,
+//             background: "#efefef",
+//           },
+//           suggestion: {
+//             background: "#eee",
+//             cursor: "pointer",
+//           },
+//           suggestionActive: {
+//             background: "#bbb",
+//           },
+//         }}
+//         onSelect={(result) => {
+//           const { description, place_id } = result;
+//           setRows([{ description, place_id }, ...rows]);
+//         }}
+//       />
 
-      <div
-        style={{
-          textAlign: "left",
-        }}
-      >
-        {rows.map((row) => (
-          <div class="selected-place">
-            <div>{row.description}</div>
-            <small>Place id: {row.place_id}</small>
-          </div>
-        ))}
-        <div>{result}</div>
-      </div>
-    </div>
-    // </GooglePlacesAutocomplete>
-  );
-}
+//       <div
+//         style={{
+//           textAlign: "left",
+//         }}
+//       >
+//         {rows.map((row) => (
+//           <div class="selected-place">
+//             <div>{row.description}</div>
+//             <small>Place id: {row.place_id}</small>
+//           </div>
+//         ))}
+//         <div>{result}</div>
+//       </div>
+//     </div>
+//     // </GooglePlacesAutocomplete>
+//   );
+// }
 
 // import React, { useState, useEffect } from "react";
 // import PropTypes from "prop-types";
