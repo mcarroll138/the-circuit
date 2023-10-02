@@ -119,7 +119,22 @@ export default function NewEventForm(props) {
     gap: 10,
     color: "white",
   };
-
+  const buttonStylesSmall = {
+    width: 10,
+    height: 4,
+    paddingLeft: 24,
+    paddingRight: 24,
+    paddingTop: 20,
+    paddingBottom: 20,
+    background: "black",
+    boxShadow: "6px 6px 6px #E3A9FF",
+    border: "2px #E3A9FF solid",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 10,
+    color: "white",
+  };
   const checkboxStyles = {
     margin: "4px",
     padding: "4px",
@@ -218,14 +233,7 @@ export default function NewEventForm(props) {
               name="eventLocation"
               placeholder="Location"
             />
-            {/* <button
-              style={buttonStyles}
-              onClick={() =>
-                setMakePrivate((prevMakePrivate) => !prevMakePrivate)
-              }
-            >
-              {makePrivate}
-            </button> */}
+      
             <button style={buttonStyles} onClick={() => setFullForm(true)}>
               View More
             </button>
@@ -233,32 +241,28 @@ export default function NewEventForm(props) {
               Party Time
             </button>
           </form>
-          {/* <div style={{
-            textSize: "10px",
-          }}>Friend Invite list {inviteFriend}??</div> */}
-          {/* <div>
-            <input
-              value={inviteFriend}
-              onChange={(e) => setInviteFriend(e.target.value)}
-            />
-          </div> */}
+        
           <div
             style={{
               background: "black",
               color: "white",
             }}
           ></div>
-          <p>Friends</p>
+          
           <div
             id="container"
             style={{
               display: "flex",
-              flexWrap: "wrap",
-              flexDirection: "row",
-              justifyContent: "flex-start",
-              background: "black",
+              flexDirection: "column",
+              alignContent: "end", 
+              overflowY: "auto",
+              height: "400px",
+              // flexWrap: "wrap",
+              // flexDirection: "row",
+              // justifyContent: "flex-start",
+              // background: "black",
 
-              paddingLeft: 20,
+              // paddingLeft: 20,
               // height: "100%",
             }}
           >
@@ -266,7 +270,7 @@ export default function NewEventForm(props) {
               <div
                 key={profile.uid}
                 style={{
-                  flex: "1 0 auto",
+                  // flex: "1 0 auto",
                 }}
               >
                 <div
@@ -274,16 +278,17 @@ export default function NewEventForm(props) {
                   style={{
                     alignItems: "center",
                     background: "black",
-                    width: 100,
-                    height: 100,
+                    // width: 100,
+                    // height: 100,
                     textSize: "8px",
-                    padding: 20,
+                    // padding: 20,
                     display: "flex",
                     flexDirection: "column",
                     color: "white",
-                    borderRadius: "25px",
-                    border: "6px solid #ccc",
-                    margin: 10,
+                    overflow: "auto",
+                    // borderRadius: "25px",
+                    // border: "6px solid #ccc",
+                    // margin: 10,
                   }}
                 >
                   <div>
@@ -293,15 +298,15 @@ export default function NewEventForm(props) {
                       src={profile.profilePhoto}
                     ></img>
                   </div>
-                  <div>{profile.displayName}</div>
+                  <div style={{ textSize: 8, }}>{profile.displayName}</div>
                   <div>
                     <button
-                      style={buttonStyles}
+                      style={buttonStylesSmall}
                       onClick={() => {
                         handleInvitingFriend(profile.uid);
                       }}
                     >
-                      Invite Friend
+                      Invite
                     </button>
                   </div>
                 </div>

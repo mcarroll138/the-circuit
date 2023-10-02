@@ -43,8 +43,10 @@ export default function EditEventForm() {
 
                 return (
                   <div {...getSuggestionItemProps(suggestion, { style })}>
-                    {suggestion.description}
-                  </div>
+                        {suggestion.description}
+                        {suggestion.address}
+                    </div>
+                    
                 );
               })}
             </div>
