@@ -37,11 +37,6 @@ function EventList(props) {
           }}
         >
           <input
-            style={
-              {
-                // marginLeft: 12,
-              }
-            }
             type="radio"
             id="sortByAll"
             value="all"
@@ -49,10 +44,8 @@ function EventList(props) {
             onChange={(e) => {
               setRadio(e.target.value);
             }}
-            // defaultChecked={radio === "all"}
           />
-          <label for="sortByAll">All</label>
-
+          <label for="sortByAll">All Events</label>
           <input
             style={{
               marginLeft: 32,

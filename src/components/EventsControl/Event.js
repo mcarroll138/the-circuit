@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { formatDistanceToNow } from "date-fns";
 
 export default function Event(props) {
   const dateTimeValue = props.eventDateTime.split("T");
@@ -7,7 +8,9 @@ export default function Event(props) {
   const timeParts = dateTimeValue[1].split(":");
   const formattedDate = `${dateParts[1]}.${dateParts[2]}.${dateParts[0]}`;
   const formattedTime = timeFormatAmPm();
-
+  const publishedAgo = formatDistanceToNow(new Date(props.eventDateTime), {
+    addSuffix: true,
+  });
   function timeFormatAmPm() {
     let formmatedHour = parseInt(timeParts[0]);
     let amPm = "AM";
@@ -298,30 +301,30 @@ export default function Event(props) {
                 }}
               >
                 @{props.eventCreatorName}
-                {props.privateEvent}
               </div>
             </div>
           </div>
-        </div>
-        <div
-          style={{
-            justifyContent: "flex-start",
-            alignItems: "flex-start",
-            gap: 16,
-            display: "flex",
-          }}
-        >
+
           <div
             style={{
-              color: "#999999",
-              fontSize: 16,
-              fontFamily: "Arial",
-              fontWeight: "400",
-              lineHeight: 2,
-              wordWrap: "break-word",
+              justifyContent: "flex-start",
+              alignItems: "flex-start",
+              gap: 16,
+              display: "flex",
             }}
           >
-            Posted {props.formattedPostTime}X days ago
+            <div
+              style={{
+                color: "#999999",
+                fontSize: 16,
+                fontFamily: "Arial",
+                fontWeight: "400",
+                lineHeight: 2,
+                wordWrap: "break-word",
+              }}
+            >
+              {publishedAgo}
+            </div>
           </div>
         </div>
       </div>

@@ -35,13 +35,6 @@ export default function EventControl() {
           const timeDifference = eventDateTime - currentDate;
           events.push({
             ...doc.data(),
-            // eventCreator: doc.data().eventCreator,
-            // eventCreatorPhoto: doc.data().eventCreatorPhoto,
-            // eventName: doc.data().eventName,
-            // eventDateTime: doc.data().eventDateTime,
-            // eventDetail: doc.data().eventDetail,
-            // eventLocation: doc.data().eventLocation,
-            // eventImage: doc.data().eventImage,
             timeDifference: timeDifference,
             id: doc.id,
           });
