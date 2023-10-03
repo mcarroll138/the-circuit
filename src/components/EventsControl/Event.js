@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { formatDistanceToNow } from "date-fns";
 import { auth } from "../../firebase.js";
+import Linkify from "../Linkify";
 
 export default function Event(props) {
   const isHostedByCurrentUser = auth.currentUser.email === props.eventCreator;
@@ -72,7 +73,7 @@ export default function Event(props) {
             style={{
               justifyContent: "right",
               alignItems: "center",
-              gap: 16,
+              // gap: 16,
               display: "flex",
             }}
           >
@@ -92,6 +93,7 @@ export default function Event(props) {
             </div>
             <div
               style={{
+                
                 textAlign: "center",
                 color: "#E3A9FF",
                 fontSize: 20,
@@ -104,6 +106,7 @@ export default function Event(props) {
             ></div>
             <div
               style={{
+                paddingLeft: 20,
                 textAlign: "center",
                 color: "#E3A9FF",
                 fontSize: 20,
@@ -118,6 +121,7 @@ export default function Event(props) {
             </div>
             <div
               style={{
+                paddingLeft: 20,
                 textAlign: "center",
                 color: "#E3A9FF",
                 fontSize: 20,
@@ -211,7 +215,7 @@ export default function Event(props) {
               wordWrap: "break-word",
             }}
           >
-            {props.eventDetail}
+            <Linkify>{props.eventDetail}</Linkify>
           </div>
         </div>
         <button

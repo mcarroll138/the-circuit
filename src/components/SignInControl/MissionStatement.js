@@ -1,25 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import vectorImage from "../../assets/Logo.png";
+import EventImage from "../../assets/EventImage.jpg";
+import EventListImage from "../../assets/EventList.jpg";
+import FriendListImage from "../../assets/FriendList.jpg";
 
 export default function MissionStatement() {
   const mainDivContainerStyle = {
     background: "black",
     color: "white",
-      padding: 20,
-    };
-    
-    const secondaryDivContainerStyle = {
-        display: "flex",
-        fontSize: 36,
-        // padding: 20,
-        width: 400,
+    padding: 20,
+    // border: "2px solid white",
+    //     borderRadius: "4px",
+  };
+
+  const secondaryDivContainerStyle = {
+    display: "flex",
+    fontSize: 36,
+    // padding: 20,
+    // width: 400,
     flexDirection: "row",
-    alignItems: "center",
+    // alignItems: "center",
     flexShrink: 0,
     backgroundColor: "black",
-      justifyContent: "space-between",
-    
+    justifyContent: "space-between",
+    marginBottom: 20,
   };
 
   const headingStyle = {
@@ -32,14 +36,18 @@ export default function MissionStatement() {
   const bodyTextStyle = {
     fontSize: "24px",
     fontFamily: "arial",
+    marginBottom: 20,
   };
   return (
     <div style={mainDivContainerStyle} id="container">
       <div style={headingStyle}>
         Event Listings For Your Community
         <div style={bodyTextStyle}>
-          Ready to join our community? Sign up <Link to="/sign-in">here</Link>
-          to get started.
+          Ready to join our community? Sign up{" "}
+          <Link style={{ color: "#E3A9FF" }} to="/sign-in">
+            here  
+          </Link>
+          {" "}to get started.
         </div>
         <div style={secondaryDivContainerStyle}>
           <div>
@@ -49,30 +57,40 @@ export default function MissionStatement() {
               fiends and family.
             </p>
           </div>
-          <div>  <img
-                alt="Profile"
-                style={{
-                //   width: 60,
-                //   height: 60,
-                  // width: 80,
-                  paddingRight: 1,
-                  background: "linear-gradient(0deg, black 0%, black 100%)",
-                //   boxShadow: "6px 6px 0px #E3A9FF",
-                //   borderRadius: "50%",
-                //   border: "2px #E3A9FF solid",
-                }}
-                src={vectorImage}
-              /></div>
+          <div>
+            {" "}
+            <img
+              alt="Single Event"
+              style={{
+                width: 300,
+                height: 300,
+              }}
+              src={EventImage}
+            />
+          </div>
         </div>
         <div style={secondaryDivContainerStyle}>
           <div>
+            {" "}
+            <img
+              alt="Friend List"
+              style={{
+                width: 250,
+                height: 250,
+                marginRight: 20,
+                flex: "flex",
+                flexDirection: "column",
+              }}
+              src={FriendListImage}
+            />
+          </div>
+          <div>
             <p>Create Events</p>
             <p style={{ fontSize: 16 }}>
-              Create an event to share with others. Control invite list by
-              making event private or open to all.
+              Create an event to share with the community or an intimate
+              gathering with your friends.
             </p>
           </div>
-          <div>PhotoHere</div>
         </div>
         <div style={secondaryDivContainerStyle}>
           <div>
@@ -82,7 +100,19 @@ export default function MissionStatement() {
               public events and friend's events.
             </p>
           </div>
-          <div>PhotoHere</div>
+          <div>
+            {" "}
+            <img
+              alt="Event List"
+              style={{
+                width: 300,
+                height: 500,
+                flex: "flex",
+                flexDirection: "column",
+              }}
+              src={EventListImage}
+            />
+          </div>
         </div>
       </div>
     </div>

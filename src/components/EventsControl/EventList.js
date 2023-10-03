@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { auth } from "../../firebase.js";
 import { Route, Link } from "react-router-dom";
 import { useState } from "react";
+import Linkify from "../Linkify";
 
 function EventList(props) {
   const [radio, setRadio] = useState("all");
