@@ -93,7 +93,6 @@ export default function Event(props) {
             </div>
             <div
               style={{
-                
                 textAlign: "center",
                 color: "#E3A9FF",
                 fontSize: 20,
@@ -214,6 +213,7 @@ export default function Event(props) {
               lineHeight: 1.2,
               wordWrap: "break-word",
             }}
+            
           >
             <Linkify>{props.eventDetail}</Linkify>
           </div>

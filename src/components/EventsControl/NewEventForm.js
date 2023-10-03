@@ -22,7 +22,7 @@ export default function NewEventForm(props) {
   const [friendListUid, setFriendListUid] = useState([]);
   const [inviteFriend, setInviteFriend] = useState([]);
   const [name, setName] = useState("");
-  
+
   console.log(inviteFriend);
   useEffect(() => {
     const unSubscribe = onSnapshot(
@@ -182,12 +182,16 @@ export default function NewEventForm(props) {
   if (fullForm === false) {
     return (
       <>
+        <button style={buttonStyles} onClick={() => setFullForm(true)}>
+          Make Private?
+        </button>
         <div style={formDivStyles}>
           <form
             style={formStyles}
             onSubmit={handleNewEventFormSubmission}
             encType="multipart/form-data"
           >
+            Public Event
             <input
               style={inputStyles}
               type="hidden"
@@ -196,7 +200,7 @@ export default function NewEventForm(props) {
             />
             <input
               style={inputStyles}
-              type="text"
+              type="hidden"
               name="eventCreatorName"
               value={auth.currentUser.displayName}
             />
@@ -206,7 +210,12 @@ export default function NewEventForm(props) {
               name="eventCreatorPhoto"
               value={auth.currentUser.photoURL}
             />
-
+            <input
+              style={inputStyles}
+              type="text"
+              name="publicPrivate"
+              value="public"
+            />
             <div style={checkboxStyles}>
               <label>
                 Private Event
@@ -227,7 +236,6 @@ export default function NewEventForm(props) {
               name="eventDateTime"
               placeholder="Date/Time"
             />
-
             <input
               style={inputStyles}
               required
@@ -243,201 +251,104 @@ export default function NewEventForm(props) {
               name="eventLocation"
               placeholder="Location"
             />
-
-            <button style={buttonStyles} onClick={() => setFullForm(true)}>
-              View More
-            </button>
             <button style={buttonStyles} type="submit">
               Party Time
             </button>
           </form>
-
-          {/* <div
-            style={{
-              background: "black",
-              color: "white",
-            }}
-          ></div>
-
-          <div
-            id="container"
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignContent: "end",
-              overflowY: "auto",
-              height: "400px",
-              // flexWrap: "wrap",
-              // flexDirection: "row",
-              // justifyContent: "flex-start",
-              // background: "black",
-
-              // paddingLeft: 20,
-              // height: "100%",
-            }}
-          >
-            {peopleYouKnowProfiles.map((profile) => (
-              <div
-                key={profile.uid}
-                style={
-                  {
-                    // flex: "1 0 auto",
-                  }
-                }
-              >
-                <div
-                  id="youKnowCards"
-                  style={{
-                    alignItems: "center",
-                    background: "black",
-                    // width: 100,
-                    // height: 100,
-                    textSize: "8px",
-                    // padding: 20,
-                    display: "flex",
-                    flexDirection: "column",
-                    color: "white",
-                    overflow: "auto",
-                    // borderRadius: "25px",
-                    // border: "6px solid #ccc",
-                    // margin: 10,
-                  }}
-                >
-                  <div>
-                    <img
-                      alt="Profile"
-                      style={imgStyle}
-                      src={profile.profilePhoto}
-                    ></img>
-                  </div>
-                  <div style={{ textSize: 8 }}>{profile.displayName}</div>
-                  <div>
-                    <button
-                      style={buttonStylesSmall}
-                      onClick={() => {
-                        handleInvitingFriend(profile.uid);
-                      }}
-                    >
-                      Invite
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div> */}
         </div>
       </>
     );
-    // } else {
-    //   return (
-    //     <>
-    //       <div style={formDivStyles}>
-    //         <form
-    //           style={formStyles}
-    //           onSubmit={handleNewEventFormSubmission}
-    //           encType="multipart/form-data"
-    //         >
-    //           <input
-    //             style={inputStyles}
-    //             type="hidden"
-    //             name="eventCreator"
-    //             value={auth.currentUser.email}
-    //           />
-    //           <input
-    //             style={inputStyles}
-    //             type="hidden"
-    //             name="eventCreatorName"
-    //             value={auth.currentUser.displayName}
-    //           />
-    //           <input
-    //             style={inputStyles}
-    //             type="hidden"
-    //             name="eventCreatorPhoto"
-    //             value={auth.currentUser.photoURL}
-    //           />{" "}
-    //           <div style={checkboxStyles}>
-    //             <label>
-    //               Private Event
-    //               <input type="checkbox" name="privateEvent" />
-    //             </label>
-    //           </div>
-    //           <input
-    //             style={inputStyles}
-    //             required
-    //             // style={{ textTransform: "capitalize" }}
-    //             type="text"
-    //             name="eventName"
-    //             placeholder="Event Name"
-    //           />
-    //           <input
-    //             style={inputStyles}
-    //             // required
-    //             type="datetime-local"
-    //             name="eventDateTime"
-    //             placeholder="Date/Time"
-    //           />
-    //           <input
-    //             style={inputStyles}
-    //             // required
-    //             type="text"
-    //             name="eventDetail"
-    //             placeholder="Event Details"
-    //           />
-    //           <input
-    //             style={inputStyles}
-    //             // required
-    //             type="text"
-    //             name="eventLocation"
-    //             placeholder="Location"
-    //           />
-    //           <input
-    //             style={inputStyles}
-    //             // required
-    //             type="text"
-    //             name="longForm"
-    //             placeholder="Website Link"
-    //           />
-    //           <div
-    //             style={{
-    //               display: "flex",
-    //               flexDirection: "column",
-    //               justifyContent: "space-between",
-    //               alignItems: "center",
-    //               width: 320,
-    //             }}
-    //           >
-    //             <div style={checkboxStyles}>
-    //               <label>
-    //                 21+
-    //                 <input type="checkbox" name="drinkingAge" />
-    //               </label>
-    //             </div>
-    //             <div style={checkboxStyles}>
-    //               <label>
-    //                 Family Friendly
-    //                 <input type="checkbox" name="familyFriendly" />
-    //               </label>
-    //             </div>
-    //             <div style={checkboxStyles}>
-    //               <label>
-    //                 Sober Event
-    //                 <input type="checkbox" name="soberEvent" />
-    //               </label>
-    //             </div>
-    //           </div>
-    //           <button style={buttonStyles} onClick={() => setFullForm(false)}>
-    //             View less
-    //           </button>
-    //           <button style={buttonStyles} type="submit">
-    //             Party Time
-    //           </button>
-    //         </form>
-    //       </div>
-    //     </>
-    //   );
-    // }
+  } else {
+    return (
+      <>
+        <div
+          style={{
+            background: "black",
+            // justifyContent: "center",
+            position: "relative",
+            alignItems: "center",
+          }}
+        >
+          <button style={buttonStyles} onClick={() => setFullForm(false)}>
+            Make Public?
+          </button>
+        </div>
+        <div style={formDivStyles}>
+          <form
+            style={formStyles}
+            onSubmit={handleNewEventFormSubmission}
+            encType="multipart/form-data"
+          >
+            Private Event
+            <input
+              style={inputStyles}
+              type="hidden"
+              name="eventCreator"
+              value={auth.currentUser.email}
+            />
+            <input
+              style={inputStyles}
+              type="hidden"
+              name="eventCreatorName"
+              value={auth.currentUser.displayName}
+            />
+            <input
+              style={inputStyles}
+              type="hidden"
+              name="eventCreatorPhoto"
+              value={auth.currentUser.photoURL}
+            />
+            <input
+              style={inputStyles}
+              type="text"
+              name="publicPrivate"
+              value="prviate"
+            />
+            <div style={checkboxStyles}>
+              <label>
+                Private Event
+                <input type="checkbox" name="privateEvent" />
+              </label>
+            </div>
+            <input
+              style={inputStyles}
+              required
+              type="text"
+              name="eventName"
+              placeholder="Event Name"
+            />
+            <input
+              style={inputStyles}
+              required
+              type="datetime-local"
+              name="eventDateTime"
+              placeholder="Date/Time"
+            />
+            <input
+              style={inputStyles}
+              required
+              type="text"
+              rows="5"
+              name="eventDetail"
+              placeholder="Event Details"
+            />
+            <input
+              style={inputStyles}
+              // required
+              type="text"
+              name="eventLocation"
+              placeholder="Location"
+            />
+            <button style={buttonStyles} type="submit">
+              Party Time
+            </button>
+          </form>
+        </div>
+      </>
+    );
   }
 }
+
 NewEventForm.propTypes = {
   onNewEventCreation: PropTypes.func,
 };
