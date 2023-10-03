@@ -4,21 +4,48 @@ import { auth } from "../../firebase.js";
 
 export default function EventDetail(props) {
   const { event, onClickingDelete, formattedPostTime } = props;
-
+  const hostDivStyle = {
+    background: "black",
+    color: "white",
+  };
+  const buttonStyles = {
+    width: 180,
+    height: 20,
+    paddingLeft: 24,
+    paddingRight: 24,
+    paddingTop: 20,
+    paddingBottom: 20,
+    background: "black",
+    boxShadow: "6px 6px 6px #E3A9FF",
+    border: "2px #E3A9FF solid",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 10,
+    color: "white",
+  };
   if (auth.currentUser.email === event.eventCreator) {
     return (
       <>
-        <h1>{event.eventName}</h1>
+        <div style={hostDivStyle}>
+          <h1>{event.eventName}</h1>
+          <h3>Hosted By {event.eventCreatorName}</h3>
 
-        <h3>Hosted By {event.eventCreator}</h3>
-
-        <h3>{event.eventDateTime}</h3>
-        <h3>{event.eventDetail}</h3>
-        <h3>{event.eventLocation}</h3>
-        <h3> {event.eventImage}</h3>
-        <button onClick={props.onClickingEdit}>Edit Event</button>
-        <button onClick={() => onClickingDelete(event.id)}>Delete Event</button>
-        <hr />
+          <h3>{event.eventDateTime}</h3>
+          <h3>{event.eventDetail}</h3>
+          <h3>{event.eventLocation}</h3>
+          <h3> {event.eventImage}</h3>
+          <button style={buttonStyles} onClick={props.onClickingEdit}>
+            Edit Event
+          </button>
+          <button
+            style={buttonStyles}
+            onClick={() => onClickingDelete(event.id)}
+          >
+            Delete Event
+          </button>
+          <hr />
+        </div>
       </>
     );
   } else {
@@ -83,7 +110,6 @@ export default function EventDetail(props) {
                   wordWrap: "break-word",
                 }}
               >
-                
                 Yeah!
               </div>
               <div
@@ -210,7 +236,7 @@ export default function EventDetail(props) {
               {event.eventDetail}
             </div>
           </div>
-          {/* <div
+          <div
             onClick={() => props.whenEventClicked(props.id)}
             style={{
               width: 604,
@@ -227,7 +253,7 @@ export default function EventDetail(props) {
             onMouseOut={(e) => (e.target.style.color = "#E3A9FF")}
           >
             Read more
-          </div> */}
+          </div>
           <div
             style={{
               color: "#B3FFB1",

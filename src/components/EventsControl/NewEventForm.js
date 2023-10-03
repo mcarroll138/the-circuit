@@ -22,7 +22,7 @@ export default function NewEventForm(props) {
   const [friendListUid, setFriendListUid] = useState([]);
   const [inviteFriend, setInviteFriend] = useState([]);
   const [name, setName] = useState("");
-  let nextId = 0;
+  
   console.log(inviteFriend);
   useEffect(() => {
     const unSubscribe = onSnapshot(
@@ -162,7 +162,7 @@ export default function NewEventForm(props) {
 
     props.onNewEventCreation({
       privateEvent: event.target.privateEvent.value,
-      private: event.target.private.value,
+      // private: event.target.private.value,
       eventCreator: event.target.eventCreator.value,
       eventCreatorName: event.target.eventCreatorName.value,
       eventCreatorPhoto: event.target.eventCreatorPhoto.value,

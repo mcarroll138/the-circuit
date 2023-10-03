@@ -13,8 +13,7 @@ function EventList(props) {
   );
 
   const allEvents = props.eventList.filter(
-    (event) =>
-      auth.currentUser.email !== event.eventCreator && event.privateEvent !== "on"
+    (event) => auth.currentUser.email !== event.eventCreator
   );
   return (
     <React.Fragment>

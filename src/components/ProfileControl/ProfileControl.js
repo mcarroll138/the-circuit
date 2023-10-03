@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { db, auth } from "../../firebase";
-
+import vectorImage from "../../assets/Logo.png";
 import {
   collection,
   addDoc,
@@ -17,6 +17,8 @@ export default function UserProfile() {
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [friendListUid, setFriendListUid] = useState([]);
+  const [loadingProfiles, setLoadingProfiles] = useState(true);
+  const [loadingFriendList, setLoadingFriendList] = useState(true);
 
   useEffect(() => {
     const unSubscribe = onSnapshot(
@@ -30,7 +32,7 @@ export default function UserProfile() {
           });
         });
         setProfiles(profileList);
-        setLoading(false);
+        setLoadingProfiles(false);
       }
     );
     const friendListUnSubscribe = onSnapshot(
@@ -44,7 +46,7 @@ export default function UserProfile() {
           });
         });
         setFriendListUid(friendList);
-        setLoading(false);
+        setLoadingFriendList(false);
       }
     );
     return () => {
@@ -66,7 +68,6 @@ export default function UserProfile() {
     try {
       const docRef = await addDoc(collection(db, "profiles"), newProfileData);
       console.log("Document written with ID:", docRef.id);
-
     } catch (error) {}
   };
 
@@ -160,7 +161,23 @@ export default function UserProfile() {
     });
     return isFriend;
   });
-
+  if (loadingProfiles || loadingFriendList) {
+    return (
+      <div
+        style={{
+          backGroundColor: "black",
+          color: "white",
+        }}
+      >
+        <img
+          src={vectorImage}
+          alt="The Circuit"
+          // style={{ maxWidth: "100%", maxHeight: "100%" }}
+        />
+        Thank you for being a friend...
+      </div>
+    );
+  }
   if (filteredProfiles.length === 0) {
     return (
       <div
@@ -230,7 +247,6 @@ export default function UserProfile() {
             fontFamily: "arial",
             fontWeight: "400",
             lineHeight: 2,
-          
           }}
         >
           <form
@@ -260,7 +276,7 @@ export default function UserProfile() {
               onChange={(e) => {
                 setRadio(e.target.value);
               }}
-              defaultChecked={radio === "mightKnow"}
+              // defaultChecked={radio === "mightKnow"}
             />
             <label for="sortByMightKnow">Might Know</label>
           </form>
