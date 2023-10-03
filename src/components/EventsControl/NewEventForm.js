@@ -153,7 +153,7 @@ export default function NewEventForm(props) {
     width: "50px",
     borderRadius: "50%",
   };
-  const [fullForm, setFullForm] = useState(false);
+  const [privateForm, setPrivateForm] = useState(false);
   const [radioPrivate, setRadioPrivate] = useState("public");
 
   console.log(radioPrivate);
@@ -161,17 +161,17 @@ export default function NewEventForm(props) {
     event.preventDefault();
 
     props.onNewEventCreation({
-      privateEvent: event.target.privateEvent.value,
-      // private: event.target.private.value,
+      // privateEvent: event.target.privateEvent.value,
       eventCreator: event.target.eventCreator.value,
       eventCreatorName: event.target.eventCreatorName.value,
       eventCreatorPhoto: event.target.eventCreatorPhoto.value,
+      publicPrivate: event.target.publicPrivate.value,
 
       eventName: event.target.eventName.value,
       eventDateTime: event.target.eventDateTime.value,
       eventDetail: event.target.eventDetail.value,
       eventLocation: event.target.eventLocation.value,
-      // longForm: event.target.longForm.value,
+      // private: event.target.private.value,
       // drinkingAge: event.target.drinkingAge.value,
       // familyFriendly: event.target.familyFriendly.value,
       // soberEvent: event.target.soberEvent.value,
@@ -179,12 +179,23 @@ export default function NewEventForm(props) {
       timeOpen: serverTimestamp(),
     });
   }
-  if (fullForm === false) {
+  if (privateForm === false) {
     return (
       <>
-        <button style={buttonStyles} onClick={() => setFullForm(true)}>
-          Make Private?
-        </button>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            background: "black",
+            alignItems: "center",
+            // justifyContent: "center",
+            // position: "relative",
+          }}
+        >
+          <button style={buttonStyles} onClick={() => setPrivateForm(true)}>
+            Make Private?
+          </button>
+        </div>
         <div style={formDivStyles}>
           <form
             style={formStyles}
@@ -212,16 +223,16 @@ export default function NewEventForm(props) {
             />
             <input
               style={inputStyles}
-              type="text"
+              type="hidden"
               name="publicPrivate"
               value="public"
             />
-            <div style={checkboxStyles}>
+            {/* <div style={checkboxStyles}>
               <label>
                 Private Event
                 <input type="checkbox" name="privateEvent" />
               </label>
-            </div>
+            </div> */}
             <input
               style={inputStyles}
               required
@@ -263,13 +274,13 @@ export default function NewEventForm(props) {
       <>
         <div
           style={{
+            display: "flex",
+            justifyContent: "center",
             background: "black",
-            // justifyContent: "center",
-            position: "relative",
             alignItems: "center",
           }}
         >
-          <button style={buttonStyles} onClick={() => setFullForm(false)}>
+          <button style={buttonStyles} onClick={() => setPrivateForm(false)}>
             Make Public?
           </button>
         </div>
@@ -300,16 +311,16 @@ export default function NewEventForm(props) {
             />
             <input
               style={inputStyles}
-              type="text"
+              type="hidden"
               name="publicPrivate"
               value="prviate"
             />
-            <div style={checkboxStyles}>
+            {/* <div style={checkboxStyles}>
               <label>
                 Private Event
                 <input type="checkbox" name="privateEvent" />
               </label>
-            </div>
+            </div> */}
             <input
               style={inputStyles}
               required
