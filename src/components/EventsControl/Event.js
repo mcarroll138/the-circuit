@@ -1,8 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { formatDistanceToNow } from "date-fns";
+import { auth } from "../../firebase.js";
 
 export default function Event(props) {
+  const isHostedByCurrentUser = auth.currentUser.email === props.eventCreator;
+  const notHostedByCurrentUser = auth.currentUser.email !== props.eventCreator;
   const dateTimeValue = props.eventDateTime.split("T");
   const dateParts = dateTimeValue[0].split("-");
   const timeParts = dateTimeValue[1].split(":");
@@ -211,39 +214,34 @@ export default function Event(props) {
             {props.eventDetail}
           </div>
         </div>
-        <div
+        <button
           onClick={() => props.whenEventClicked(props.id)}
           style={{
-            width: 604,
-            color: "#E3A9FF",
-            fontSize: 16,
-            fontFamily: "Arial",
-            fontWeight: "400",
-            textDecoration: "underline",
-            lineHeight: 2,
-            wordWrap: "break-word",
+            width: 180,
+            // height: 20,
+            // paddingLeft: 24,
+            // paddingRight: 24,
+            paddingTop: 20,
+            paddingBottom: 20,
+            background: "black",
+            boxShadow: "6px 6px 6px #E3A9FF",
+            border: "2px #E3A9FF solid",
+            // display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 10,
+            color: "white",
             cursor: "pointer",
+            display: isHostedByCurrentUser ? "block" : "none",
           }}
           onMouseOver={(e) => (e.target.style.color = "#B3FFB1")}
           onMouseOut={(e) => (e.target.style.color = "#E3A9FF")}
         >
-          Read more
-        </div>
-        {/* <div
-          style={{
-            color: "#B3FFB1",
-            fontSize: 16,
-            fontFamily: "Arial",
-            fontWeight: "400",
-            lineHeight: 2,
-            wordWrap: "break-word",
-          }}
-        >
-          X close friends are a yeah!
-        </div> */}
+          Change Event?
+        </button>
+
         <div
           style={{
-            width: 604,
             justifyContent: "space-between",
             alignItems: "center",
             display: "inline-flex",
@@ -315,7 +313,8 @@ export default function Event(props) {
           >
             <div
               style={{
-                color: "#999999",
+                marginLeft: 4,
+                color: "white",
                 fontSize: 16,
                 fontFamily: "Arial",
                 fontWeight: "400",
