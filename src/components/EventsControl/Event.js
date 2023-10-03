@@ -44,6 +44,7 @@ export default function Event(props) {
           boxShadow: "6px 6px 0px white",
           borderRadius: 24,
           border: "2px white solid",
+          marginBottom: 16,
         }}
       >
         <div

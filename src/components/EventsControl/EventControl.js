@@ -154,9 +154,8 @@ export default function EventControl() {
               justifyContent: "center",
               alignItems: "center",
               gap: 10,
+              marginTop: 10,
             }}
-            // onMouseOver={(e) => (e.target.style.color = "#B3FFB1")}
-            // onMouseOut={(e) => (e.target.style.color = "#E3A9FF")}
           >
             {error ? null : (
               <button

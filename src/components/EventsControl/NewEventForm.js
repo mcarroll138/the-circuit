@@ -161,7 +161,6 @@ export default function NewEventForm(props) {
     event.preventDefault();
 
     props.onNewEventCreation({
-      // privateEvent: event.target.privateEvent.value,
       eventCreator: event.target.eventCreator.value,
       eventCreatorName: event.target.eventCreatorName.value,
       eventCreatorPhoto: event.target.eventCreatorPhoto.value,
@@ -171,6 +170,7 @@ export default function NewEventForm(props) {
       eventDateTime: event.target.eventDateTime.value,
       eventDetail: event.target.eventDetail.value,
       eventLocation: event.target.eventLocation.value,
+      // privateEvent: event.target.privateEvent.value,
       // private: event.target.private.value,
       // drinkingAge: event.target.drinkingAge.value,
       // familyFriendly: event.target.familyFriendly.value,
@@ -227,12 +227,6 @@ export default function NewEventForm(props) {
               name="publicPrivate"
               value="public"
             />
-            {/* <div style={checkboxStyles}>
-              <label>
-                Private Event
-                <input type="checkbox" name="privateEvent" />
-              </label>
-            </div> */}
             <input
               style={inputStyles}
               required
@@ -313,7 +307,7 @@ export default function NewEventForm(props) {
               style={inputStyles}
               type="hidden"
               name="publicPrivate"
-              value="prviate"
+              value="private"
             />
             {/* <div style={checkboxStyles}>
               <label>

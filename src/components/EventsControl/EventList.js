@@ -14,7 +14,9 @@ function EventList(props) {
   );
 
   const allEvents = props.eventList.filter(
-    (event) => auth.currentUser.email !== event.eventCreator
+    (event) =>
+      event.publicPrivate !== "private" &&
+      auth.currentUser.email !== event.eventCreator
   );
   return (
     <React.Fragment>
@@ -106,6 +108,7 @@ function EventList(props) {
               <Event
                 whenEventClicked={props.onEventSelection}
                 eventCreator={event.eventCreator}
+                publicPrivate={event.publicPrivate}
                 eventCreatorName={event.eventCreatorName}
                 eventCreatorPhoto={event.eventCreatorPhoto}
                 eventName={event.eventName}
@@ -139,6 +142,7 @@ function EventList(props) {
               <Event
                 whenEventClicked={props.onEventSelection}
                 eventCreator={event.eventCreator}
+                publicPrivate={event.publicPrivate}
                 eventCreatorName={event.eventCreatorName}
                 eventCreatorPhoto={event.eventCreatorPhoto}
                 eventName={event.eventName}
