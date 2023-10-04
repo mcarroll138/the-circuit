@@ -18,6 +18,12 @@ function EventList(props) {
       event.publicPrivate !== "private" &&
       auth.currentUser.email !== event.eventCreator
   );
+
+  // const yeahEvents = profiles.filter((eventResponse) => {
+  //   const isYeah = eventStatus.eventStatusResponse === "yeah";
+  //   return isYeah;
+  // });
+  // console.log(yeahEvents);
   return (
     <React.Fragment>
       <div
@@ -141,7 +147,6 @@ function EventList(props) {
             {/* Hosted By Me */}
             {hostingEvents.map((event) => (
               <Event
-                
                 whenEventClicked={props.onEventSelection}
                 eventCreator={event.eventCreator}
                 publicPrivate={event.publicPrivate}

@@ -51,31 +51,56 @@ export default function EventControl() {
         setError(error.message);
       }
     );
-    const eventStatusUnSubscribe = onSnapshot(
-      collection(db, "profiles", auth.currentUser.uid, "eventStatus"),
-      (collectionSnapshot) => {
-        const eventStatusList = [];
-        collectionSnapshot.forEach((doc) => {
-          eventStatusList.push({
-            id: doc.id,
-            ...doc.data(),
-          });
-        });
-        setEventStatusListStatus(eventStatusList);
-        setLoadingEventStatusList(false);
-      }
-    );
+    // const eventStatusUnSubscribe = onSnapshot(
+    //   collection(db, "profiles", auth.currentUser.uid, "eventStatus"),
+    //   (collectionSnapshot) => {
+    //     const eventStatusList = [];
+    //     collectionSnapshot.forEach((doc) => {
+    //       eventStatusList.push({
+    //         id: doc.id,
+    //         ...doc.data(),
+    //       });
+    //     });
+    //     setEventStatusListStatus(eventStatusList);
+    //     setLoadingEventStatusList(false);
+    //   }
+    // );
     return () => {
       unSubscribe();
-      eventStatusUnSubscribe();
+      // eventStatusUnSubscribe();
+      // console.log(eventStatusListStatus);
     };
   }, []);
 
-  const userDocRef = doc(db, "profiles", auth.currentUser.uid);
-  const eventStatusCollectionRef = collection(userDocRef, "eventStatus");
-  const handleAddingEventStatus = async (eventId, eventStatusResponse) => {
-    await addDoc(eventStatusCollectionRef, { eventId, eventStatusResponse });
-  };
+  if (auth.currentUser !== null) {
+    useEffect(() => {
+      const eventStatusUnSubscribe = onSnapshot(
+        collection(db, "profiles", auth.currentUser.uid, "eventStatus"),
+        (collectionSnapshot) => {
+          const eventStatusList = [];
+          collectionSnapshot.forEach((doc) => {
+            eventStatusList.push({
+              id: doc.id,
+              ...doc.data(),
+            });
+          });
+
+          setEventStatusListStatus(eventStatusList);
+          setLoadingEventStatusList(false);
+        }
+      );
+      return () => {
+        eventStatusUnSubscribe();
+        console.log(eventStatusListStatus);
+      };
+    }, []);
+  }
+
+  // const userDocRef = doc(db, "profiles", auth.currentUser.uid);
+  // const eventStatusCollectionRef = collection(userDocRef, "eventStatus");
+  // const handleAddingEventStatus = async (eventId, eventStatusResponse) => {
+  //   await addDoc(eventStatusCollectionRef, { eventId, eventStatusResponse });
+  // };
 
   const handleClick = () => {
     if (selectedEvent != null) {
@@ -112,7 +137,7 @@ export default function EventControl() {
     setEditing(false);
     setSelectedEvent(null);
   };
-  if (auth.currentUser == null) {
+  if (auth.currentUser === null) {
     return (
       <>
         <MissionStatement />
@@ -151,10 +176,10 @@ export default function EventControl() {
         <EventList
           onEventSelection={handleChangingSelectedEvent}
           eventList={mainEventList}
-          handleAddingEventStatus={handleAddingEventStatus}
+          // handleAddingEventStatus={handleAddingEventStatus}
         />
       );
-      console.log(auth.currentUser.uid);
+
       buttonText = "+ Add Event";
     }
     return (
@@ -215,7 +240,6 @@ export default function EventControl() {
   }
 }
 
-//Working Event Control prior to add event to subcollection
 // import React, { useEffect, useState } from "react";
 // import NewEventForm from "./NewEventForm";
 // import EditEventForm from "./EditEventForm";
@@ -227,6 +251,9 @@ export default function EventControl() {
 //   addDoc,
 //   onSnapshot,
 //   doc,
+//   getDocs,
+//   query,
+//   where,
 //   updateDoc,
 //   deleteDoc,
 // } from "firebase/firestore";
@@ -240,6 +267,8 @@ export default function EventControl() {
 //   const [selectedEvent, setSelectedEvent] = useState(null);
 //   const [editing, setEditing] = useState(false);
 //   const [error, setError] = useState(null);
+//   const [eventStatusListStatus, setEventStatusListStatus] = useState([]);
+//   const [loadingEventStatusList, setLoadingEventStatusList] = useState(true);
 
 //   useEffect(() => {
 //     const unSubscribe = onSnapshot(
@@ -264,8 +293,31 @@ export default function EventControl() {
 //         setError(error.message);
 //       }
 //     );
-//     return () => unSubscribe();
+//     const eventStatusUnSubscribe = onSnapshot(
+//       collection(db, "profiles", auth.currentUser.uid, "eventStatus"),
+//       (collectionSnapshot) => {
+//         const eventStatusList = [];
+//         collectionSnapshot.forEach((doc) => {
+//           eventStatusList.push({
+//             id: doc.id,
+//             ...doc.data(),
+//           });
+//         });
+//         setEventStatusListStatus(eventStatusList);
+//         setLoadingEventStatusList(false);
+//       }
+//     );
+//     return () => {
+//       unSubscribe();
+//       eventStatusUnSubscribe();
+//     };
 //   }, []);
+
+//   const userDocRef = doc(db, "profiles", auth.currentUser.uid);
+//   const eventStatusCollectionRef = collection(userDocRef, "eventStatus");
+//   const handleAddingEventStatus = async (eventId, eventStatusResponse) => {
+//     await addDoc(eventStatusCollectionRef, { eventId, eventStatusResponse });
+//   };
 
 //   const handleClick = () => {
 //     if (selectedEvent != null) {
@@ -302,7 +354,7 @@ export default function EventControl() {
 //     setEditing(false);
 //     setSelectedEvent(null);
 //   };
-//   if (auth.currentUser == null) {
+//   if (auth.currentUser === null) {
 //     return (
 //       <>
 //         <MissionStatement />
@@ -341,9 +393,10 @@ export default function EventControl() {
 //         <EventList
 //           onEventSelection={handleChangingSelectedEvent}
 //           eventList={mainEventList}
+//           handleAddingEventStatus={handleAddingEventStatus}
 //         />
 //       );
-//       console.log(auth.currentUser.email);
+//       console.log(auth.currentUser.uid);
 //       buttonText = "+ Add Event";
 //     }
 //     return (

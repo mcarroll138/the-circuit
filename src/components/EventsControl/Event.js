@@ -93,6 +93,7 @@ export default function Event(props) {
             >
               <form
                 style={{
+                  // display: isHostedByCurrentUser ? "none" : "block",
                   display: "flex",
                 }}
               >
@@ -151,36 +152,6 @@ export default function Event(props) {
                 wordWrap: "break-word",
               }}
             ></div>
-            {/* <div
-              style={{
-                paddingLeft: 20,
-                textAlign: "center",
-                color: "#E3A9FF",
-                fontSize: 20,
-                fontFamily: "Arial",
-                fontWeight: "400",
-                textDecoration: "underline",
-                lineHeight: 2,
-                wordWrap: "break-word",
-              }}
-            >
-              Nahh
-            </div> */}
-            {/* <div
-              style={{
-                paddingLeft: 20,
-                textAlign: "center",
-                color: "#E3A9FF",
-                fontSize: 20,
-                fontFamily: "Arial",
-                fontWeight: "400",
-                textDecoration: "underline",
-                lineHeight: 2,
-                wordWrap: "break-word",
-              }}
-            >
-              Humm
-            </div> */}
           </div>
         </div>
         <div
@@ -269,15 +240,11 @@ export default function Event(props) {
           onClick={() => props.whenEventClicked(props.id)}
           style={{
             width: 180,
-            // height: 20,
-            // paddingLeft: 24,
-            // paddingRight: 24,
             paddingTop: 20,
             paddingBottom: 20,
             background: "black",
             boxShadow: "6px 6px 6px #E3A9FF",
             border: "2px #E3A9FF solid",
-            // display: "flex",
             justifyContent: "center",
             alignItems: "center",
             gap: 10,
