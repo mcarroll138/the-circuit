@@ -73,8 +73,8 @@ export default function EventControl() {
 
   const userDocRef = doc(db, "profiles", auth.currentUser.uid);
   const eventStatusCollectionRef = collection(userDocRef, "eventStatus");
-  const handleAddingEventStatus = async (eventId) => {
-    await addDoc(eventStatusCollectionRef, { eventId });
+  const handleAddingEventStatus = async (eventId, eventStatusResponse) => {
+    await addDoc(eventStatusCollectionRef, { eventId, eventStatusResponse });
   };
 
   const handleClick = () => {
