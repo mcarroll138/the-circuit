@@ -103,6 +103,8 @@ export default function Event(props) {
                   checked={radio === "yeah"}
                   onChange={(e) => {
                     setRadio(e.target.value);
+                    // handleAddingEventStatus();
+                    props.whenRadioSelected(props.id);
                   }}
                 />
                 <label for="yeah">Yeah!</label>

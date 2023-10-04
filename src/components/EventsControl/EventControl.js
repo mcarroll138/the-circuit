@@ -9,6 +9,9 @@ import {
   addDoc,
   onSnapshot,
   doc,
+  getDocs,
+  query,
+  where,
   updateDoc,
   deleteDoc,
 } from "firebase/firestore";
@@ -22,6 +25,8 @@ export default function EventControl() {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [editing, setEditing] = useState(false);
   const [error, setError] = useState(null);
+  const [eventStatusListStatus, setEventStatusListStatus] = useState([]);
+  const [loadingEventStatusList, setLoadingEventStatusList] = useState(true);
 
   useEffect(() => {
     const unSubscribe = onSnapshot(
@@ -46,8 +51,31 @@ export default function EventControl() {
         setError(error.message);
       }
     );
-    return () => unSubscribe();
+    const eventStatusUnSubscribe = onSnapshot(
+      collection(db, "profiles", auth.currentUser.uid, "eventStatus"),
+      (collectionSnapshot) => {
+        const eventStatusList = [];
+        collectionSnapshot.forEach((doc) => {
+          eventStatusList.push({
+            id: doc.id,
+            ...doc.data(),
+          });
+        });
+        setEventStatusListStatus(eventStatusList);
+        setLoadingEventStatusList(false);
+      }
+    );
+    return () => {
+      unSubscribe();
+      eventStatusUnSubscribe();
+    };
   }, []);
+
+  const userDocRef = doc(db, "profiles", auth.currentUser.uid);
+  const eventStatusCollectionRef = collection(userDocRef, "eventStatus");
+  const handleAddingEventStatus = async (eventId) => {
+    await addDoc(eventStatusCollectionRef, { eventId });
+  };
 
   const handleClick = () => {
     if (selectedEvent != null) {
@@ -123,9 +151,10 @@ export default function EventControl() {
         <EventList
           onEventSelection={handleChangingSelectedEvent}
           eventList={mainEventList}
+          handleAddingEventStatus={handleAddingEventStatus}
         />
       );
-      console.log(auth.currentUser.email);
+      console.log(auth.currentUser.uid);
       buttonText = "+ Add Event";
     }
     return (

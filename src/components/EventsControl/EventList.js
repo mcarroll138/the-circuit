@@ -106,6 +106,7 @@ function EventList(props) {
             {/* All Events  */}
             {allEvents.map((event) => (
               <Event
+                whenRadioSelected={props.handleAddingEventStatus}
                 whenEventClicked={props.onEventSelection}
                 eventCreator={event.eventCreator}
                 publicPrivate={event.publicPrivate}
@@ -140,6 +141,7 @@ function EventList(props) {
             {/* Hosted By Me */}
             {hostingEvents.map((event) => (
               <Event
+                
                 whenEventClicked={props.onEventSelection}
                 eventCreator={event.eventCreator}
                 publicPrivate={event.publicPrivate}
