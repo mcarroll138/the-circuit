@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { formatDistanceToNow } from "date-fns";
 import { auth } from "../../firebase.js";
 import Linkify from "../Linkify";
 
 export default function Event(props) {
+  const [radio, setRadio] = useState("");
   const isHostedByCurrentUser = auth.currentUser.email === props.eventCreator;
   const notHostedByCurrentUser = auth.currentUser.email !== props.eventCreator;
   const dateTimeValue = props.eventDateTime.split("T");
@@ -65,7 +66,7 @@ export default function Event(props) {
               lineHeight: "100%",
               textTransform: "uppercase",
               wordWrap: "break-word",
-              paddingRight: "30%",
+              paddingRight: "10%",
             }}
           >
             {formattedDate}
@@ -90,7 +91,50 @@ export default function Event(props) {
                 wordWrap: "break-word",
               }}
             >
-              Yeah!
+              <form
+                style={{
+                  display: "flex",
+                }}
+              >
+                <input
+                  type="radio"
+                  id="yeah"
+                  value="yeah"
+                  checked={radio === "yeah"}
+                  onChange={(e) => {
+                    setRadio(e.target.value);
+                  }}
+                />
+                <label for="yeah">Yeah!</label>
+                <input
+                  style={{
+                    marginLeft: 32,
+                  }}
+                  label="not"
+                  // marginLeft={radio !== "nahh" ? 60 : 90} radio selction not working
+                  type="radio"
+                  id="nahh"
+                  value="nahh"
+                  checked={radio === "nahh"}
+                  onChange={(e) => {
+                    setRadio(e.target.value);
+                  }}
+                />
+                <label for="nahh">Nahh</label>
+                <input
+                  style={{
+                    marginLeft: 32,
+                  }}
+                  type="radio"
+                  id="humm"
+                  value="humm"
+                  checked={radio === "humm"}
+                  onChange={(e) => {
+                    setRadio(e.target.value);
+                  }}
+                />
+                <label for="humm">Humm</label>
+              </form>
             </div>
             <div
               style={{
@@ -104,7 +148,7 @@ export default function Event(props) {
                 wordWrap: "break-word",
               }}
             ></div>
-            <div
+            {/* <div
               style={{
                 paddingLeft: 20,
                 textAlign: "center",
@@ -118,8 +162,8 @@ export default function Event(props) {
               }}
             >
               Nahh
-            </div>
-            <div
+            </div> */}
+            {/* <div
               style={{
                 paddingLeft: 20,
                 textAlign: "center",
@@ -133,7 +177,7 @@ export default function Event(props) {
               }}
             >
               Humm
-            </div>
+            </div> */}
           </div>
         </div>
         <div
@@ -214,7 +258,6 @@ export default function Event(props) {
               lineHeight: 1.2,
               wordWrap: "break-word",
             }}
-            
           >
             <Linkify>{props.eventDetail}</Linkify>
           </div>
