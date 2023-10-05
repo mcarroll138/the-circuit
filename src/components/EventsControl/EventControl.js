@@ -56,21 +56,28 @@ export default function EventControl() {
     const eventRef = doc(db, "events", eventId);
     const eventDoc = await getDoc(eventRef);
     const eventData = eventDoc.data();
+    const userUid = auth.currentUser.uid;
 
     if (
       eventData.yeahResponses &&
       eventData.yeahResponses.includes(auth.currentUser.uid)
     ) {
       const updatedYeahArray = eventData.yeahResponses.filter(
-        (uid) => uid !== auth.currentUser.uid
+        (uid) => uid !== userUid
       );
       await updateDoc(eventRef, { yeahResponses: updatedYeahArray });
     } else {
-      const updatedYeahArray = [
-        ...(eventData.yeahResponses || []),
-        auth.currentUser.uid,
-      ];
+      const updatedYeahArray = [...(eventData.yeahResponses || []), userUid];
       await updateDoc(eventRef, { yeahResponses: updatedYeahArray });
+      const updatedNahhArray = (eventData.nahhResponses || []).filter(
+        (uid) => uid !== userUid
+      );
+      const updatedHummArray = (eventData.hummResponses || []).filter(
+        (uid) => uid !== userUid
+      );
+
+      await updateDoc(eventRef, { nahhResponses: updatedNahhArray });
+      await updateDoc(eventRef, { hummResponses: updatedHummArray });
     }
   };
 
@@ -78,21 +85,27 @@ export default function EventControl() {
     const eventRef = doc(db, "events", eventId);
     const eventDoc = await getDoc(eventRef);
     const eventData = eventDoc.data();
+    const userUid = auth.currentUser.uid;
 
     if (
       eventData.nahhResponses &&
       eventData.nahhResponses.includes(auth.currentUser.uid)
     ) {
-      const updatedHummArray = eventData.nahhResponses.filter(
-        (uid) => uid !== auth.currentUser.uid
+      const updatedNahhArray = eventData.nahhResponses.filter(
+        (uid) => uid !== userUid
       );
-      await updateDoc(eventRef, { nahhResponses: updatedHummArray });
+      await updateDoc(eventRef, { nahhResponses: updatedNahhArray });
     } else {
-      const updatedYeahArray = [
-        ...(eventData.nahhResponses || []),
-        auth.currentUser.uid,
-      ];
-      await updateDoc(eventRef, { nahhResponses: updatedYeahArray });
+      const updatedNahhArray = [...(eventData.nahhResponses || []), userUid];
+      await updateDoc(eventRef, { nahhResponses: updatedNahhArray });
+      const updatedYeahArray = (eventData.yeahResponses || []).filter(
+        (uid) => uid !== userUid
+      );
+      const updatedHummArray = (eventData.hummResponses || []).filter(
+        (uid) => uid !== userUid
+      );
+      await updateDoc(eventRef, { hummResponses: updatedHummArray });
+      await updateDoc(eventRef, { yeahResponses: updatedYeahArray });
     }
   };
 
@@ -100,21 +113,27 @@ export default function EventControl() {
     const eventRef = doc(db, "events", eventId);
     const eventDoc = await getDoc(eventRef);
     const eventData = eventDoc.data();
+    const userUid = auth.currentUser.uid;
 
     if (
       eventData.hummResponses &&
       eventData.hummResponses.includes(auth.currentUser.uid)
     ) {
       const updatedHummArray = eventData.hummResponses.filter(
-        (uid) => uid !== auth.currentUser.uid
+        (uid) => uid !== userUid
       );
       await updateDoc(eventRef, { hummResponses: updatedHummArray });
     } else {
-      const updatedYeahArray = [
-        ...(eventData.hummResponses || []),
-        auth.currentUser.uid,
-      ];
-      await updateDoc(eventRef, { hummResponses: updatedYeahArray });
+      const updatedHummArray = [...(eventData.hummResponses || []), userUid];
+      await updateDoc(eventRef, { hummResponses: updatedHummArray });
+      const updatedYeahArray = (eventData.yeahResponses || []).filter(
+        (uid) => uid !== userUid
+      );
+      const updatedNahhArray = (eventData.nahhResponses || []).filter(
+        (uid) => uid !== userUid
+      );
+      await updateDoc(eventRef, { nahhResponses: updatedNahhArray });
+      await updateDoc(eventRef, { yeahResponses: updatedYeahArray });
     }
   };
 

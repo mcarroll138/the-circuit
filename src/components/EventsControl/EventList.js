@@ -13,11 +13,25 @@ function EventList(props) {
     (event) => auth.currentUser.email === event.eventCreator
   );
 
-  const allEvents = props.eventList.filter(
-    (event) =>
+  // const allEvents = props.eventList.filter(
+  //   (event) =>
+  //     event.publicPrivate !== "private" &&
+  //     auth.currentUser.email !== event.eventCreator &&
+  //     !event.yeahResponses &&
+  //     !event.hummResponses &&
+  //     !event.nahhResponses
+  // );
+
+  const newEvents = props.eventList.filter((event) => {
+    const userUid = auth.currentUser.uid;
+    return (
       event.publicPrivate !== "private" &&
-      auth.currentUser.email !== event.eventCreator
-  );
+      auth.currentUser.email !== event.eventCreator &&
+      !event.yeahResponses?.includes(userUid) &&
+      !event.nahhResponses?.includes(userUid) &&
+      !event.hummResponses?.includes(userUid)
+    );
+  });
 
   const yeahEvents = props.eventList.filter(
     (event) =>
@@ -64,7 +78,7 @@ function EventList(props) {
               setRadio(e.target.value);
             }}
           />
-          <label for="sortByAll">All Events</label>
+          <label for="sortByAll">New Events</label>
           <input
             style={{
               marginLeft: 32,
@@ -128,16 +142,15 @@ function EventList(props) {
               justifyContent: "center",
               alignItems: "center",
               background: "black",
-              display: "flex",
               flexDirection: "column",
             }}
           >
-            {/* All Events  */}
-            {allEvents.map((event) => (
+            {/* New Events  */}
+            {newEvents.map((event) => (
               <Event
                 whenYeahSelected={props.handleYeahEventStatus}
                 whenNahhSelected={props.handleNahhEventStatus}
-                whenHummSelected={props.handleNahhEventStatus}
+                whenHummSelected={props.handleHummEventStatus}
                 whenEventClicked={props.onEventSelection}
                 eventCreator={event.eventCreator}
                 publicPrivate={event.publicPrivate}
@@ -165,13 +178,15 @@ function EventList(props) {
               justifyContent: "center",
               alignItems: "center",
               background: "black",
-              display: "flex",
               flexDirection: "column",
             }}
           >
             {/* Attending */}
             {yeahEvents.map((event) => (
               <Event
+                whenYeahSelected={props.handleYeahEventStatus}
+                whenNahhSelected={props.handleNahhEventStatus}
+                whenHummSelected={props.handleHummEventStatus}
                 whenEventClicked={props.onEventSelection}
                 eventCreator={event.eventCreator}
                 publicPrivate={event.publicPrivate}
@@ -195,7 +210,6 @@ function EventList(props) {
           <div
             id="eventListDiv"
             style={{
-              display: "flex",
               justifyContent: "center",
               alignItems: "center",
               background: "black",
@@ -208,7 +222,7 @@ function EventList(props) {
               <Event
                 whenYeahSelected={props.handleYeahEventStatus}
                 whenNahhSelected={props.handleNahhEventStatus}
-                whenHummSelected={props.handleNahhEventStatus}
+                whenHummSelected={props.handleHummEventStatus}
                 whenEventClicked={props.onEventSelection}
                 eventCreator={event.eventCreator}
                 publicPrivate={event.publicPrivate}
@@ -232,7 +246,6 @@ function EventList(props) {
           <div
             id="eventListDiv"
             style={{
-              display: "flex",
               justifyContent: "center",
               alignItems: "center",
               background: "black",
@@ -245,7 +258,7 @@ function EventList(props) {
               <Event
                 whenYeahSelected={props.handleYeahEventStatus}
                 whenNahhSelected={props.handleNahhEventStatus}
-                whenHummSelected={props.handleNahhEventStatus}
+                whenHummSelected={props.handleHummEventStatus}
                 whenEventClicked={props.onEventSelection}
                 eventCreator={event.eventCreator}
                 publicPrivate={event.publicPrivate}
@@ -269,7 +282,6 @@ function EventList(props) {
           <div
             id="eventListDiv"
             style={{
-              display: "flex",
               justifyContent: "center",
               alignItems: "center",
               background: "black",
@@ -282,7 +294,7 @@ function EventList(props) {
               <Event
                 whenYeahSelected={props.handleYeahEventStatus}
                 whenNahhSelected={props.handleNahhEventStatus}
-                whenHummSelected={props.handleNahhEventStatus}
+                whenHummSelected={props.handleHummEventStatus}
                 whenEventClicked={props.onEventSelection}
                 eventCreator={event.eventCreator}
                 publicPrivate={event.publicPrivate}
@@ -301,43 +313,7 @@ function EventList(props) {
           </div>
         </>
       )}
-      {radio === "yeah" && (
-        <>
-          <div
-            id="eventListDiv"
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              background: "black",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            {/* All Events  */}
-            {allEvents.map((event) => (
-              <Event
-                whenYeahSelected={props.handleYeahEventStatus}
-                whenNahhSelected={props.handleNahhEventStatus}
-                whenHummSelected={props.handleNahhEventStatus}
-                whenEventClicked={props.onEventSelection}
-                eventCreator={event.eventCreator}
-                publicPrivate={event.publicPrivate}
-                eventCreatorName={event.eventCreatorName}
-                eventCreatorPhoto={event.eventCreatorPhoto}
-                eventName={event.eventName}
-                eventDateTime={event.eventDateTime}
-                eventDetail={event.eventDetail}
-                eventLocation={event.eventLocation}
-                formattedPostTime={event.formattedPostTime}
-                daysAgo={event.daysAgo}
-                id={event.id}
-                key={event.id}
-              />
-            ))}
-          </div>
-        </>
-      )}
+
       {radio === "brrrah" && (
         <>
           <div
