@@ -19,11 +19,21 @@ function EventList(props) {
       auth.currentUser.email !== event.eventCreator
   );
 
-  // const yeahEvents = profiles.filter((eventResponse) => {
-  //   const isYeah = eventStatus.eventStatusResponse === "yeah";
-  //   return isYeah;
-  // });
-  // console.log(yeahEvents);
+  const yeahEvents = props.eventList.filter(
+    (event) =>
+      event.yeahResponses && event.yeahResponses.includes(auth.currentUser.uid)
+  );
+
+  const nahhEvents = props.eventList.filter(
+    (event) =>
+      event.nahhResponses && event.nahhResponses.includes(auth.currentUser.uid)
+  );
+
+  const hummEvents = props.eventList.filter(
+    (event) =>
+      event.hummResponses && event.hummResponses.includes(auth.currentUser.uid)
+  );
+
   return (
     <React.Fragment>
       <div
@@ -60,6 +70,45 @@ function EventList(props) {
               marginLeft: 32,
             }}
             type="radio"
+            id="sortByYeah"
+            value="yeah"
+            checked={radio === "yeah"}
+            onChange={(e) => {
+              setRadio(e.target.value);
+            }}
+          />
+          <label for="sortByYeah">Yeah!</label>
+          <input
+            style={{
+              marginLeft: 32,
+            }}
+            type="radio"
+            id="sortByNahh"
+            value="nahh"
+            checked={radio === "nahh"}
+            onChange={(e) => {
+              setRadio(e.target.value);
+            }}
+          />
+          <label for="sortByNahh">Nahh</label>
+          <input
+            style={{
+              marginLeft: 32,
+            }}
+            type="radio"
+            id="sortByHumm"
+            value="humm"
+            checked={radio === "humm"}
+            onChange={(e) => {
+              setRadio(e.target.value);
+            }}
+          />
+          <label for="sortByHumm">Humm</label>
+          <input
+            style={{
+              marginLeft: 32,
+            }}
+            type="radio"
             id="sortByHosting"
             value="hosting"
             checked={radio === "hosting"}
@@ -68,32 +117,6 @@ function EventList(props) {
             }}
           />
           <label for="sortByHosting">Hosted by Me</label>
-          <input
-            style={{
-              marginLeft: 32,
-            }}
-            type="radio"
-            id="sortByCloseFriends"
-            value="closeFriends"
-            checked={radio === "closeFriends"}
-            onChange={(e) => {
-              setRadio(e.target.value);
-            }}
-          />
-          <label for="sortByCloseFriends">Close Friends</label>
-          <input
-            style={{
-              marginLeft: 32,
-            }}
-            type="radio"
-            id="sortByAttending"
-            value="attending"
-            checked={radio === "attending"}
-            onChange={(e) => {
-              setRadio(e.target.value);
-            }}
-          />
-          <label for="sortByAttending">Attending</label>
         </form>
       </div>
       {radio === "all" && (
@@ -112,7 +135,117 @@ function EventList(props) {
             {/* All Events  */}
             {allEvents.map((event) => (
               <Event
-                whenRadioSelected={props.handleAddingEventStatus}
+                whenYeahSelected={props.handleYeahEventStatus}
+                whenNahhSelected={props.handleNahhEventStatus}
+                whenHummSelected={props.handleNahhEventStatus}
+                whenEventClicked={props.onEventSelection}
+                eventCreator={event.eventCreator}
+                publicPrivate={event.publicPrivate}
+                eventCreatorName={event.eventCreatorName}
+                eventCreatorPhoto={event.eventCreatorPhoto}
+                eventName={event.eventName}
+                eventDateTime={event.eventDateTime}
+                eventDetail={event.eventDetail}
+                eventLocation={event.eventLocation}
+                formattedPostTime={event.formattedPostTime}
+                daysAgo={event.daysAgo}
+                id={event.id}
+                key={event.id}
+              />
+            ))}
+          </div>
+        </>
+      )}
+      {radio === "yeah" && (
+        <>
+          <div
+            id="eventListDiv"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              background: "black",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            {/* Attending */}
+            {yeahEvents.map((event) => (
+              <Event
+                whenEventClicked={props.onEventSelection}
+                eventCreator={event.eventCreator}
+                publicPrivate={event.publicPrivate}
+                eventCreatorName={event.eventCreatorName}
+                eventCreatorPhoto={event.eventCreatorPhoto}
+                eventName={event.eventName}
+                eventDateTime={event.eventDateTime}
+                eventDetail={event.eventDetail}
+                eventLocation={event.eventLocation}
+                daysAgo={event.daysAgo}
+                formattedPostTime={event.formattedPostTime}
+                id={event.id}
+                key={event.id}
+              />
+            ))}
+          </div>
+        </>
+      )}
+      {radio === "nahh" && (
+        <>
+          <div
+            id="eventListDiv"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              background: "black",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            {/* Nahh Events  */}
+            {nahhEvents.map((event) => (
+              <Event
+                whenYeahSelected={props.handleYeahEventStatus}
+                whenNahhSelected={props.handleNahhEventStatus}
+                whenHummSelected={props.handleNahhEventStatus}
+                whenEventClicked={props.onEventSelection}
+                eventCreator={event.eventCreator}
+                publicPrivate={event.publicPrivate}
+                eventCreatorName={event.eventCreatorName}
+                eventCreatorPhoto={event.eventCreatorPhoto}
+                eventName={event.eventName}
+                eventDateTime={event.eventDateTime}
+                eventDetail={event.eventDetail}
+                eventLocation={event.eventLocation}
+                formattedPostTime={event.formattedPostTime}
+                daysAgo={event.daysAgo}
+                id={event.id}
+                key={event.id}
+              />
+            ))}
+          </div>
+        </>
+      )}
+      {radio === "humm" && (
+        <>
+          <div
+            id="eventListDiv"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              background: "black",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            {/* Humm Events  */}
+            {hummEvents.map((event) => (
+              <Event
+                whenYeahSelected={props.handleYeahEventStatus}
+                whenNahhSelected={props.handleNahhEventStatus}
+                whenHummSelected={props.handleNahhEventStatus}
                 whenEventClicked={props.onEventSelection}
                 eventCreator={event.eventCreator}
                 publicPrivate={event.publicPrivate}
@@ -144,9 +277,12 @@ function EventList(props) {
               flexDirection: "column",
             }}
           >
-            {/* Hosted By Me */}
+            {/* Hosting  */}
             {hostingEvents.map((event) => (
               <Event
+                whenYeahSelected={props.handleYeahEventStatus}
+                whenNahhSelected={props.handleNahhEventStatus}
+                whenHummSelected={props.handleNahhEventStatus}
                 whenEventClicked={props.onEventSelection}
                 eventCreator={event.eventCreator}
                 publicPrivate={event.publicPrivate}
@@ -156,8 +292,8 @@ function EventList(props) {
                 eventDateTime={event.eventDateTime}
                 eventDetail={event.eventDetail}
                 eventLocation={event.eventLocation}
-                daysAgo={event.daysAgo}
                 formattedPostTime={event.formattedPostTime}
+                daysAgo={event.daysAgo}
                 id={event.id}
                 key={event.id}
               />
@@ -165,7 +301,44 @@ function EventList(props) {
           </div>
         </>
       )}
-      {radio === "closeFriends" && (
+      {radio === "yeah" && (
+        <>
+          <div
+            id="eventListDiv"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              background: "black",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            {/* All Events  */}
+            {allEvents.map((event) => (
+              <Event
+                whenYeahSelected={props.handleYeahEventStatus}
+                whenNahhSelected={props.handleNahhEventStatus}
+                whenHummSelected={props.handleNahhEventStatus}
+                whenEventClicked={props.onEventSelection}
+                eventCreator={event.eventCreator}
+                publicPrivate={event.publicPrivate}
+                eventCreatorName={event.eventCreatorName}
+                eventCreatorPhoto={event.eventCreatorPhoto}
+                eventName={event.eventName}
+                eventDateTime={event.eventDateTime}
+                eventDetail={event.eventDetail}
+                eventLocation={event.eventLocation}
+                formattedPostTime={event.formattedPostTime}
+                daysAgo={event.daysAgo}
+                id={event.id}
+                key={event.id}
+              />
+            ))}
+          </div>
+        </>
+      )}
+      {radio === "brrrah" && (
         <>
           <div
             style={{

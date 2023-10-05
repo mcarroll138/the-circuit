@@ -104,7 +104,7 @@ export default function Event(props) {
                   checked={radio === "yeah"}
                   onChange={(e) => {
                     setRadio(e.target.value);
-                    props.whenRadioSelected(props.id, "yeah");
+                    props.whenYeahSelected(props.id, "yeah");
                   }}
                 />
                 <label for="yeah">Yeah!</label>
@@ -120,7 +120,7 @@ export default function Event(props) {
                   checked={radio === "nahh"}
                   onChange={(e) => {
                     setRadio(e.target.value);
-                    props.whenRadioSelected(props.id, "nahh");
+                    props.whenNahhSelected(props.id, "nahh");
                   }}
                 />
                 <label for="nahh">Nahh</label>
@@ -134,7 +134,7 @@ export default function Event(props) {
                   checked={radio === "humm"}
                   onChange={(e) => {
                     setRadio(e.target.value);
-                    props.whenRadioSelected(props.id, "humm");
+                    props.whenHummSelected(props.id, "humm");
                   }}
                 />
                 <label for="humm">Humm</label>

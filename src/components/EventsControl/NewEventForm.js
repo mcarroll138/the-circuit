@@ -2,28 +2,17 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import { db, auth } from "../../firebase.js";
-import {
-  serverTimestamp,
-  collection,
-  addDoc,
-  deleteDoc,
-  onSnapshot,
-  getDocs,
-  doc,
-  query,
-  where,
-} from "firebase/firestore";
+import { serverTimestamp, collection, onSnapshot } from "firebase/firestore";
 import { differenceInDays } from "date-fns";
 
 export default function NewEventForm(props) {
-  const [radio, setRadio] = useState("mightKnow");
+  // const [radio, setRadio] = useState("mightKnow");
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [friendListUid, setFriendListUid] = useState([]);
   const [inviteFriend, setInviteFriend] = useState([]);
   const [name, setName] = useState("");
 
-  console.log(inviteFriend);
   useEffect(() => {
     const unSubscribe = onSnapshot(
       collection(db, "profiles"),
@@ -79,8 +68,6 @@ export default function NewEventForm(props) {
     fontSize: 20,
     fontFamily: "courier",
     fontWeight: "400",
-
-    backgroundColor: "black",
     padding: "10px",
     height: 720,
   };
@@ -119,44 +106,43 @@ export default function NewEventForm(props) {
     gap: 10,
     color: "white",
   };
-  const buttonStylesSmall = {
-    width: 10,
-    height: 4,
-    paddingLeft: 24,
-    paddingRight: 24,
-    paddingTop: 20,
-    paddingBottom: 20,
-    background: "black",
-    boxShadow: "6px 6px 6px #E3A9FF",
-    border: "2px #E3A9FF solid",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 10,
-    color: "white",
-  };
-  const checkboxStyles = {
-    margin: "4px",
-    padding: "4px",
-    border: "12px solid #ccc",
-    borderRadius: "4px",
-    fontSize: "12px",
-    width: 380,
-    fontSize: 12,
-    background: "white",
-    color: "gray",
-  };
-  const imgStyle = {
-    objectFit: "cover",
-    boarderRadius: "50%",
-    height: "50px",
-    width: "50px",
-    borderRadius: "50%",
-  };
+  // const buttonStylesSmall = {
+  //   width: 10,
+  //   height: 4,
+  //   paddingLeft: 24,
+  //   paddingRight: 24,
+  //   paddingTop: 20,
+  //   paddingBottom: 20,
+  //   background: "black",
+  //   boxShadow: "6px 6px 6px #E3A9FF",
+  //   border: "2px #E3A9FF solid",
+  //   display: "flex",
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  //   gap: 10,
+  //   color: "white",
+  // };
+  // const checkboxStyles = {
+  //   margin: "4px",
+  //   padding: "4px",
+  //   border: "12px solid #ccc",
+  //   borderRadius: "4px",
+  //   fontSize: "12px",
+  //   width: 380,
+  //   fontSize: 12,
+  //   background: "white",
+  //   color: "gray",
+  // };
+  // const imgStyle = {
+  //   objectFit: "cover",
+  //   boarderRadius: "50%",
+  //   height: "50px",
+  //   width: "50px",
+  //   borderRadius: "50%",
+  // };
   const [privateForm, setPrivateForm] = useState(false);
-  const [radioPrivate, setRadioPrivate] = useState("public");
+  // const [radioPrivate, setRadioPrivate] = useState("public");
 
-  console.log(radioPrivate);
   function handleNewEventFormSubmission(event) {
     event.preventDefault();
 
@@ -188,8 +174,6 @@ export default function NewEventForm(props) {
             justifyContent: "center",
             background: "black",
             alignItems: "center",
-            // justifyContent: "center",
-            // position: "relative",
           }}
         >
           <button style={buttonStyles} onClick={() => setPrivateForm(true)}>

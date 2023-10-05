@@ -51,25 +51,32 @@ export default function EventControl() {
         setError(error.message);
       }
     );
-    const eventStatusUnSubscribe = onSnapshot(
-      collection(db, "profiles", auth.currentUser.uid, "eventStatus"),
-      (collectionSnapshot) => {
-        const eventStatusList = [];
-        collectionSnapshot.forEach((doc) => {
-          eventStatusList.push({
-            id: doc.id,
-            ...doc.data(),
+
+    let eventStatusUnSubscribe;
+
+    if (auth.currentUser !== null) {
+      eventStatusUnSubscribe = onSnapshot(
+        collection(db, "profiles", auth.currentUser.uid, "eventStatus"),
+        (collectionSnapshot) => {
+          const eventStatusList = [];
+          collectionSnapshot.forEach((doc) => {
+            eventStatusList.push({
+              id: doc.id,
+              ...doc.data(),
+            });
           });
-        });
-        setEventStatusListStatus(eventStatusList);
-        setLoadingEventStatusList(false);
-      }
-    );
+          setEventStatusListStatus(eventStatusList);
+          setLoadingEventStatusList(false);
+        }
+      );
+    }
     return () => {
       unSubscribe();
-      eventStatusUnSubscribe();
+      if (eventStatusUnSubscribe) {
+        eventStatusUnSubscribe();
+      }
     };
-  }, []);
+  }, [auth.currentUser]);
 
   const userDocRef = doc(db, "profiles", auth.currentUser.uid);
   const eventStatusCollectionRef = collection(userDocRef, "eventStatus");

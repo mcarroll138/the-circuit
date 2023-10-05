@@ -145,7 +145,7 @@ export default function UserProfile() {
   const filteredProfiles = profiles.filter(
     (profile) => auth.currentUser.uid === profile.uid
   );
-  console.log(filteredProfiles);
+
   const peopleYouMayKnowProfiles = profiles.filter((profile) => {
     const isNotCurrentUser = profile.uid !== auth.currentUser.uid;
     const isNotFriend = !friendListUid.some((friend) => {

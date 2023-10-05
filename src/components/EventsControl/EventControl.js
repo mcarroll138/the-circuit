@@ -9,14 +9,11 @@ import {
   addDoc,
   onSnapshot,
   doc,
-  getDocs,
-  query,
-  where,
+  getDoc,
   updateDoc,
   deleteDoc,
 } from "firebase/firestore";
-import { formatDistanceToNow } from "date-fns";
-import { Link, useNavigate } from "react-router-dom";
+
 import MissionStatement from "../SignInControl/MissionStatement";
 
 export default function EventControl() {
@@ -25,8 +22,6 @@ export default function EventControl() {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [editing, setEditing] = useState(false);
   const [error, setError] = useState(null);
-  const [eventStatusListStatus, setEventStatusListStatus] = useState([]);
-  const [loadingEventStatusList, setLoadingEventStatusList] = useState(true);
 
   useEffect(() => {
     const unSubscribe = onSnapshot(
@@ -51,56 +46,77 @@ export default function EventControl() {
         setError(error.message);
       }
     );
-    // const eventStatusUnSubscribe = onSnapshot(
-    //   collection(db, "profiles", auth.currentUser.uid, "eventStatus"),
-    //   (collectionSnapshot) => {
-    //     const eventStatusList = [];
-    //     collectionSnapshot.forEach((doc) => {
-    //       eventStatusList.push({
-    //         id: doc.id,
-    //         ...doc.data(),
-    //       });
-    //     });
-    //     setEventStatusListStatus(eventStatusList);
-    //     setLoadingEventStatusList(false);
-    //   }
-    // );
+
     return () => {
       unSubscribe();
-      // eventStatusUnSubscribe();
-      // console.log(eventStatusListStatus);
     };
   }, []);
 
-  if (auth.currentUser !== null) {
-    useEffect(() => {
-      const eventStatusUnSubscribe = onSnapshot(
-        collection(db, "profiles", auth.currentUser.uid, "eventStatus"),
-        (collectionSnapshot) => {
-          const eventStatusList = [];
-          collectionSnapshot.forEach((doc) => {
-            eventStatusList.push({
-              id: doc.id,
-              ...doc.data(),
-            });
-          });
+  const handleYeahClick = async (eventId) => {
+    const eventRef = doc(db, "events", eventId);
+    const eventDoc = await getDoc(eventRef);
+    const eventData = eventDoc.data();
 
-          setEventStatusListStatus(eventStatusList);
-          setLoadingEventStatusList(false);
-        }
+    if (
+      eventData.yeahResponses &&
+      eventData.yeahResponses.includes(auth.currentUser.uid)
+    ) {
+      const updatedYeahArray = eventData.yeahResponses.filter(
+        (uid) => uid !== auth.currentUser.uid
       );
-      return () => {
-        eventStatusUnSubscribe();
-        console.log(eventStatusListStatus);
-      };
-    }, []);
-  }
+      await updateDoc(eventRef, { yeahResponses: updatedYeahArray });
+    } else {
+      const updatedYeahArray = [
+        ...(eventData.yeahResponses || []),
+        auth.currentUser.uid,
+      ];
+      await updateDoc(eventRef, { yeahResponses: updatedYeahArray });
+    }
+  };
 
-  // const userDocRef = doc(db, "profiles", auth.currentUser.uid);
-  // const eventStatusCollectionRef = collection(userDocRef, "eventStatus");
-  // const handleAddingEventStatus = async (eventId, eventStatusResponse) => {
-  //   await addDoc(eventStatusCollectionRef, { eventId, eventStatusResponse });
-  // };
+  const handleNahhClick = async (eventId) => {
+    const eventRef = doc(db, "events", eventId);
+    const eventDoc = await getDoc(eventRef);
+    const eventData = eventDoc.data();
+
+    if (
+      eventData.nahhResponses &&
+      eventData.nahhResponses.includes(auth.currentUser.uid)
+    ) {
+      const updatedHummArray = eventData.nahhResponses.filter(
+        (uid) => uid !== auth.currentUser.uid
+      );
+      await updateDoc(eventRef, { nahhResponses: updatedHummArray });
+    } else {
+      const updatedYeahArray = [
+        ...(eventData.nahhResponses || []),
+        auth.currentUser.uid,
+      ];
+      await updateDoc(eventRef, { nahhResponses: updatedYeahArray });
+    }
+  };
+
+  const handleHummClick = async (eventId) => {
+    const eventRef = doc(db, "events", eventId);
+    const eventDoc = await getDoc(eventRef);
+    const eventData = eventDoc.data();
+
+    if (
+      eventData.hummResponses &&
+      eventData.hummResponses.includes(auth.currentUser.uid)
+    ) {
+      const updatedHummArray = eventData.hummResponses.filter(
+        (uid) => uid !== auth.currentUser.uid
+      );
+      await updateDoc(eventRef, { hummResponses: updatedHummArray });
+    } else {
+      const updatedYeahArray = [
+        ...(eventData.hummResponses || []),
+        auth.currentUser.uid,
+      ];
+      await updateDoc(eventRef, { hummResponses: updatedYeahArray });
+    }
+  };
 
   const handleClick = () => {
     if (selectedEvent != null) {
@@ -176,10 +192,11 @@ export default function EventControl() {
         <EventList
           onEventSelection={handleChangingSelectedEvent}
           eventList={mainEventList}
-          // handleAddingEventStatus={handleAddingEventStatus}
+          handleYeahEventStatus={handleYeahClick}
+          handleNahhEventStatus={handleNahhClick}
+          handleHummEventStatus={handleHummClick}
         />
       );
-
       buttonText = "+ Add Event";
     }
     return (
