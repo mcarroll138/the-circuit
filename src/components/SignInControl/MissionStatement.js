@@ -19,11 +19,11 @@ export default function MissionStatement() {
     // padding: 20,
     // width: 400,
     flexDirection: "row",
-    // alignItems: "center",
+    alignItems: "center",
     flexShrink: 0,
     backgroundColor: "black",
     justifyContent: "space-between",
-    marginBottom: 20,
+    marginBottom: 50,
   };
 
   const headingStyle = {
@@ -31,12 +31,15 @@ export default function MissionStatement() {
     fontFamily: "courier",
     fontWeight: "400",
     alignItems: "center",
+    // justifyContent: "center",
+    marginBottom: 70,
   };
 
   const bodyTextStyle = {
     fontSize: "24px",
     fontFamily: "arial",
-    marginBottom: 20,
+    marginBottom: 40,
+    marginTop: 20,
   };
   return (
     <div style={mainDivContainerStyle} id="container">
@@ -45,9 +48,9 @@ export default function MissionStatement() {
         <div style={bodyTextStyle}>
           Ready to join our community? Sign up{" "}
           <Link style={{ color: "#E3A9FF" }} to="/sign-in">
-            here  
-          </Link>
-          {" "}to get started.
+            here
+          </Link>{" "}
+          to get started.
         </div>
         <div style={secondaryDivContainerStyle}>
           <div>
