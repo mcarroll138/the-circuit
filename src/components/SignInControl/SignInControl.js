@@ -168,17 +168,22 @@ function SignInControl(props) {
     const email = event.target.email.value;
     const password = event.target.password.value;
 
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        navigate("/user-profile");
-        setSignUpSuccess(
-          `You've successfully signed up, with the user name of as your email address.`
-        );
-      })
-      .catch((error) => {
-        setSignUpSuccess(`There was an error sigining up: ${error.message}!`);
-      });
+    if (password === confirmPassword) {
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          navigate("/user-profile");
+          setSignUpSuccess(
+            `You've successfully signed up, with the user name of as your email address.`
+          );
+        })
+        .catch((error) => {
+          setSignUpSuccess(`There was an error sigining up: ${error.message}!`);
+        });
+    } else {
+      setPasswordMismatch(true);
+    }
   }
+
   function doSignIn(event) {
     event.preventDefault();
     const email = event.target.signinEmail.value;
