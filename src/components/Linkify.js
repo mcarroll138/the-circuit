@@ -6,13 +6,20 @@ const Linkify = ({ children }) => {
   };
 
   const addMarkup = (word) => {
-    return isUrl(word) ? `<a href="http://${word}" target="_blank">${word}</a>` : word;
+    return isUrl(word)
+      ? `<a href="http://${word}" target="_blank" >${word}</a>`
+      : word;
   };
 
   const words = children.split(" ");
   const formatedWords = words.map((w, i) => addMarkup(w));
   const html = formatedWords.join(" ");
-  return <span dangerouslySetInnerHTML={{ __html: html }} />;
+  return (
+    <span
+      // style={{ color: "white" }}
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
+  );
 };
 
 export default Linkify;

@@ -70,6 +70,8 @@ function SignInControl(props) {
   const [isSignInMode, setIsSignInMode] = useState(true);
   const [isLogOffMode, setIsLogOffMode] = useState(false);
   const [userSignedIn, setUserSignedIn] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordMismatch, setPasswordMismatch] = useState(false);
 
   const renderSignUpForm = () => {
     if (isSignUpMode) {
@@ -92,6 +94,19 @@ function SignInControl(props) {
             name="password"
             placeholder="Password"
           />
+          <input
+            required
+            style={inputStyles}
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+          {passwordMismatch && (
+            <p style={{ color: "red" }}>Passwords do not match</p>
+          )}
+
           <button type="submit" style={buttonStyles}>
             Sign Up
           </button>

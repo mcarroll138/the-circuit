@@ -8,6 +8,16 @@ export default function Event(props) {
   const [radio, setRadio] = useState("");
   const isHostedByCurrentUser = auth.currentUser.email === props.eventCreator;
   const notHostedByCurrentUser = auth.currentUser.email !== props.eventCreator;
+
+  const userHasRespondedYeah = auth.currentUser.uid === props.yeahResponses;
+
+  // yeahResponses={event.yeahResponses}
+  console.log(userHasRespondedYeah);
+
+  const userHasRespondedNahh = auth.currentUser.uid === props.nahhResonses;
+
+  const userHasRespondedHumm = auth.currentUser.uid === props.hummResponses;
+
   const dateTimeValue = props.eventDateTime.split("T");
   const dateParts = dateTimeValue[0].split("-");
   const timeParts = dateTimeValue[1].split(":");
@@ -102,6 +112,7 @@ export default function Event(props) {
                   id="yeah"
                   value="yeah"
                   checked={radio === "yeah"}
+                  disabled={userHasRespondedYeah}
                   onChange={(e) => {
                     setRadio(e.target.value);
                     props.whenYeahSelected(props.id, "yeah");
