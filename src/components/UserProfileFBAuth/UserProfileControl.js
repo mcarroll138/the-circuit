@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { getAuth, updateProfile } from "firebase/auth";
+import { getAuth, updateProfile, deleteUser } from "firebase/auth";
 import { ref, uploadBytes, getDownloadURL, getStorage } from "firebase/storage";
 import ProfileEditForm from "./ProfileEditForm";
+import { useNavigate } from "react-router-dom";
+import MissionStatement from "../SignInControl/MissionStatement";
 
 export default function AuthProfile() {
   const ContainerStyles = {
@@ -96,7 +98,8 @@ export default function AuthProfile() {
   );
   const [selectedImage, setSelectedImage] = useState(null);
   const [loading, setLoading] = useState(false);
-
+  const [deleteProfile, setDeleteProfile] = useState(false);
+  const navigate = useNavigate();
   async function profileImageUpdate(event) {
     event.preventDefault();
     if (!selectedImage) {
@@ -117,7 +120,21 @@ export default function AuthProfile() {
   function handleImageChange(event) {
     setSelectedImage(event.target.files[0]);
   }
+  function DeleteUser() {
+    const user = auth.currentUser;
 
+    user
+      .delete()
+      .then(() => {
+        // User deleted.
+        console.log("User Account Deleted Successful");
+        navigate("/");
+      })
+      .catch((error) => {
+        // An error occurred
+        // ...
+      });
+  }
   if (editProfile) {
     return (
       <>
@@ -149,6 +166,13 @@ export default function AuthProfile() {
           Cancel
         </button>
       </form>
+    );
+  }
+  if (deleteProfile === true) {
+    return (
+      <button onClick={DeleteUser} style={buttonStyles}>
+        Delete Profile
+      </button>
     );
   } else {
     return (
@@ -210,6 +234,12 @@ export default function AuthProfile() {
             ></div>
             <div style={userInfoStyle}>
               <p>Email: {auth.currentUser.email}</p>
+              <button
+                style={buttonStyles}
+                onClick={() => setDeleteProfile(true)}
+              >
+                Delete Account?
+              </button>
             </div>
           </div>
         </div>

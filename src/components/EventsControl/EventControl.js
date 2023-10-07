@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import NewEventForm from "./NewEventForm";
 import EditEventForm from "./EditEventForm";
 import EventList from "./EventList";
+import { Link, useNavigate } from "react-router-dom";
 import EventDetail from "./EventDetail";
 import { db, auth } from "../../firebase.js";
 import {
@@ -178,6 +179,14 @@ export default function EventControl() {
         <MissionStatement />
       </>
     );
+  } else if (auth.currentUser.photoURL === null || auth.currentUser.displayName === null) {
+    return (
+      <>
+        <Link to="/user-profile">Almost there, please finish registration</Link>
+      </>
+    );
+   
+  
   } else if (auth.currentUser != null) {
     let currentlyVisibleState = null;
     let buttonText = null;
