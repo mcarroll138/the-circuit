@@ -1,27 +1,31 @@
-### Research & Planning Log
+# **The Circuit: Community Event Board**
 
-#### Friday 9/15
+### By Michael Carroll
 
-Coded Through Help Queue as my base for my project. - Build out application following structure of Ticket-Queue
+An application where a user can create an account and host events and view other events in their communities.
 
-To Do/ Research
+Link to GH Page:
 
-- [x] Research Firebase for frontend
-- [] Research Supabase as C# backend database
-- [] Research passing cookies from React frontend to C# backend
-- [] Research adding followers/ friends on application
-- [] Research making events visible only if invited by others
-- [] Research google maps/ bing for address autopopulation or something similar
+https://github.com/mcarroll138
 
-# Project Description:
+## Technologies used
 
-The Circuit is a social media app that focuses solely on events. The idea is friends can create events and share them with other friends, family, co-workers, etc. There will be no status updates or sharing of photos, this is just meant to be a living and breathing calendar that friends have access to. The end users control what is shared with different groups ie. friends, family, coworkers, etc.
+- React.js
+- Create React App
+- Firestore/ Firebase
+- Node
+- Javascript
+- HTML
+- CSS
 
-# Getting Started with Create React App
+## Component Tree
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Complete setup/installation instructions
 
-## Available Scripts
+- Clone this repository from GitHub
+- Navigate to the root directory in your terminal and run
+
+### `npm install`
 
 In the project directory, you can run:
 
@@ -87,3 +91,27 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+- In the root directory, create a file called .env
+- Add .env file to .gitignore
+- commit changes prior to storing any keys
+- Create Firebase account
+- Add your token in your .env folder
+- Run $ npm run start in your root folder
+
+## Known Bugs
+
+- When user has marked an event as either "Yeah!", "Nahh", or "Humm" and then sorts by response, choosing the same response will cause the event to be moved back to the "All Events" section.
+- Friend List currently does nothings, you can add a friend but the person your adding cannot accept or reject, they also have no way of knowing who their friends are.
+
+## License
+
+MIT
+
+Copyright (c) 2023 Michael Carroll
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

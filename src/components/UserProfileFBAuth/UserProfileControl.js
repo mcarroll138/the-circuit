@@ -174,7 +174,11 @@ export default function AuthProfile() {
         Delete Profile
       </button>
     );
-  } else {
+  }
+  if (
+    auth.currentUser.photoURL === null &&
+    auth.currentUser.displayName === null
+  ) {
     return (
       <>
         <div style={ContainerStyles}>
@@ -190,7 +194,120 @@ export default function AuthProfile() {
                 paddingTop: 36,
               }}
             >
-              My Profile
+              Please Upload A Photo
+            </div>
+
+            <div style={userImageStyle}>
+              <img
+                style={imgStyle}
+                src={auth.currentUser.photoURL}
+                alt="Profile"
+              ></img>{" "}
+              <div
+                style={{
+                  marginTop: "10px",
+                }}
+              ></div>
+              <button
+                style={buttonStyles}
+                onClick={() => setEditProfileImage(true)}
+              >
+                Update Photo
+              </button>{" "}
+              <div
+                style={{
+                  marginTop: "10px",
+                }}
+              ></div>
+            </div>
+            {/* <div
+              style={{
+                paddingTop: 36,
+              }}
+            ></div>
+            <div style={userInfoStyle}>
+              <p>User Name: {auth.currentUser.displayName}</p>
+              <button style={buttonStyles} onClick={() => setEditProfile(true)}>
+                Update Name
+              </button>
+            </div>
+            <div
+              style={{
+                paddingTop: 36,
+              }}
+            ></div>
+            <div style={userInfoStyle}>
+              <p>Email: {auth.currentUser.email}</p>
+              <button
+                style={buttonStyles}
+                onClick={() => setDeleteProfile(true)}
+              >
+                Delete Account?
+              </button>
+            </div> */}
+          </div>
+        </div>
+      </>
+    );
+  }
+  if (
+    auth.currentUser.photoURL !== null &&
+    auth.currentUser.displayName === null
+  ) {
+    return (
+      <>
+        <div style={ContainerStyles}>
+          <div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                fontFamily: "Courier",
+                fontSize: 40,
+                fontWeight: "400",
+                paddingBottom: 36,
+                paddingTop: 36,
+              }}
+            >
+              Please Enter a Display Name
+            </div>
+
+            <div
+              style={{
+                paddingTop: 36,
+              }}
+            ></div>
+            <div style={userInfoStyle}>
+              <p>User Name: {auth.currentUser.displayName}</p>
+              <button style={buttonStyles} onClick={() => setEditProfile(true)}>
+                Update Name
+              </button>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
+  if (
+    auth.currentUser.photoURL !== null &&
+    auth.currentUser.displayName !== null
+  ) {
+    return (
+      <>
+        <div style={ContainerStyles}>
+          <div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                fontFamily: "Courier",
+                fontSize: 40,
+                fontWeight: "400",
+                paddingBottom: 36,
+                paddingTop: 36,
+              }}
+            >
+              {auth.currentUser.displayName}'s Profile
             </div>
 
             <div style={userImageStyle}>
