@@ -14,12 +14,7 @@ const Linkify = ({ children }) => {
   const words = children.split(" ");
   const formatedWords = words.map((w, i) => addMarkup(w));
   const html = formatedWords.join(" ");
-  return (
-    <span
-      // style={{ color: "white" }}
-      dangerouslySetInnerHTML={{ __html: html }}
-    />
-  );
+  return <span dangerouslySetInnerHTML={{ __html: html }} />;
 };
 
 export default Linkify;

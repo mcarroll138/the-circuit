@@ -35,7 +35,7 @@ function SignInControl(props) {
   };
 
   const inputStyles = {
-    color: "gray",
+    color: "white",
     fontFamily: "arial",
     fontSize: "14px",
     fontStyle: "normal",
@@ -114,7 +114,7 @@ function SignInControl(props) {
             Return to {"    "}
             <span
               style={{
-                color: "gray",
+                color: "#4287f5",
                 textDecoration: "underline",
                 cursor: "pointer",
               }}
@@ -149,7 +149,7 @@ function SignInControl(props) {
             Don't have an account?{"    "}
             <span
               style={{
-                color: "grey",
+                color: "#4287f5",
                 textDecoration: "underline",
                 cursor: "pointer",
               }}

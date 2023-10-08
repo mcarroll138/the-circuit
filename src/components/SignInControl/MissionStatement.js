@@ -46,9 +46,9 @@ export default function MissionStatement() {
       <div style={headingStyle}>
         Event Listings For Your Community
         <div style={bodyTextStyle}>
-          Ready to join our community? Sign up{" "}
-          <Link style={{ color: "#E3A9FF" }} to="/sign-in">
-            here
+          Ready to join our community?{" "}
+          <Link style={{ color: "#4287f5" }} to="/sign-in">
+          Sign up
           </Link>{" "}
           to get started.
         </div>

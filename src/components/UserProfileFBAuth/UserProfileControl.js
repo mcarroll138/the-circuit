@@ -220,31 +220,6 @@ export default function AuthProfile() {
                 }}
               ></div>
             </div>
-            {/* <div
-              style={{
-                paddingTop: 36,
-              }}
-            ></div>
-            <div style={userInfoStyle}>
-              <p>User Name: {auth.currentUser.displayName}</p>
-              <button style={buttonStyles} onClick={() => setEditProfile(true)}>
-                Update Name
-              </button>
-            </div>
-            <div
-              style={{
-                paddingTop: 36,
-              }}
-            ></div>
-            <div style={userInfoStyle}>
-              <p>Email: {auth.currentUser.email}</p>
-              <button
-                style={buttonStyles}
-                onClick={() => setDeleteProfile(true)}
-              >
-                Delete Account?
-              </button>
-            </div> */}
           </div>
         </div>
       </>

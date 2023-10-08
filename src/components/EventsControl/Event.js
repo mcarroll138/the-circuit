@@ -9,14 +9,15 @@ export default function Event(props) {
   const isHostedByCurrentUser = auth.currentUser.email === props.eventCreator;
   const notHostedByCurrentUser = auth.currentUser.email !== props.eventCreator;
 
-  const userHasRespondedYeah = auth.currentUser.uid === props.yeahResponses;
-
-  // yeahResponses={event.yeahResponses}
-  console.log(userHasRespondedYeah);
-
-  const userHasRespondedNahh = auth.currentUser.uid === props.nahhResonses;
-
-  const userHasRespondedHumm = auth.currentUser.uid === props.hummResponses;
+  const userHasRespondedYeah = props.yeahResponses.includes(
+    auth.currentUser.uid
+  );
+  const userHasRespondedNahh = props.nahhResponses.includes(
+    auth.currentUser.uid
+  );
+  const userHasRespondedHumm = props.hummResponses.includes(
+    auth.currentUser.uid
+  );
 
   const dateTimeValue = props.eventDateTime.split("T");
   const dateParts = dateTimeValue[0].split("-");
@@ -90,13 +91,14 @@ export default function Event(props) {
             }}
           >
             <div
+              id="radioResponse"
               style={{
                 textAlign: "center",
                 color: "#E3A9FF",
                 fontSize: 20,
                 fontFamily: "Arial",
                 fontWeight: "400",
-                textDecoration: "underline",
+                // textDecoration: "underline",
                 lineHeight: 2,
                 wordWrap: "break-word",
               }}
@@ -105,9 +107,13 @@ export default function Event(props) {
                 style={{
                   // display: isHostedByCurrentUser ? "none" : "block",
                   display: "flex",
+                  alignItems: "center",
                 }}
               >
                 <input
+                  style={{
+                    opacity: userHasRespondedYeah ? 0.2 : 1,
+                  }}
                   type="radio"
                   id="yeah"
                   value="yeah"
@@ -115,40 +121,78 @@ export default function Event(props) {
                   disabled={userHasRespondedYeah}
                   onChange={(e) => {
                     setRadio(e.target.value);
-                    props.whenYeahSelected(props.id, "yeah");
+                    if (!userHasRespondedYeah) {
+                      props.whenYeahSelected(props.id, "yeah");
+                    }
                   }}
                 />
-                <label for="yeah">Yeah!</label>
+                <label
+                  style={{
+                    color: userHasRespondedYeah ? "green" : "auto",
+                    fontWeight: userHasRespondedYeah ? "bold" : "auto",
+                    fontSize: userHasRespondedYeah ? 30 : "auto",
+                  }}
+                  htmlFor="yeah"
+                >
+                  Yeah!
+                </label>
+
                 <input
                   style={{
                     marginLeft: 32,
+                    opacity: userHasRespondedNahh ? 0.2 : 1,
                   }}
                   label="not"
-                  // marginLeft={radio !== "nahh" ? 60 : 90} radio selction not working
                   type="radio"
                   id="nahh"
                   value="nahh"
                   checked={radio === "nahh"}
+                  disabled={userHasRespondedNahh}
                   onChange={(e) => {
                     setRadio(e.target.value);
-                    props.whenNahhSelected(props.id, "nahh");
+                    if (!userHasRespondedNahh) {
+                      props.whenNahhSelected(props.id, "nahh");
+                    }
                   }}
                 />
-                <label for="nahh">Nahh</label>
+                <label
+                  style={{
+                    color: userHasRespondedNahh ? "red" : "auto",
+                    fontWeight: userHasRespondedNahh ? "bold" : "auto",
+                    fontSize: userHasRespondedNahh ? 30 : "auto",
+                  }}
+                  htmlFor="nahh"
+                >
+                  Nahh
+                </label>
+
                 <input
                   style={{
                     marginLeft: 32,
+                    opacity: userHasRespondedHumm ? 0.2 : 1,
                   }}
                   type="radio"
                   id="humm"
                   value="humm"
                   checked={radio === "humm"}
+                  disabled={userHasRespondedHumm}
                   onChange={(e) => {
                     setRadio(e.target.value);
-                    props.whenHummSelected(props.id, "humm");
+                    if (!userHasRespondedHumm) {
+                      props.whenHummSelected(props.id, "humm");
+                    }
                   }}
                 />
-                <label for="humm">Humm</label>
+                <label
+                  style={{
+                    color: userHasRespondedHumm ? "yellow" : "auto",
+                    fontWeight: userHasRespondedHumm ? "bold" : "auto",
+                    fontSize: userHasRespondedHumm ? 30 : "auto",
+                  }}
+                  htmlFor="humm"
+                >
+                  Humm
+                </label>
               </form>
             </div>
             <div
