@@ -18,6 +18,9 @@ export default function UserProfile() {
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [friendListUid, setFriendListUid] = useState([]);
+  const [friendRequest, setFriendRequest] = useState([]);
+  const [loadingFriendRequestList, setLoadingFriendRequestList] =
+    useState(true);
   const [loadingProfiles, setLoadingProfiles] = useState(true);
   const [loadingFriendList, setLoadingFriendList] = useState(true);
 
@@ -50,9 +53,25 @@ export default function UserProfile() {
         setLoadingFriendList(false);
       }
     );
+    const friendRequestUnSubscribe = onSnapshot(
+      collection(db, "friendRequest"),
+      (collectionSnapshot) => {
+        const friendRequest = [];
+        collectionSnapshot.forEach((doc) => {
+          friendRequest.push({
+            id: doc.id,
+            ...doc.data(),
+          });
+        });
+        setFriendRequest(friendRequest);
+        setLoadingFriendRequestList(false);
+        console.log(friendRequest);
+      }
+    );
     return () => {
       unSubscribe();
       friendListUnSubscribe();
+      friendRequestUnSubscribe();
     };
   }, []);
 
@@ -75,6 +94,12 @@ export default function UserProfile() {
   const userDocRef = doc(db, "profiles", auth.currentUser.uid);
 
   const friendsCollectionRef = collection(userDocRef, "friends");
+
+  // const friendRequestCollectionRef = doc(db, "friendRequest")
+
+  const handleFriendRequest = async (newFriendRequestData) => {
+    await addDoc(collection(db, "friendRequest"), newFriendRequestData);
+  };
 
   const handleAddingNewFriend = async (friendUid) => {
     await addDoc(friendsCollectionRef, {
@@ -147,6 +172,29 @@ export default function UserProfile() {
     (profile) => auth.currentUser.uid === profile.uid
   );
 
+  // const pendingFriendRequestProfiles = friendRequest.filter((requestedUid) => {
+  //   const isUsersRequest = auth.currentUser.uid === friendRequest.requestedUid;
+  //   if (friendRequest.status === "pending") return friendRequest.recipientEmail;
+  // });
+  // console.log(pendingFriendRequestProfiles);
+  // console.log(friendRequest.recipientEmail);
+
+  const pendingFriendRequestProfiles = friendRequest.filter((request) => {
+    return (
+      request.status === "pending" &&
+      request.recipientUid === auth.currentUser.uid
+    );
+  });
+  console.log(pendingFriendRequestProfiles);
+  
+  // If you want to log the recipient's email address of the first pending request:
+  if (pendingFriendRequestProfiles.length > 0) {
+    console.log(pendingFriendRequestProfiles[0].recipientEmail);
+  }
+
+
+
+
   const peopleYouMayKnowProfiles = profiles.filter((profile) => {
     const isNotCurrentUser = profile.uid !== auth.currentUser.uid;
     const isNotFriend = !friendListUid.some((friend) => {
@@ -183,58 +231,26 @@ export default function UserProfile() {
   if (filteredProfiles.length === 0) {
     return (
       <div
-          style={{
-            height: "80vh",
-            alignItems: "center",
-            background: "black",
-            fontSize: 32,
-            // width: 200,
-            // padding: 20,
-            display: "flex",
-            flexDirection: "column",
-            color: "white",
-            // textDecorationColor: "green",
-            // borderRadius: "25px",
-            // border: "6px solid #ccc",
-            // margin: 10,
-          }}
-        >
-          <Link style={{ color: "blueviolet" }} to="/user-profile">
-            Please Finish Registering
-          </Link>
-          {/* <ProfilePhoto /> */}
-          {/* <h1>Please Enter a Display Name</h1>
-          <form style={formStyles} onSubmit={handleFormSubmit}>
-            <input
-              style={inputStyles}
-              type="hidden"
-              name="userEmail"
-              value={auth.currentUser.email}
-            />
-            <input
-              style={inputStyles}
-              type="hidden"
-              name="uid"
-              value={auth.currentUser.uid}
-            />
-            <input
-              style={inputStyles}
-              type="hidden"
-              name="userPhoto"
-              value={auth.currentUser.photoURL}
-            />
-            <input
-              style={inputStyles}
-              type="text"
-              name="displayName"
-              placeholder="Display Name"
-            />
-            <button style={buttonStyles} type="submit">
-              Complete Registration
-            </button>
-          </form> */}
-        </div>
-      
+        style={{
+          height: "80vh",
+          alignItems: "center",
+          background: "black",
+          fontSize: 32,
+          // width: 200,
+          // padding: 20,
+          display: "flex",
+          flexDirection: "column",
+          color: "white",
+          // textDecorationColor: "green",
+          // borderRadius: "25px",
+          // border: "6px solid #ccc",
+          // margin: 10,
+        }}
+      >
+        <Link style={{ color: "blueviolet" }} to="/user-profile">
+          Please Finish Registering
+        </Link>
+      </div>
     );
   } else {
     return (
@@ -408,12 +424,19 @@ export default function UserProfile() {
                         <button
                           style={buttonStyles}
                           // onClick={() => setFriendUid(profile.uid)}
+                          // handleAddingNewFriend(profile.uid);
                           onClick={() => {
-                            handleAddingNewFriend(profile.uid);
-                            // setFriendListUid(profile.uid);
+                            const newFriendRequestData = {
+                              requestedUid: auth.currentUser.uid,
+                              requestedEmail: auth.currentUser.email,
+                              recipientUid: profile.uid,
+                              recipientEmail: profile.userProfile,
+                              status: "pending",
+                            };
+                            handleFriendRequest(newFriendRequestData);
                           }}
                         >
-                          Add Friend
+                          Send Friend Request
                         </button>
                       </div>
                     </div>
