@@ -1,6 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { getAuth, updateProfile } from "firebase/auth";
-import { addDoc, collection } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  onSnapshot,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { db, auth } from "../../firebase";
 
 export default function ProfileEditForm({
@@ -39,6 +47,9 @@ export default function ProfileEditForm({
     color: "white",
   };
 
+  const [currentDisplayName, setCurrentDisplayName] = useState("");
+  const [profiles, setProfiles] = useState([]);
+
   useEffect(() => {
     const auth = getAuth();
     auth.onAuthStateChanged((user) => {
@@ -49,36 +60,81 @@ export default function ProfileEditForm({
         console.log("error");
       }
     });
+    const unSubscribe = onSnapshot(
+      collection(db, "profiles"),
+      (collectionSnapshot) => {
+        const profileList = [];
+        collectionSnapshot.forEach((doc) => {
+          profileList.push({
+            id: doc.id,
+            ...doc.data(),
+          });
+        });
+        setProfiles(profileList);
+      }
+    );
+    return () => {
+      unSubscribe();
+    };
   }, []);
 
   const handleProfileEditFormSubmission = async (event) => {
     event.preventDefault();
-
     const auth = getAuth();
-    try {
-      await updateProfile(auth.currentUser, { displayName: newDisplayName });
+    setCurrentDisplayName(auth.currentUser.displayName);
 
-      const newProfileData = {
-        uid: auth.currentUser.uid,
-        userProfile: auth.currentUser.email,
-        displayName: newDisplayName,
-        profilePhoto: auth.currentUser.photoURL,
-        friends: [],
-      };
+    const userProfileEmail = auth.currentUser.email;
+    const profileWithEmail = profiles.find(
+      (profile) => profile.userProfile === userProfileEmail
+    );
 
-      const docRef = await addDoc(collection(db, "profiles"), newProfileData);
-      console.log("Document written with ID:", docRef.id);
-    } catch (error) {
-      console.log(error);
+    if (currentDisplayName !== profileWithEmail?.displayName) {
+      try {
+        await updateProfile(auth.currentUser, { displayName: newDisplayName });
+
+        if (profileWithEmail) {
+          const profileDocRef = query(
+            collection(db, "profiles"),
+            where("userProfile", "==", userProfileEmail)
+          );
+          const profileDocs = await getDocs(profileDocRef);
+          if (!profileDocs.empty) {
+            profileDocs.forEach(async (profileDoc) => {
+              await updateDoc(profileDoc.ref, { displayName: newDisplayName });
+              console.log("Profile updated in Firestore.");
+            });
+          }
+        } else {
+          const newProfileData = {
+            uid: auth.currentUser.uid,
+            userProfile: userProfileEmail,
+            displayName: newDisplayName,
+            profilePhoto: auth.currentUser.photoURL,
+            friends: [],
+          };
+
+          await addDoc(collection(db, "profiles"), newProfileData);
+          console.log("Profile created in Firestore.");
+        }
+
+        setEditProfile(false);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      console.log("Display name not updated.");
+      setEditProfile(false);
     }
-
-    setEditProfile(false);
   };
 
   return (
     <>
       <form onSubmit={handleProfileEditFormSubmission} style={formStyles}>
-        <h2>{auth.currentUser.displayName === null ? "Complete Registration" : "Update Display Name"}</h2>
+        <h2>
+          {auth.currentUser.displayName === null
+            ? "Complete Registration"
+            : "Update Display Name"}
+        </h2>
         <input
           style={inputStyles}
           type="text"
