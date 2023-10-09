@@ -106,40 +106,7 @@ export default function NewEventForm(props) {
     gap: 10,
     color: "white",
   };
-  // const buttonStylesSmall = {
-  //   width: 10,
-  //   height: 4,
-  //   paddingLeft: 24,
-  //   paddingRight: 24,
-  //   paddingTop: 20,
-  //   paddingBottom: 20,
-  //   background: "black",
-  //   boxShadow: "6px 6px 6px #E3A9FF",
-  //   border: "2px #E3A9FF solid",
-  //   display: "flex",
-  //   justifyContent: "center",
-  //   alignItems: "center",
-  //   gap: 10,
-  //   color: "white",
-  // };
-  // const checkboxStyles = {
-  //   margin: "4px",
-  //   padding: "4px",
-  //   border: "12px solid #ccc",
-  //   borderRadius: "4px",
-  //   fontSize: "12px",
-  //   width: 380,
-  //   fontSize: 12,
-  //   background: "white",
-  //   color: "gray",
-  // };
-  // const imgStyle = {
-  //   objectFit: "cover",
-  //   boarderRadius: "50%",
-  //   height: "50px",
-  //   width: "50px",
-  //   borderRadius: "50%",
-  // };
+
   const [privateForm, setPrivateForm] = useState(false);
   // const [radioPrivate, setRadioPrivate] = useState("public");
 
@@ -151,17 +118,13 @@ export default function NewEventForm(props) {
       eventCreatorName: event.target.eventCreatorName.value,
       eventCreatorPhoto: event.target.eventCreatorPhoto.value,
       publicPrivate: event.target.publicPrivate.value,
-
       eventName: event.target.eventName.value,
       eventDateTime: event.target.eventDateTime.value,
       eventDetail: event.target.eventDetail.value,
       eventLocation: event.target.eventLocation.value,
-      // privateEvent: event.target.privateEvent.value,
-      // private: event.target.private.value,
-      // drinkingAge: event.target.drinkingAge.value,
-      // familyFriendly: event.target.familyFriendly.value,
-      // soberEvent: event.target.soberEvent.value,
-      // daysAgo: daysAgo,
+      yeahResponses: [],
+      nahhResponses: [],
+      hummResponses: [],
       timeOpen: serverTimestamp(),
     });
   }
@@ -211,6 +174,24 @@ export default function NewEventForm(props) {
               name="publicPrivate"
               value="public"
             />
+            {/* <input
+              style={inputStyles}
+              type="hidden"
+              name="yeahResponses"
+              value="[]"
+            />
+            <input
+              style={inputStyles}
+              type="hidden"
+              name="nahhResponses"
+              value="[]"
+            />
+            <input
+              style={inputStyles}
+              type="hidden"
+              name="hummResponses"
+              value="[]"
+            /> */}
             <input
               style={inputStyles}
               required

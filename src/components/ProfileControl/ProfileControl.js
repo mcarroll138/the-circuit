@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { db, auth } from "../../firebase";
+import { Link, useNavigate } from "react-router-dom";
 import vectorImage from "../../assets/Logo.png";
 import {
   addDoc,
@@ -182,28 +183,27 @@ export default function UserProfile() {
   if (filteredProfiles.length === 0) {
     return (
       <div
-        style={{
-          background: "black",
-          height: "100vh",
-        }}
-      >
-        <div
           style={{
-            borderRadius: "25px",
-            border: "2px solid #ccc",
+            height: "80vh",
+            alignItems: "center",
             background: "black",
+            fontSize: 32,
+            // width: 200,
+            // padding: 20,
+            display: "flex",
+            flexDirection: "column",
             color: "white",
-            padding: 32,
-            textAlign: "center",
-            fontSize: 16,
-            fontFamily: "arial",
-
-            fontWeight: "400",
-            lineHeight: 2,
+            // textDecorationColor: "green",
+            // borderRadius: "25px",
+            // border: "6px solid #ccc",
+            // margin: 10,
           }}
         >
+          <Link style={{ color: "blueviolet" }} to="/user-profile">
+            Please Finish Registering
+          </Link>
           {/* <ProfilePhoto /> */}
-          <h1>Please Enter a Display Name</h1>
+          {/* <h1>Please Enter a Display Name</h1>
           <form style={formStyles} onSubmit={handleFormSubmit}>
             <input
               style={inputStyles}
@@ -232,9 +232,9 @@ export default function UserProfile() {
             <button style={buttonStyles} type="submit">
               Complete Registration
             </button>
-          </form>
+          </form> */}
         </div>
-      </div>
+      
     );
   } else {
     return (

@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { getAuth, updateProfile, deleteUser } from "firebase/auth";
-import { ref, uploadBytes, getDownloadURL, getStorage } from "firebase/storage";
+import {
+  ref,
+  uploadBytes,
+  uploadBytesResumable,
+  getDownloadURL,
+  getStorage,
+} from "firebase/storage";
 import ProfileEditForm from "./ProfileEditForm";
 import { useNavigate } from "react-router-dom";
 import MissionStatement from "../SignInControl/MissionStatement";
@@ -98,25 +104,55 @@ export default function AuthProfile() {
   );
   const [selectedImage, setSelectedImage] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [deleteProfile, setDeleteProfile] = useState(false);
   const navigate = useNavigate();
+
+
   async function profileImageUpdate(event) {
     event.preventDefault();
     if (!selectedImage) {
       return;
     }
-
-    const fileRef = ref(storage, "profile/" + auth.currentUser.uid + "png");
-    console.log(fileRef);
+  
+    const fileRef = ref(storage, "profile/" + auth.currentUser.uid + ".png");
+    const uploadTask = uploadBytesResumable(fileRef, selectedImage);
+  
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setUploadProgress(progress);
+      },
+      (error) => {
+        // Handle errors
+        console.error(error);
+        setLoading(false); // Add this line to stop loading
+      },
+      () => {
+        // Upload complete
+        getDownloadURL(fileRef).then(async (photoURL) => {
+          await updateProfile(auth.currentUser, { photoURL });
+          setLoading(false);
+          setUploadProgress(0); // Reset progress to 0
+          alert("File Uploaded");
+          setEditProfileImage(false);
+        });
+      }
+    );
+  
     setLoading(true);
-    await uploadBytes(fileRef, selectedImage);
-    const photoURL = await getDownloadURL(fileRef);
-    await updateProfile(auth.currentUser, { photoURL });
-    setLoading(false);
-    alert("File Uploaded");
-
-    setEditProfileImage(false);
   }
+  //   console.log(fileRef);
+  //   setLoading(true);
+  //   await uploadBytes(fileRef, selectedImage);
+  //   const photoURL = await getDownloadURL(fileRef);
+  //   await updateProfile(auth.currentUser, { photoURL });
+  //   setLoading(false);
+  //   alert("File Uploaded");
+
+  //   setEditProfileImage(false);
+  // }
   function handleImageChange(event) {
     setSelectedImage(event.target.files[0]);
   }
@@ -154,18 +190,43 @@ export default function AuthProfile() {
   }
   if (editProfileImage === true) {
     return (
-      <form onSubmit={profileImageUpdate} style={formStyles}>
-        <h2>Update Image</h2>
+      <div
+        style={{
+          height: "80vh",
+          // alignItems: "center",
+          background: "black",
+          fontSize: 32,
+          // width: 200,
+          // padding: 20,
+          display: "flex",
+          flexDirection: "column",
+          color: "white",
+          // textDecorationColor: "green",
+          // borderRadius: "25px",
+          // border: "6px solid #ccc",
+          // margin: 10,
+        }}
+      >
+        <form onSubmit={profileImageUpdate} style={formStyles}>
+          <h2>Update Image</h2>
 
-        <input type="file" onChange={handleImageChange} />
+          <input
+            style={{ flexDirection: "column" }}
+            type="file"
+            onChange={handleImageChange}
+          />
 
-        <button type="submit" style={buttonStyles}>
-          Update
-        </button>
-        <button style={buttonStyles} onClick={() => setEditProfileImage(false)}>
-          Cancel
-        </button>
-      </form>
+          <button type="submit" style={buttonStyles}>
+            Update
+          </button>
+          <button
+            style={buttonStyles}
+            onClick={() => setEditProfileImage(false)}
+          >
+            Cancel
+          </button>
+        </form>
+      </div>
     );
   }
   if (deleteProfile === true) {

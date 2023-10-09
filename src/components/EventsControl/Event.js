@@ -128,7 +128,7 @@ export default function Event(props) {
                 />
                 <label
                   style={{
-                    color: userHasRespondedYeah ? "green" : "auto",
+                    color: userHasRespondedYeah ? "#B3FFB1" : "auto",
                     fontWeight: userHasRespondedYeah ? "bold" : "auto",
                     fontSize: userHasRespondedYeah ? 30 : "auto",
                   }}
@@ -157,7 +157,7 @@ export default function Event(props) {
                 />
                 <label
                   style={{
-                    color: userHasRespondedNahh ? "red" : "auto",
+                    color: userHasRespondedNahh ? "#FFA1A1" : "auto",
                     fontWeight: userHasRespondedNahh ? "bold" : "auto",
                     fontSize: userHasRespondedNahh ? 30 : "auto",
                   }}
@@ -185,7 +185,7 @@ export default function Event(props) {
                 />
                 <label
                   style={{
-                    color: userHasRespondedHumm ? "yellow" : "auto",
+                    color: userHasRespondedHumm ? "#FFF57A" : "auto",
                     fontWeight: userHasRespondedHumm ? "bold" : "auto",
                     fontSize: userHasRespondedHumm ? 30 : "auto",
                   }}
@@ -288,7 +288,7 @@ export default function Event(props) {
               wordWrap: "break-word",
             }}
           >
-            <Linkify>{props.eventDetail}</Linkify>
+            <Linkify>{props.eventDetail}</Linkify>..... more info
           </div>
         </div>
         <button

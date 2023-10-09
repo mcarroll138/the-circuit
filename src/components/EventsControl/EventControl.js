@@ -58,6 +58,9 @@ export default function EventControl() {
     const eventDoc = await getDoc(eventRef);
     const eventData = eventDoc.data();
     const userUid = auth.currentUser.uid;
+    // const yeahResponses = eventData.yeahResponses || [];
+    // const nahhResponses = eventData.nahhResponses || [];
+    // const hummResponses = eventData.hummResponses || [];
 
     if (
       eventData.yeahResponses &&
@@ -87,6 +90,9 @@ export default function EventControl() {
     const eventDoc = await getDoc(eventRef);
     const eventData = eventDoc.data();
     const userUid = auth.currentUser.uid;
+    // const yeahResponses = eventData.yeahResponses || [];
+    // const nahhResponses = eventData.nahhResponses || [];
+    // const hummResponses = eventData.hummResponses || [];
 
     if (
       eventData.nahhResponses &&
@@ -115,6 +121,9 @@ export default function EventControl() {
     const eventDoc = await getDoc(eventRef);
     const eventData = eventDoc.data();
     const userUid = auth.currentUser.uid;
+    // const yeahResponses = eventData.yeahResponses || [];
+    // const nahhResponses = eventData.nahhResponses || [];
+    // const hummResponses = eventData.hummResponses || [];
 
     if (
       eventData.hummResponses &&
@@ -179,14 +188,35 @@ export default function EventControl() {
         <MissionStatement />
       </>
     );
-  } else if (auth.currentUser.photoURL === null || auth.currentUser.displayName === null) {
+  } else if (
+    auth.currentUser.photoURL === null ||
+    auth.currentUser.displayName === null
+  ) {
     return (
       <>
-        <Link to="/user-profile">Almost there, please finish registration</Link>
+        <div
+          style={{
+            height: "80vh",
+            alignItems: "center",
+            background: "black",
+            fontSize: 32,
+            // width: 200,
+            // padding: 20,
+            display: "flex",
+            flexDirection: "column",
+            color: "white",
+            // textDecorationColor: "green",
+            // borderRadius: "25px",
+            // border: "6px solid #ccc",
+            // margin: 10,
+          }}
+        >
+          <Link style={{ color: "blueviolet" }} to="/user-profile">
+            Please Finish Registering
+          </Link>
+        </div>
       </>
     );
-   
-  
   } else if (auth.currentUser != null) {
     let currentlyVisibleState = null;
     let buttonText = null;
