@@ -157,7 +157,6 @@ export default function UserProfile() {
         friendRequestData.recipientUid === auth.currentUser.uid &&
         friendRequestData.status === "pending"
       ) {
-        console.log("Accepting friend request...");
         const friendRequestDocRef = doc(
           db,
           "friendRequest",
@@ -571,8 +570,16 @@ export default function UserProfile() {
                       <button
                         style={buttonStyles}
                         onClick={() => {
-                          handleAcceptingFriendRequest(request.senderUid);
-                          console.log(request.senderEmail);
+                          const friendRequestData = {
+                            recipientUid: request.recipientUid,
+                            recipientEmail: request.recipientEmail,
+                            senderEmail: request.senderEmail,
+                            senderUid: request.senderUid,
+                            status: "pending",
+                          };
+                          handleAcceptingFriendRequest(friendRequestData);
+
+                          console.log(request.recipientEmail);
                         }}
                       >
                         Accept Request
