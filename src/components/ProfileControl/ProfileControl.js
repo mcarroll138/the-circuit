@@ -28,6 +28,11 @@ export default function UserProfile() {
     setPendingOutgoingFriendRequestProfiles,
   ] = useState([]);
 
+  const [
+    pendingIncommingFriendRequestProfiles,
+    setPendingIncommingFriendRequestProfiles,
+  ] = useState([]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -68,6 +73,7 @@ export default function UserProfile() {
       (collectionSnapshot) => {
         const friendRequest = [];
         const outgoingFriendRequests = [];
+        const incommingFriendRequests = [];
 
         collectionSnapshot.forEach((doc) => {
           const request = {
@@ -78,12 +84,15 @@ export default function UserProfile() {
           if (request.senderUid === auth.currentUser.uid) {
             outgoingFriendRequests.push(request);
           }
-
+          if (request.recipientUid === auth.currentUser.uid) {
+            incommingFriendRequests.push(request);
+          }
           friendRequest.push(request);
         });
 
         setFriendRequest(friendRequest);
         setPendingOutgoingFriendRequestProfiles(outgoingFriendRequests);
+        setPendingIncommingFriendRequestProfiles(incommingFriendRequests);
 
         setLoadingFriendRequestList(false);
       }
@@ -124,11 +133,11 @@ export default function UserProfile() {
           senderEmail: auth.currentUser.email,
           recipientUid: newFriendRequestData.recipientUid,
           recipientEmail: newFriendRequestData.recipientEmail,
-          // photo: recipientProfilePhoto,
           status: "pending",
+          // photo: recipientProfilePhoto,
           // recipientProfilePhoto: "",
           // recipientUserName: newFriendRequestData.displayName,
-          recipientProfilePhoto: newFriendRequestData.recipientProfilePhoto,
+          // recipientProfilePhoto: recipientProfilePhoto,
         });
         setRecipientProfilePhoto("");
       } else {
@@ -137,6 +146,12 @@ export default function UserProfile() {
     } catch (error) {
       console.log("Error creating friend request", error);
     }
+  };
+
+  const handleAddingNewFriend = async (friendUid) => {
+    await addDoc(friendsCollectionRef, {
+      friendUid,
+    });
   };
 
   // const handleFollowingPublicAccount = async (friendUid) => {
@@ -168,25 +183,6 @@ export default function UserProfile() {
       console.log("Error Cancelling Request:", error);
     }
   };
-
-  // const handleCancelFriendRequest = async (recipientUid) => {
-  //   try {
-  //     const friendRequestQuery = query(
-  //       friendRequestCollectionRef,
-  //       where("recipientUid", "==", recipientUid)
-  //     );
-  //     const querySnapshot = await getDocs(friendRequestQuery);
-  //     if (!querySnapshot.empty) {
-  //       const requestDoc = querySnapshot.docs[0];
-  //       await deleteDoc(requestDoc.ref);
-  //       console.log("Friend Request Cancelled Successfully");
-  //     } else {
-  //       console.log("No Friend Request to Cancel");
-  //     }
-  //   } catch (error) {
-  //     console.log("Error Cancelling Request:", error);
-  //   }
-  // };
 
   const handleRemovingFriend = async (friendUid) => {
     try {
@@ -462,11 +458,11 @@ export default function UserProfile() {
                       <button
                         style={buttonStyles}
                         onClick={() => {
-                          setRecipientProfilePhoto(profile.profilePhoto);
+                          // setRecipientProfilePhoto(profile.profilePhoto);
                           const newFriendRequestData = {
                             recipientUid: profile.uid,
                             recipientEmail: profile.userProfile,
-                            recipientProfilePhoto: recipientProfilePhoto,
+                            // recipientProfilePhoto: recipientProfilePhoto,
                             // requestedUid: auth.currentUser.uid,
                             // requestedEmail: auth.currentUser.email,
                             // recipientUserName: profile.displayName,
@@ -489,6 +485,67 @@ export default function UserProfile() {
         {radio === "friendRequest" && (
           <>
             <div></div>
+            <p>Pending Incoming Requests</p>
+            <div
+              id="container"
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                flexDirection: "row",
+                justifyContent: "flex-start",
+                background: "black",
+                paddingLeft: 20,
+              }}
+            >
+              {pendingIncommingFriendRequestProfiles.map((request) => (
+                <div key={request.id}>
+                  <div
+                    id="youKnowCards"
+                    style={{
+                      alignItems: "center",
+                      background: "black",
+                      width: 200,
+                      padding: 20,
+                      display: "flex",
+                      flexDirection: "column",
+                      color: "white",
+                      borderRadius: "25px",
+                      border: "6px solid #ccc",
+                      margin: 10,
+                    }}
+                  >
+                    <div>
+                      {/* <img
+                        alt="Profile"
+                        style={imgStyle}
+                        src={request.recipientProfilePhoto}
+                      ></img> */}
+                    </div>
+                    <div>
+                      <div>{request.senderEmail}</div>{" "}
+                      <button
+                        style={buttonStyles}
+                        onClick={() => {
+                          handleAddingNewFriend(request.recipientUid);
+                          console.log(request.recipientUid);
+                        }}
+                      >
+                        Accept Request
+                      </button>
+                      <button
+                        style={buttonStyles}
+                        onClick={() => {
+                          handleCancelFriendRequest(request.recipientUid);
+                          console.log(request.recipientUid);
+                        }}
+                      >
+                        Cancel Request
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
             <p>Pending Outgoing Requests</p>
             <div
               id="container"
@@ -519,12 +576,13 @@ export default function UserProfile() {
                     }}
                   >
                     <div>
-                      <img
+                      {/* <img
                         alt="Profile"
                         style={imgStyle}
                         src={request.recipientProfilePhoto}
-                      ></img>
+                      ></img> */}
                     </div>
+                    <div>{request.recipientEmail}</div>
                     <div>
                       <button
                         style={buttonStyles}
@@ -536,7 +594,6 @@ export default function UserProfile() {
                         Cancel Request
                       </button>
                     </div>
-                    <div>{request.recipientEmail}</div>
                   </div>
                 </div>
               ))}
