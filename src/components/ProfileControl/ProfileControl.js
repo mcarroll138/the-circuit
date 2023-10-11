@@ -23,7 +23,6 @@ export default function UserProfile() {
   const [loadingProfiles, setLoadingProfiles] = useState(true);
   const [loadingFriendList, setLoadingFriendList] = useState(true);
 
-
   const [
     pendingOutgoingFriendRequestProfiles,
     setPendingOutgoingFriendRequestProfiles,
@@ -90,7 +89,7 @@ export default function UserProfile() {
       }
     );
 
-     return () => {
+    return () => {
       friendListUnsubscribe();
       friendRequestUnsubscribe();
     };
@@ -118,20 +117,72 @@ export default function UserProfile() {
   const friendsCollectionRef = collection(userDocRef, "friends");
 
   const handleFriendRequest = async (newFriendRequestData) => {
-    await addDoc(collection(db, "friendRequest"), {
-      senderUid: auth.currentUser.uid,
-      senderEmail: auth.currentUser.email,
-      recipientUid: newFriendRequestData.recipientUid,
-      recipientEmail: newFriendRequestData.recipientEmail,
-      status: "pending",
-    });
+    try {
+      if (newFriendRequestData.recipientUid) {
+        await addDoc(collection(db, "friendRequest"), {
+          senderUid: auth.currentUser.uid,
+          senderEmail: auth.currentUser.email,
+          recipientUid: newFriendRequestData.recipientUid,
+          recipientEmail: newFriendRequestData.recipientEmail,
+          // recipientProfilePhoto: newFriendRequestData.profilePhoto,
+          status: "pending",
+        });
+      } else {
+        console.log("no photo updated");
+      }
+    } catch (error) {
+      console.log("Error creating friend request", error);
+    }
   };
 
-  const handleAddingNewFriend = async (friendUid) => {
-    await addDoc(friendsCollectionRef, {
-      friendUid,
-    });
+  // const handleAddingNewFriend = async (friendUid) => {
+  //   await addDoc(friendsCollectionRef, {
+  //     friendUid,
+  //   });
+  // };
+
+  const handleCancelFriendRequest = async (recipientUid) => {
+    try {
+      const friendRequestQuery = query(
+        collection(db, "friendRequest"),
+        where("recipientUid", "==", recipientUid),
+        where("status", "==", "pending")
+      );
+
+      const querySnapshot = await getDocs(friendRequestQuery);
+
+      if (!querySnapshot.empty) {
+        querySnapshot.forEach(async (doc) => {
+          await deleteDoc(doc.ref);
+        });
+
+        console.log("Friend Request(s) Cancelled Successfully");
+      } else {
+        console.log("No Friend Request to Cancel");
+      }
+    } catch (error) {
+      console.log("Error Cancelling Request:", error);
+    }
   };
+
+  // const handleCancelFriendRequest = async (recipientUid) => {
+  //   try {
+  //     const friendRequestQuery = query(
+  //       friendRequestCollectionRef,
+  //       where("recipientUid", "==", recipientUid)
+  //     );
+  //     const querySnapshot = await getDocs(friendRequestQuery);
+  //     if (!querySnapshot.empty) {
+  //       const requestDoc = querySnapshot.docs[0];
+  //       await deleteDoc(requestDoc.ref);
+  //       console.log("Friend Request Cancelled Successfully");
+  //     } else {
+  //       console.log("No Friend Request to Cancel");
+  //     }
+  //   } catch (error) {
+  //     console.log("Error Cancelling Request:", error);
+  //   }
+  // };
 
   const handleRemovingFriend = async (friendUid) => {
     try {
@@ -411,10 +462,13 @@ export default function UserProfile() {
                             requestedUid: auth.currentUser.uid,
                             requestedEmail: auth.currentUser.email,
                             recipientUid: profile.uid,
+                            // recipientProfilePhoto:
+                            //   profile.profilePhoto.toString(),
                             recipientEmail: profile.userProfile,
                             status: "pending",
                           };
                           handleFriendRequest(newFriendRequestData);
+                          console.log(profile.profilePhoto);
                         }}
                       >
                         Send Friend Request
@@ -470,11 +524,11 @@ export default function UserProfile() {
                       <button
                         style={buttonStyles}
                         onClick={() => {
-                          handleRemovingFriend(request.recipientUid);
+                          handleCancelFriendRequest(request.recipientUid);
                           console.log(request.recipientUid);
                         }}
                       >
-                        Remove Friend
+                        Cancel Request
                       </button>
                     </div>
                     <div>{request.recipientEmail}</div>
