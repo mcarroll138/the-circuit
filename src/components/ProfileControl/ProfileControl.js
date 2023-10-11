@@ -115,7 +115,7 @@ export default function UserProfile() {
 
   const userDocRef = doc(db, "profiles", auth.currentUser.uid);
   const friendsCollectionRef = collection(userDocRef, "friends");
-
+  const [recipientProfilePhoto, setrecipientProfilePhoto] = useState("");
   const handleFriendRequest = async (newFriendRequestData) => {
     try {
       if (newFriendRequestData.recipientUid) {
@@ -124,8 +124,11 @@ export default function UserProfile() {
           senderEmail: auth.currentUser.email,
           recipientUid: newFriendRequestData.recipientUid,
           recipientEmail: newFriendRequestData.recipientEmail,
-          // recipientProfilePhoto: newFriendRequestData.profilePhoto,
+          photo: { recipientProfilePhoto },
           status: "pending",
+
+          // recipientUserName: newFriendRequestData.displayName,
+          // recipientProfilePhoto: newFriendRequestData.profilePhoto,
         });
       } else {
         console.log("no photo updated");
@@ -135,7 +138,7 @@ export default function UserProfile() {
     }
   };
 
-  // const handleAddingNewFriend = async (friendUid) => {
+  // const handleFollowingPublicAccount = async (friendUid) => {
   //   await addDoc(friendsCollectionRef, {
   //     friendUid,
   //   });
@@ -458,14 +461,16 @@ export default function UserProfile() {
                       <button
                         style={buttonStyles}
                         onClick={() => {
+                          setrecipientProfilePhoto(profile.profilePhoto);
                           const newFriendRequestData = {
-                            requestedUid: auth.currentUser.uid,
-                            requestedEmail: auth.currentUser.email,
                             recipientUid: profile.uid,
+                            recipientEmail: profile.userProfile,
+                            // requestedUid: auth.currentUser.uid,
+                            // requestedEmail: auth.currentUser.email,
                             // recipientProfilePhoto:
                             //   profile.profilePhoto.toString(),
-                            recipientEmail: profile.userProfile,
-                            status: "pending",
+                            // recipientUserName: profile.displayName,
+                            // status: "pending",
                           };
                           handleFriendRequest(newFriendRequestData);
                           console.log(profile.profilePhoto);
