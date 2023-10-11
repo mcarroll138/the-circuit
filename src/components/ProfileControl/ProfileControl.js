@@ -10,6 +10,7 @@ import {
   getDocs,
   doc,
   query,
+  updateDoc,
   where,
 } from "firebase/firestore";
 
@@ -148,11 +149,55 @@ export default function UserProfile() {
     }
   };
 
-  const handleAddingNewFriend = async (friendUid) => {
-    await addDoc(friendsCollectionRef, {
-      friendUid,
-    });
+  const handleAcceptingFriendRequest = async (friendRequestData) => {
+    try {
+      console.log("Friend Request Data", friendRequestData);
+      console.log("Current User UID", auth.currentUser.uid);
+      if (
+        friendRequestData.recipientUid === auth.currentUser.uid &&
+        friendRequestData.status === "pending"
+      ) {
+        console.log("Accepting friend request...");
+        const friendRequestDocRef = doc(
+          db,
+          "friendRequest",
+          friendRequestData.id
+        );
+        await updateDoc(friendRequestDocRef, {
+          status: "friends",
+        });
+
+        await addDoc(friendsCollectionRef, {
+          friendUid: friendRequestData.senderUid,
+        });
+
+        const senderUserDocRef = doc(
+          db,
+          "profiles",
+          friendRequestData.senderUid
+        );
+        const senderFriendsCollectionRef = collection(
+          senderUserDocRef,
+          "friends"
+        );
+        await addDoc(senderFriendsCollectionRef, {
+          friendUid: auth.currentUser.uid,
+        });
+
+        console.log("Friend request accepted successfully");
+      } else {
+        console.log("Invalid request or user.");
+      }
+    } catch (error) {
+      console.log("Error accepting friend request:", error);
+    }
   };
+
+  // const handleAddingNewFriend = async (friendUid) => {
+  //   await addDoc(friendsCollectionRef, {
+  //     friendUid,
+  //   });
+  // };
 
   // const handleFollowingPublicAccount = async (friendUid) => {
   //   await addDoc(friendsCollectionRef, {
@@ -526,8 +571,8 @@ export default function UserProfile() {
                       <button
                         style={buttonStyles}
                         onClick={() => {
-                          handleAddingNewFriend(request.recipientUid);
-                          console.log(request.recipientUid);
+                          handleAcceptingFriendRequest(request.senderUid);
+                          console.log(request.senderEmail);
                         }}
                       >
                         Accept Request
