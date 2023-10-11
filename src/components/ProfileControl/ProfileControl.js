@@ -115,7 +115,7 @@ export default function UserProfile() {
 
   const userDocRef = doc(db, "profiles", auth.currentUser.uid);
   const friendsCollectionRef = collection(userDocRef, "friends");
-  const [recipientProfilePhoto, setrecipientProfilePhoto] = useState("");
+  const [recipientProfilePhoto, setRecipientProfilePhoto] = useState("");
   const handleFriendRequest = async (newFriendRequestData) => {
     try {
       if (newFriendRequestData.recipientUid) {
@@ -124,12 +124,13 @@ export default function UserProfile() {
           senderEmail: auth.currentUser.email,
           recipientUid: newFriendRequestData.recipientUid,
           recipientEmail: newFriendRequestData.recipientEmail,
-          photo: { recipientProfilePhoto },
+          // photo: recipientProfilePhoto,
           status: "pending",
-
+          // recipientProfilePhoto: "",
           // recipientUserName: newFriendRequestData.displayName,
-          // recipientProfilePhoto: newFriendRequestData.profilePhoto,
+          recipientProfilePhoto: newFriendRequestData.recipientProfilePhoto,
         });
+        setRecipientProfilePhoto("");
       } else {
         console.log("no photo updated");
       }
@@ -461,14 +462,13 @@ export default function UserProfile() {
                       <button
                         style={buttonStyles}
                         onClick={() => {
-                          setrecipientProfilePhoto(profile.profilePhoto);
+                          setRecipientProfilePhoto(profile.profilePhoto);
                           const newFriendRequestData = {
                             recipientUid: profile.uid,
                             recipientEmail: profile.userProfile,
+                            recipientProfilePhoto: recipientProfilePhoto,
                             // requestedUid: auth.currentUser.uid,
                             // requestedEmail: auth.currentUser.email,
-                            // recipientProfilePhoto:
-                            //   profile.profilePhoto.toString(),
                             // recipientUserName: profile.displayName,
                             // status: "pending",
                           };
