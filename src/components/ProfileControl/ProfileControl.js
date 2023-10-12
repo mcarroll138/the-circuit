@@ -61,24 +61,23 @@ export default function UserProfile() {
         const incommingFriendRequests = [];
 
         collectionSnapshot.forEach((doc) => {
-          friendRequestList.push({
-            id: doc.id,
+          const friendStatus = {
+            id: friendRequest.id,
             ...doc.data(),
-          });
-          if (friendRequestList.senderUid === auth.currentUser.uid) {
-            outgoingFriendRequests.push(friendRequestList);
+          };
+
+          if (friendStatus.senderUid === auth.currentUser.uid) {
+            outgoingFriendRequests.push(friendStatus);
           }
-          if (friendRequestList.recipientUid === auth.currentUser.uid) {
-            incommingFriendRequests.push(friendRequestList);
+          if (friendStatus.recipientUid === auth.currentUser.uid) {
+            incommingFriendRequests.push(friendStatus);
           }
+          friendRequestList.push(friendStatus);
         });
         setFriendListUid(friendRequestList);
         setLoadingFriendList(false);
         setPendingOutgoingFriendRequestProfiles(outgoingFriendRequests);
         setPendingIncommingFriendRequestProfiles(incommingFriendRequests);
-        console.log(friendRequestList);
-        console.log(pendingOutgoingFriendRequestProfiles);
-        console.log(pendingIncommingFriendRequestProfiles);
       }
     );
 
@@ -147,7 +146,7 @@ export default function UserProfile() {
           senderEmail: auth.currentUser.email,
           recipientUid: newFriendRequestData.recipientUid,
           recipientEmail: newFriendRequestData.recipientEmail,
-          photo: { recipientProfilePhoto },
+          profilePhoto: newFriendRequestData.profilePhoto,
           status: "pending",
 
           // recipientUserName: newFriendRequestData.displayName,
@@ -170,7 +169,7 @@ export default function UserProfile() {
   const handleCancelFriendRequest = async (recipientUid) => {
     try {
       const friendRequestQuery = query(
-        collection(db, "friendRequest"),
+        collection(userDocRef, "friendRequest"),
         where("recipientUid", "==", recipientUid),
         where("status", "==", "pending")
       );
@@ -488,6 +487,7 @@ export default function UserProfile() {
                           const newFriendRequestData = {
                             recipientUid: profile.uid,
                             recipientEmail: profile.userProfile,
+                            profilePhoto: profile.profilePhoto,
                             // requestedUid: auth.currentUser.uid,
                             // requestedEmail: auth.currentUser.email,
                             // recipientProfilePhoto:
@@ -545,7 +545,7 @@ export default function UserProfile() {
                       <img
                         alt="Profile"
                         style={imgStyle}
-                        src={request.recipientProfilePhoto}
+                        src={request.profilePhoto}
                       ></img>
                     </div>
                     <div>
