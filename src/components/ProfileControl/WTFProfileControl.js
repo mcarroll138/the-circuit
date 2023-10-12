@@ -10,6 +10,7 @@ import {
   getDocs,
   doc,
   query,
+  updateDoc,
   where,
 } from "firebase/firestore";
 
@@ -40,7 +41,7 @@ export default function UserProfile() {
         const collectionSnapshot = await getDocs(collection(db, "profiles"));
         collectionSnapshot.forEach((doc) => {
           profileList.push({
-            id: doc.id,
+            // id: request.id,
             ...doc.data(),
           });
         });
@@ -54,66 +55,53 @@ export default function UserProfile() {
     fetchData();
 
     const friendListUnsubscribe = onSnapshot(
-      collection(db, "profiles", auth.currentUser.uid, "friendRequest"),
+      collection(db, "profiles", auth.currentUser.uid, "friends"),
       (collectionSnapshot) => {
-        const friendRequestList = [];
+        const friendList = [];
+        collectionSnapshot.forEach((doc) => {
+          friendList.push({
+            // id: request.id,
+            ...doc.data(),
+          });
+        });
+        setFriendListUid(friendList);
+        setLoadingFriendList(false);
+      }
+    );
+
+    const friendRequestUnsubscribe = onSnapshot(
+      collection(db, "friendRequest"),
+      (collectionSnapshot) => {
+        const friendRequest = [];
         const outgoingFriendRequests = [];
         const incommingFriendRequests = [];
 
         collectionSnapshot.forEach((doc) => {
-          friendRequestList.push({
-            id: doc.id,
+          const request = {
+            id: request.id,
             ...doc.data(),
-          });
-          if (friendRequestList.senderUid === auth.currentUser.uid) {
-            outgoingFriendRequests.push(friendRequestList);
+          };
+
+          if (request.senderUid === auth.currentUser.uid) {
+            outgoingFriendRequests.push(request);
           }
-          if (friendRequestList.recipientUid === auth.currentUser.uid) {
-            incommingFriendRequests.push(friendRequestList);
+          if (request.recipientUid === auth.currentUser.uid) {
+            incommingFriendRequests.push(request);
           }
+          friendRequest.push(request);
         });
-        setFriendListUid(friendRequestList);
-        setLoadingFriendList(false);
+
+        setFriendRequest(friendRequest);
         setPendingOutgoingFriendRequestProfiles(outgoingFriendRequests);
         setPendingIncommingFriendRequestProfiles(incommingFriendRequests);
-        console.log(friendRequestList);
-        console.log(pendingOutgoingFriendRequestProfiles);
-        console.log(pendingIncommingFriendRequestProfiles);
+
+        setLoadingFriendRequestList(false);
       }
     );
 
-    // const friendRequestUnsubscribe = onSnapshot(
-    //   collection(db, "friendRequest"),
-    //   (collectionSnapshot) => {
-    //     const friendRequest = [];
-    //     const outgoingFriendRequests = [];
-    //     const incommingFriendRequests = [];
-
-    //     collectionSnapshot.forEach((doc) => {
-    //       const request = {
-    //         id: doc.id,
-    //         ...doc.data(),
-    //       };
-
-    //       if (request.senderUid === auth.currentUser.uid) {
-    //         outgoingFriendRequests.push(request);
-    //       }
-    //       if (request.recipientUid === auth.currentUser.uid) {
-    //         incommingFriendRequests.push(request);
-    //       }
-    //       friendRequest.push(request);
-    //     });
-
-    //     setFriendRequest(friendRequest);
-    //     setPendingOutgoingFriendRequestProfiles(outgoingFriendRequests);
-    //     setPendingIncommingFriendRequestProfiles(incommingFriendRequests);
-    //     setLoadingFriendRequestList(false);
-    //   }
-    // );
-
     return () => {
       friendListUnsubscribe();
-      // friendRequestUnsubscribe();
+      friendRequestUnsubscribe();
     };
   }, []);
 
@@ -137,22 +125,27 @@ export default function UserProfile() {
 
   const userDocRef = doc(db, "profiles", auth.currentUser.uid);
   const friendsCollectionRef = collection(userDocRef, "friends");
-  const friendRequestCollectionRef = collection(userDocRef, "friendRequest");
-  const [recipientProfilePhoto, setrecipientProfilePhoto] = useState("");
+
+  // const friendDocRef = doc(db, "friendRequest", auth.currentUser.uid);
+  // const friendRequestCollectionRef = collection(friendDocRef, "friendStatus");
+
+  const [recipientProfilePhoto, setRecipientProfilePhoto] = useState("");
+
   const handleFriendRequest = async (newFriendRequestData) => {
     try {
       if (newFriendRequestData.recipientUid) {
-        await addDoc(friendRequestCollectionRef, {
+        await addDoc(collection(db, "friendRequest"), {
           senderUid: auth.currentUser.uid,
           senderEmail: auth.currentUser.email,
           recipientUid: newFriendRequestData.recipientUid,
           recipientEmail: newFriendRequestData.recipientEmail,
-          photo: { recipientProfilePhoto },
           status: "pending",
-
+          // photo: recipientProfilePhoto,
+          // recipientProfilePhoto: "",
           // recipientUserName: newFriendRequestData.displayName,
-          // recipientProfilePhoto: newFriendRequestData.profilePhoto,
+          // recipientProfilePhoto: recipientProfilePhoto,
         });
+        setRecipientProfilePhoto("");
       } else {
         console.log("no photo updated");
       }
@@ -160,6 +153,139 @@ export default function UserProfile() {
       console.log("Error creating friend request", error);
     }
   };
+
+  // const handleAcceptingFriendRequest = async (friendRequestData) => {
+  //   await addDoc(friendRequestCollectionRef, {
+  //     friendRequestData,
+  //   });
+  // };
+
+  // const handleAcceptingFriendRequest = async (friendRequestData) => {
+  //   try {
+  //     const friendRequestQuery = query(
+  //       collection(db, "friendRequest"),
+  //       where("senderUid", "==", friendRequestData.senderUid),
+  //       where("recipientUid", "==", auth.currentUser.uid),
+  //       where("status", "==", "pending")
+  //     );
+  //     const querySnapshot = await getDocs(friendRequestQuery);
+
+  //     if (!querySnapshot.empty) {
+  //       querySnapshot.forEach(async (doc) => {
+  //         const friendRequestDocRef = doc(
+  //           db,
+  //           "friendRequest",
+  //           friendRequestData.id
+  //         );
+  //         await updateDoc(friendRequestDocRef, {
+  //           status: "friends",
+  //         });
+
+  //         await addDoc(friendsCollectionRef, {
+  //           friendUid: friendRequestData.senderUid,
+  //         });
+
+  //         const senderUserDocRef = doc(
+  //           db,
+  //           "profiles",
+  //           friendRequestData.senderUid
+  //         );
+  //         const senderFriendsCollectionRef = collection(
+  //           senderUserDocRef,
+  //           "friends"
+  //         );
+  //         await addDoc(senderFriendsCollectionRef, {
+  //           friendUid: auth.currentUser.uid,
+  //         });
+
+  //         console.log("Friend request accepted successfully");
+  //       });
+  //     } else {
+  //       console.log("No Friend Request to Accept");
+  //     }
+  //   } catch (error) {
+  //     console.log("Error accepting friend request:", error);
+  //   }
+  // };
+
+  // const handleAcceptingFriendRequest = async (friendRequestData) => {
+  //   try {
+  //     const senderUid = friendRequestData.senderUid;
+  //     const friendRequestQuery = query(
+  //       collection(db, "friendRequest"),
+  //       where("senderUid", "==", senderUid),
+  //       where("recipientUid", "==", auth.currentUser.uid),
+  //       where("status", "==", "pending")
+  //     );
+  //     const querySnapshot = await getDocs(friendRequestQuery);
+  //     const friendRequestDocRef = doc(
+  //       db,
+  //       "friendRequest",
+  //       friendRequestData.id
+  //     );
+  //     if (!querySnapshot.empty) {
+  //       querySnapshot.forEach(async (doc) => {
+  //         await updateDoc(friendRequestDocRef, {
+  //           status: "friends",
+  //         });
+  //       });
+  //       console.log("Friend Request(s) Cancelled Successfully");
+  //     } else {
+  //       console.log("No Friend Request to Cancel");
+  //     }
+  //   } catch (error) {
+  //     console.log("Error Cancelling Request:", error);
+  //   }
+  // };
+  // const handleAcceptingFriendRequest = async (friendRequestData) => {
+  //   try {
+  //     console.log("Friend Request Data", friendRequestData);
+  //     console.log("Current User UID", auth.currentUser.uid);
+  //     if (
+  //       friendRequestData.recipientUid === auth.currentUser.uid
+  //       &&
+  //       friendRequestData.status === "pending"
+  //     ) {
+  //       const friendRequestDocRef = doc(
+  //         db,
+  //         "friendRequest",
+  //         friendRequestData.id
+  //       );
+  //       await updateDoc(friendRequestDocRef, {
+  //         status: "friends",
+  //       });
+
+  //       await addDoc(friendsCollectionRef, {
+  //         friendUid: friendRequestData.senderUid,
+  //       });
+
+  //       const senderUserDocRef = doc(
+  //         db,
+  //         "profiles",
+  //         friendRequestData.senderUid
+  //       );
+  //       const senderFriendsCollectionRef = collection(
+  //         senderUserDocRef,
+  //         "friends"
+  //       );
+  //       await addDoc(senderFriendsCollectionRef, {
+  //         friendUid: auth.currentUser.uid,
+  //       });
+
+  //       console.log("Friend request accepted successfully");
+  //     } else {
+  //       console.log("Invalid request or user.");
+  //     }
+  //   } catch (error) {
+  //     console.log("Error accepting friend request:", error);
+  //   }
+  // };
+
+  // const handleAddingNewFriend = async (friendUid) => {
+  //   await addDoc(friendsCollectionRef, {
+  //     friendUid,
+  //   });
+  // };
 
   // const handleFollowingPublicAccount = async (friendUid) => {
   //   await addDoc(friendsCollectionRef, {
@@ -190,25 +316,6 @@ export default function UserProfile() {
       console.log("Error Cancelling Request:", error);
     }
   };
-
-  // const handleCancelFriendRequest = async (recipientUid) => {
-  //   try {
-  //     const friendRequestQuery = query(
-  //       friendRequestCollectionRef,
-  //       where("recipientUid", "==", recipientUid)
-  //     );
-  //     const querySnapshot = await getDocs(friendRequestQuery);
-  //     if (!querySnapshot.empty) {
-  //       const requestDoc = querySnapshot.docs[0];
-  //       await deleteDoc(requestDoc.ref);
-  //       console.log("Friend Request Cancelled Successfully");
-  //     } else {
-  //       console.log("No Friend Request to Cancel");
-  //     }
-  //   } catch (error) {
-  //     console.log("Error Cancelling Request:", error);
-  //   }
-  // };
 
   const handleRemovingFriend = async (friendUid) => {
     try {
@@ -484,14 +591,13 @@ export default function UserProfile() {
                       <button
                         style={buttonStyles}
                         onClick={() => {
-                          setrecipientProfilePhoto(profile.profilePhoto);
+                          // setRecipientProfilePhoto(profile.profilePhoto);
                           const newFriendRequestData = {
                             recipientUid: profile.uid,
                             recipientEmail: profile.userProfile,
+                            // recipientProfilePhoto: recipientProfilePhoto,
                             // requestedUid: auth.currentUser.uid,
                             // requestedEmail: auth.currentUser.email,
-                            // recipientProfilePhoto:
-                            //   profile.profilePhoto.toString(),
                             // recipientUserName: profile.displayName,
                             // status: "pending",
                           };
@@ -512,6 +618,75 @@ export default function UserProfile() {
         {radio === "friendRequest" && (
           <>
             <div></div>
+            <p>Pending Incoming Requests</p>
+            <div
+              id="container"
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                flexDirection: "row",
+                justifyContent: "flex-start",
+                background: "black",
+                paddingLeft: 20,
+              }}
+            >
+              {pendingIncommingFriendRequestProfiles.map((request) => (
+                <div key={request.id}>
+                  <div
+                    id="youKnowCards"
+                    style={{
+                      alignItems: "center",
+                      background: "black",
+                      width: 200,
+                      padding: 20,
+                      display: "flex",
+                      flexDirection: "column",
+                      color: "white",
+                      borderRadius: "25px",
+                      border: "6px solid #ccc",
+                      margin: 10,
+                    }}
+                  >
+                    <div>
+                      {/* <img
+                        alt="Profile"
+                        style={imgStyle}
+                        src={request.recipientProfilePhoto}
+                      ></img> */}
+                    </div>
+                    <div>
+                      <div>{request.senderEmail}</div>{" "}
+                      <button
+                        style={buttonStyles}
+                        // onClick={() => {
+                        //   const friendRequestData = {
+                        //     recipientUid: request.recipientUid,
+                        //     recipientEmail: request.recipientEmail,
+                        //     senderEmail: request.senderEmail,
+                        //     senderUid: request.senderUid,
+                        //     // status: "pending",
+                        //   };
+                        //   handleAcceptingFriendRequest(friendRequestData);
+
+                        //   console.log(request.recipientEmail);
+                        // }}
+                      >
+                        Accept Request
+                      </button>
+                      <button
+                        style={buttonStyles}
+                        onClick={() => {
+                          handleCancelFriendRequest(request.recipientUid);
+                          console.log(request.recipientUid);
+                        }}
+                      >
+                        Cancel Request
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
             <p>Pending Outgoing Requests</p>
             <div
               id="container"
@@ -542,12 +717,13 @@ export default function UserProfile() {
                     }}
                   >
                     <div>
-                      <img
+                      {/* <img
                         alt="Profile"
                         style={imgStyle}
                         src={request.recipientProfilePhoto}
-                      ></img>
+                      ></img> */}
                     </div>
+                    <div>{request.recipientEmail}</div>
                     <div>
                       <button
                         style={buttonStyles}
@@ -559,7 +735,6 @@ export default function UserProfile() {
                         Cancel Request
                       </button>
                     </div>
-                    <div>{request.recipientEmail}</div>
                   </div>
                 </div>
               ))}
