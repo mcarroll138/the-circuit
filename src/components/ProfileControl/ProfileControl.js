@@ -125,7 +125,12 @@ export default function UserProfile() {
 
   const userDocRef = doc(db, "profiles", auth.currentUser.uid);
   const friendsCollectionRef = collection(userDocRef, "friends");
+
+  const friendDocRef = doc(db, "friendRequest", auth.currentUser.uid);
+  const friendRequestCollectionRef = collection(friendDocRef, "friendStatus");
+
   const [recipientProfilePhoto, setRecipientProfilePhoto] = useState("");
+
   const handleFriendRequest = async (newFriendRequestData) => {
     try {
       if (newFriendRequestData.recipientUid) {
@@ -151,46 +156,120 @@ export default function UserProfile() {
 
   const handleAcceptingFriendRequest = async (friendRequestData) => {
     try {
-      console.log("Friend Request Data", friendRequestData);
-      console.log("Current User UID", auth.currentUser.uid);
-      if (
-        friendRequestData.recipientUid === auth.currentUser.uid &&
-        friendRequestData.status === "pending"
-      ) {
-        const friendRequestDocRef = doc(
-          db,
-          "friendRequest",
-          friendRequestData.id
-        );
-        await updateDoc(friendRequestDocRef, {
-          status: "friends",
-        });
+      const friendRequestQuery = query(
+        collection(db, "friendRequest"),
+        where("senderUid", "==", friendRequestData.senderUid),
+        where("recipientUid", "==", auth.currentUser.uid),
+        where("status", "==", "pending")
+      );
+      const querySnapshot = await getDocs(friendRequestQuery);
 
-        await addDoc(friendsCollectionRef, {
-          friendUid: friendRequestData.senderUid,
-        });
+      if (!querySnapshot.empty) {
+        querySnapshot.forEach(async (doc) => {
+          const friendRequestDocRef = doc(db, "friendRequest", doc.id);
+          await updateDoc(friendRequestDocRef, {
+            status: "friends",
+          });
 
-        const senderUserDocRef = doc(
-          db,
-          "profiles",
-          friendRequestData.senderUid
-        );
-        const senderFriendsCollectionRef = collection(
-          senderUserDocRef,
-          "friends"
-        );
-        await addDoc(senderFriendsCollectionRef, {
-          friendUid: auth.currentUser.uid,
-        });
+          await addDoc(friendsCollectionRef, {
+            friendUid: friendRequestData.senderUid,
+          });
 
-        console.log("Friend request accepted successfully");
+          const senderUserDocRef = doc(
+            db,
+            "profiles",
+            friendRequestData.senderUid
+          );
+          const senderFriendsCollectionRef = collection(
+            senderUserDocRef,
+            "friends"
+          );
+          await addDoc(senderFriendsCollectionRef, {
+            friendUid: auth.currentUser.uid,
+          });
+
+          console.log("Friend request accepted successfully");
+        });
       } else {
-        console.log("Invalid request or user.");
+        console.log("No Friend Request to Accept");
       }
     } catch (error) {
       console.log("Error accepting friend request:", error);
     }
   };
+
+  // const handleAcceptingFriendRequest = async (friendRequestData) => {
+  //   try {
+  //     const senderUid = friendRequestData.senderUid;
+  //     const friendRequestQuery = query(
+  //       collection(db, "friendRequest"),
+  //       where("senderUid", "==", senderUid),
+  //       where("recipientUid", "==", auth.currentUser.uid),
+  //       where("status", "==", "pending")
+  //     );
+  //     const querySnapshot = await getDocs(friendRequestQuery);
+  //     const friendRequestDocRef = doc(
+  //       db,
+  //       "friendRequest",
+  //       friendRequestData.id
+  //     );
+  //     if (!querySnapshot.empty) {
+  //       querySnapshot.forEach(async (doc) => {
+  //         await updateDoc(friendRequestDocRef, {
+  //           status: "friends",
+  //         });
+  //       });
+  //       console.log("Friend Request(s) Cancelled Successfully");
+  //     } else {
+  //       console.log("No Friend Request to Cancel");
+  //     }
+  //   } catch (error) {
+  //     console.log("Error Cancelling Request:", error);
+  //   }
+  // };
+  // const handleAcceptingFriendRequest = async (friendRequestData) => {
+  //   try {
+  //     console.log("Friend Request Data", friendRequestData);
+  //     console.log("Current User UID", auth.currentUser.uid);
+  //     if (
+  //       friendRequestData.recipientUid === auth.currentUser.uid
+  //       &&
+  //       friendRequestData.status === "pending"
+  //     ) {
+  //       const friendRequestDocRef = doc(
+  //         db,
+  //         "friendRequest",
+  //         friendRequestData.id
+  //       );
+  //       await updateDoc(friendRequestDocRef, {
+  //         status: "friends",
+  //       });
+
+  //       await addDoc(friendsCollectionRef, {
+  //         friendUid: friendRequestData.senderUid,
+  //       });
+
+  //       const senderUserDocRef = doc(
+  //         db,
+  //         "profiles",
+  //         friendRequestData.senderUid
+  //       );
+  //       const senderFriendsCollectionRef = collection(
+  //         senderUserDocRef,
+  //         "friends"
+  //       );
+  //       await addDoc(senderFriendsCollectionRef, {
+  //         friendUid: auth.currentUser.uid,
+  //       });
+
+  //       console.log("Friend request accepted successfully");
+  //     } else {
+  //       console.log("Invalid request or user.");
+  //     }
+  //   } catch (error) {
+  //     console.log("Error accepting friend request:", error);
+  //   }
+  // };
 
   // const handleAddingNewFriend = async (friendUid) => {
   //   await addDoc(friendsCollectionRef, {
@@ -571,9 +650,9 @@ export default function UserProfile() {
                         style={buttonStyles}
                         onClick={() => {
                           const friendRequestData = {
-                            recipientUid: request.recipientUid,
-                            recipientEmail: request.recipientEmail,
-                            senderEmail: request.senderEmail,
+                            // recipientUid: request.recipientUid,
+                            // recipientEmail: request.recipientEmail,
+                            // senderEmail: request.senderEmail,
                             senderUid: request.senderUid,
                             status: "pending",
                           };
