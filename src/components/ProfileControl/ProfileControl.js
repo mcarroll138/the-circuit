@@ -59,11 +59,11 @@ export default function UserProfile() {
   const [profiles, setProfiles] = useState([]);
   const [friendListUid, setFriendListUid] = useState([]);
   const [friendRequest, setFriendRequest] = useState([]);
-  const [loadingFriendRequestList, setLoadingFriendRequestList] =
-    useState(true);
+  // const [loadingFriendRequestList, setLoadingFriendRequestList] =
+  //   useState(true);
   const [loadingProfiles, setLoadingProfiles] = useState(true);
   const [loadingFriendList, setLoadingFriendList] = useState(true);
-
+  const [friendList, setFriendList] = useState([]);
   const [
     pendingOutgoingFriendRequestProfiles,
     setPendingOutgoingFriendRequestProfiles,
@@ -95,6 +95,23 @@ export default function UserProfile() {
     fetchData();
 
     const friendListUnsubscribe = onSnapshot(
+      friendsCollectionRef,
+      (collectionSnapshot) => {
+        const friendList = [];
+
+        collectionSnapshot.forEach((doc) => {
+          friendList.push({
+            // id: friendRequest.id,
+            ...doc.data(),
+          });
+        });
+
+        setLoadingFriendList(false);
+        setFriendList(friendList);
+      }
+    );
+
+    const sentFriendRequestUnsubscribe = onSnapshot(
       sentRequestsCollectionRef,
       (collectionSnapshot) => {
         const sentRequestsList = [];
@@ -128,68 +145,16 @@ export default function UserProfile() {
       }
     );
 
-    // const friendRequestUnsubscribe = onSnapshot(
-    //   collection(db, "friendRequest"),
-    //   (collectionSnapshot) => {
-    //     const friendRequest = [];
-    //     const outgoingFriendRequests = [];
-    //     const incommingFriendRequests = [];
-
-    //     collectionSnapshot.forEach((doc) => {
-    //       const request = {
-    //         id: doc.id,
-    //         ...doc.data(),
-    //       };
-
-    //       if (request.senderUid === auth.currentUser.uid) {
-    //         outgoingFriendRequests.push(request);
-    //       }
-    //       if (request.recipientUid === auth.currentUser.uid) {
-    //         incommingFriendRequests.push(request);
-    //       }
-    //       friendRequest.push(request);
-    //     });
-
-    //     setFriendRequest(friendRequest);
-    //     setPendingOutgoingFriendRequestProfiles(outgoingFriendRequests);
-    //     setPendingIncommingFriendRequestProfiles(incommingFriendRequests);
-    //     setLoadingFriendRequestList(false);
-    //   }
-    // );
-
     return () => {
       friendListUnsubscribe();
+      sentFriendRequestUnsubscribe();
       friendRequestUnsubscribe();
     };
   }, []);
 
-  // const handleFormSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   const newProfileData = {
-  //     uid: auth.currentUser.uid,
-  //     userProfile: auth.currentUser.email,
-  //     displayName: auth.currentUser.displayName,
-  //     profilePhoto: auth.currentUser.photoURL,
-  //     friends: [],
-  //   };
-
-  //   try {
-  //     const docRef = await addDoc(collection(db, "profiles"), newProfileData);
-
-  //     // Create an empty "fendosTest" subcollection for the user
-  //     await addDoc(
-  //       collection(doc(db, "profiles", auth.currentUser.uid), "fendosTest")
-  //     );
-
-  //     console.log("Document written with ID:", docRef.id);
-  //   } catch (error) {
-  //     console.error("Error creating profile: ", error);
-  //   }
-  // };
-
   const userDocRef = doc(db, "profiles", auth.currentUser.uid);
   const friendsCollectionRef = collection(userDocRef, "friends");
+  // const friendCollectionRef = collection(userDocRef, "friendRequest");
   const friendRequestCollectionRef = collection(userDocRef, "friendRequest");
   const sentRequestsCollectionRef = collection(userDocRef, "sentRequests");
   const [recipientProfilePhoto, setrecipientProfilePhoto] = useState("");
@@ -232,73 +197,26 @@ export default function UserProfile() {
     }
   };
 
-  // const handleFriendRequest = async (newFriendRequestData) => {
-  //   try {
-  //     if (newFriendRequestData.recipientUid) {
-  //       await addDoc(friendRequestCollectionRef, {
-  //         senderUid: auth.currentUser.uid,
-  //         senderEmail: auth.currentUser.email,
-  //         recipientUid: newFriendRequestData.recipientUid,
-  //         recipientEmail: newFriendRequestData.recipientEmail,
-  //         recipientUserName: newFriendRequestData.recipientUserName,
-  //         profilePhoto: newFriendRequestData.profilePhoto,
-  //         status: "pending",
-  //       });
-  //     } else {
-  //       console.log("no photo updated");
-  //     }
-  //   } catch (error) {
-  //     console.log("Error creating friend request", error);
-  //   }
-  // };
+  const handleAcceptingFriendRequest = async (uid) => {
+    try {
+      // Delete the friend request document
+      await deleteDoc(doc(userDocRef, "friendRequest", uid));
 
-  // const handleFriendRequest = async (newFriendRequestData) => {
-  //   try {
-  //     if (newFriendRequestData.recipientUid) {
-  //       const recipientDocRef = doc(
-  //         db,
-  //         "profiles",
-  //         newFriendRequestData.recipientUid
-  //       );
-  //       const recipientFriendRequestCollectionRef = collection(
-  //         recipientDocRef,
-  //         "friendRequest"
-  //       );
+      // Add the friend to the user's friend list
+      await addDoc(collection(userDocRef, "friends"), {
+        uid: uid,
+      });
 
-  //       // Check if the recipient's friendRequest collection exists
-  //       const recipientDocSnapshot = await getDoc(recipientDocRef);
+      // You may also want to update the friend's friend list similarly.
+    } catch (error) {
+      console.error("Error accepting friend request:", error);
+    }
+  };
 
-  //       if (recipientDocSnapshot.exists()) {
-  //         // Add the friend request to the recipient's friendRequest collection
-  //         await addDoc(recipientFriendRequestCollectionRef, {
-  //           senderUid: auth.currentUser.uid,
-  //           senderEmail: auth.currentUser.email,
-  //           recipientUid: newFriendRequestData.recipientUid,
-  //           recipientEmail: newFriendRequestData.recipientEmail,
-  //           recipientUserName: newFriendRequestData.recipientUserName,
-  //           profilePhoto: newFriendRequestData.profilePhoto,
-  //           status: "pending",
-  //         });
-  //       } else {
-  //         // Create the recipient's friendRequest collection and add the friend request
-  //         await setDoc(recipientDocRef, { friendRequest: {} }, { merge: true });
-
-  //         await addDoc(recipientFriendRequestCollectionRef, {
-  //           senderUid: auth.currentUser.uid,
-  //           senderEmail: auth.currentUser.email,
-  //           recipientUid: newFriendRequestData.recipientUid,
-  //           recipientEmail: newFriendRequestData.recipientEmail,
-  //           recipientUserName: newFriendRequestData.recipientUserName,
-  //           profilePhoto: newFriendRequestData.profilePhoto,
-  //           status: "pending",
-  //         });
-  //       }
-  //     } else {
-  //       console.log("no photo updated");
-  //     }
-  //   } catch (error) {
-  //     console.log("Error creating friend request", error);
-  //   }
+  // const handleAcceptingFriendRequest = async (uid) => {
+  //   await addDoc(friendsCollectionRef, {
+  //     uid,
+  //   });
   // };
 
   const handleFollowingPublicAccount = async (friendUid) => {
@@ -331,11 +249,11 @@ export default function UserProfile() {
     }
   };
 
-  const handleRemovingFriend = async (friendUid) => {
+  const handleRemovingFriend = async (uid) => {
     try {
       const friendQuery = query(
-        friendsCollectionRef,
-        where("friendUid", "==", friendUid)
+        collection(userDocRef, "friends"),
+        where("uid", "==", uid)
       );
       const querySnapshot = await getDocs(friendQuery);
 
@@ -356,13 +274,21 @@ export default function UserProfile() {
     (profile) => auth.currentUser.uid === profile.uid
   );
 
+  const friendsProfileList = pendingIncommingFriendRequestProfiles.filter(
+    (profile) => {
+      const isFriend = friendListUid.some(
+        (friend) => friend.friendUid === profile.uid
+      );
+    }
+  );
+
   const peopleYouMayKnowProfiles = profiles.filter((profile) => {
     if (profile.uid === auth.currentUser.uid) {
       return false; // Exclude the current user's profile
     }
 
     // Check if the profile is already a friend
-    const isFriend = friendListUid.some(
+    const isFriend = friendList.some(
       (friend) => friend.friendUid === profile.uid
     );
 
@@ -381,8 +307,8 @@ export default function UserProfile() {
   });
 
   const peopleYouKnowProfiles = profiles.filter((profile) => {
-    const isFriend = friendListUid.some((friend) => {
-      const isNotMatch = friend.friendUid === profile.uid;
+    const isFriend = friendList.some((friends) => {
+      const isNotMatch = friends.uid === profile.uid;
       return isNotMatch;
     });
     return isFriend;
@@ -647,11 +573,11 @@ export default function UserProfile() {
                       <button
                         style={buttonStyles}
                         onClick={() => {
-                          handleCancelFriendRequest(request.recipientUid);
-                          console.log(pendingIncommingFriendRequestProfiles);
+                          handleAcceptingFriendRequest(request.uid);
+                          console.log(request.uid);
                         }}
                       >
-                        Cancel Request
+                        + Accept Request
                       </button>
                     </div>
                   </div>
