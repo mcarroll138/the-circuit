@@ -3,9 +3,11 @@ import { getAuth, updateProfile } from "firebase/auth";
 import {
   addDoc,
   collection,
+  doc,
   getDocs,
   onSnapshot,
   query,
+  setDoc,
   updateDoc,
   where,
 } from "firebase/firestore";
@@ -92,7 +94,30 @@ export default function ProfileEditForm({
       try {
         await updateProfile(auth.currentUser, { displayName: newDisplayName });
 
-        if (profileWithEmail) {
+        if (!profileWithEmail) {
+          // Profile doesn't exist, create a new one
+          const newProfileData = {
+            uid: auth.currentUser.uid,
+            userProfile: userProfileEmail,
+            displayName: newDisplayName,
+            profilePhoto: auth.currentUser.photoURL,
+            friends: [],
+          };
+
+          const profileDocRef = doc(db, "profiles", auth.currentUser.uid);
+          await setDoc(profileDocRef, newProfileData);
+
+          // Create the "friendRequest" collection with an initial document
+          const friendRequestCollectionRef = collection(
+            profileDocRef,
+            "friendRequest"
+          );
+          await addDoc(friendRequestCollectionRef, {
+            initialData: "initialize",
+          });
+          console.log("Profile and Friend Request collection created.");
+        } else {
+          // Profile exists and is updated
           const profileDocRef = query(
             collection(db, "profiles"),
             where("userProfile", "==", userProfileEmail)
@@ -104,17 +129,6 @@ export default function ProfileEditForm({
               console.log("Profile updated in Firestore.");
             });
           }
-        } else {
-          const newProfileData = {
-            uid: auth.currentUser.uid,
-            userProfile: userProfileEmail,
-            displayName: newDisplayName,
-            profilePhoto: auth.currentUser.photoURL,
-            friends: [],
-          };
-
-          await addDoc(collection(db, "profiles"), newProfileData);
-          console.log("Profile created in Firestore.");
         }
 
         setEditProfile(false);

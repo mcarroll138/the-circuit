@@ -8,10 +8,51 @@ import {
   deleteDoc,
   onSnapshot,
   getDocs,
+  getDoc,
+  setDoc,
   doc,
   query,
   where,
 } from "firebase/firestore";
+
+const formStyles = {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+};
+
+const inputStyles = {
+  margin: "4px",
+  padding: "4px",
+  border: "12px solid #ccc",
+  borderRadius: "4px",
+  fontSize: "12px",
+  width: 380,
+};
+
+const buttonStyles = {
+  width: 180,
+  height: 20,
+  paddingLeft: 24,
+  paddingRight: 24,
+  paddingTop: 20,
+  paddingBottom: 20,
+  background: "black",
+  boxShadow: "6px 6px 6px #E3A9FF",
+  border: "2px #E3A9FF solid",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: 10,
+  color: "white",
+};
+
+const imgStyle = {
+  objectFit: "cover",
+  borderRadius: "50%",
+  height: "100px",
+  width: "100px",
+};
 
 export default function UserProfile() {
   const [radio, setRadio] = useState("mightKnow");
@@ -54,30 +95,36 @@ export default function UserProfile() {
     fetchData();
 
     const friendListUnsubscribe = onSnapshot(
-      collection(db, "profiles", auth.currentUser.uid, "friendRequest"),
+      sentRequestsCollectionRef,
       (collectionSnapshot) => {
-        const friendRequestList = [];
-        const outgoingFriendRequests = [];
-        const incommingFriendRequests = [];
+        const sentRequestsList = [];
 
         collectionSnapshot.forEach((doc) => {
-          const friendStatus = {
-            id: friendRequest.id,
+          sentRequestsList.push({
+            // id: friendRequest.id,
             ...doc.data(),
-          };
-
-          if (friendStatus.senderUid === auth.currentUser.uid) {
-            outgoingFriendRequests.push(friendStatus);
-          }
-          if (friendStatus.recipientUid === auth.currentUser.uid) {
-            incommingFriendRequests.push(friendStatus);
-          }
-          friendRequestList.push(friendStatus);
+          });
         });
-        setFriendListUid(friendRequestList);
+
         setLoadingFriendList(false);
-        setPendingOutgoingFriendRequestProfiles(outgoingFriendRequests);
-        setPendingIncommingFriendRequestProfiles(incommingFriendRequests);
+        setPendingOutgoingFriendRequestProfiles(sentRequestsList);
+      }
+    );
+
+    const friendRequestUnsubscribe = onSnapshot(
+      friendRequestCollectionRef,
+      (collectionSnapshot) => {
+        const friendRequestsList = [];
+
+        collectionSnapshot.forEach((doc) => {
+          friendRequestsList.push({
+            // id: friendRequest.id,
+            ...doc.data(),
+          });
+        });
+
+        setLoadingFriendList(false);
+        setPendingIncommingFriendRequestProfiles(friendRequestsList);
       }
     );
 
@@ -112,45 +159,70 @@ export default function UserProfile() {
 
     return () => {
       friendListUnsubscribe();
-      // friendRequestUnsubscribe();
+      friendRequestUnsubscribe();
     };
   }, []);
 
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
+  // const handleFormSubmit = async (e) => {
+  //   e.preventDefault();
 
-    const newProfileData = {
-      uid: auth.currentUser.uid,
-      userProfile: auth.currentUser.email,
-      displayName: auth.currentUser.displayName,
-      profilePhoto: auth.currentUser.photoURL,
-      friends: [],
-    };
-    try {
-      const docRef = await addDoc(collection(db, "profiles"), newProfileData);
-      console.log("Document written with ID:", docRef.id);
-    } catch (error) {
-      console.error("Error creating profile: ", error);
-    }
-  };
+  //   const newProfileData = {
+  //     uid: auth.currentUser.uid,
+  //     userProfile: auth.currentUser.email,
+  //     displayName: auth.currentUser.displayName,
+  //     profilePhoto: auth.currentUser.photoURL,
+  //     friends: [],
+  //   };
+
+  //   try {
+  //     const docRef = await addDoc(collection(db, "profiles"), newProfileData);
+
+  //     // Create an empty "fendosTest" subcollection for the user
+  //     await addDoc(
+  //       collection(doc(db, "profiles", auth.currentUser.uid), "fendosTest")
+  //     );
+
+  //     console.log("Document written with ID:", docRef.id);
+  //   } catch (error) {
+  //     console.error("Error creating profile: ", error);
+  //   }
+  // };
 
   const userDocRef = doc(db, "profiles", auth.currentUser.uid);
   const friendsCollectionRef = collection(userDocRef, "friends");
   const friendRequestCollectionRef = collection(userDocRef, "friendRequest");
+  const sentRequestsCollectionRef = collection(userDocRef, "sentRequests");
   const [recipientProfilePhoto, setrecipientProfilePhoto] = useState("");
+
   const handleFriendRequest = async (newFriendRequestData) => {
     try {
       if (newFriendRequestData.recipientUid) {
-        await addDoc(friendRequestCollectionRef, {
-          senderUid: auth.currentUser.uid,
-          senderEmail: auth.currentUser.email,
-          recipientUid: newFriendRequestData.recipientUid,
-          recipientEmail: newFriendRequestData.recipientEmail,
-          profilePhoto: newFriendRequestData.profilePhoto,
-          status: "pending",
+        // For the sender
+        const sentRequestsRef = doc(
+          userDocRef,
+          "sentRequests",
+          newFriendRequestData.recipientUid
+        );
+        await setDoc(sentRequestsRef, {
+          displayName: newFriendRequestData.recipientUserName,
+          photoUrl: newFriendRequestData.profilePhoto,
+          uid: newFriendRequestData.recipientUid,
+          status: "requested",
+        });
 
-          // recipientUserName: newFriendRequestData.displayName,
-          // recipientProfilePhoto: newFriendRequestData.profilePhoto,
+        // For the recipient
+        const recipientRequestsRef = doc(
+          db,
+          "profiles",
+          newFriendRequestData.recipientUid,
+          "friendRequest",
+          auth.currentUser.uid
+        );
+        await setDoc(recipientRequestsRef, {
+          displayName: auth.currentUser.displayName,
+          photoUrl: auth.currentUser.photoURL,
+          uid: auth.currentUser.uid,
+          status: "pending",
         });
       } else {
         console.log("no photo updated");
@@ -160,11 +232,80 @@ export default function UserProfile() {
     }
   };
 
-  // const handleFollowingPublicAccount = async (friendUid) => {
-  //   await addDoc(friendsCollectionRef, {
-  //     friendUid,
-  //   });
+  // const handleFriendRequest = async (newFriendRequestData) => {
+  //   try {
+  //     if (newFriendRequestData.recipientUid) {
+  //       await addDoc(friendRequestCollectionRef, {
+  //         senderUid: auth.currentUser.uid,
+  //         senderEmail: auth.currentUser.email,
+  //         recipientUid: newFriendRequestData.recipientUid,
+  //         recipientEmail: newFriendRequestData.recipientEmail,
+  //         recipientUserName: newFriendRequestData.recipientUserName,
+  //         profilePhoto: newFriendRequestData.profilePhoto,
+  //         status: "pending",
+  //       });
+  //     } else {
+  //       console.log("no photo updated");
+  //     }
+  //   } catch (error) {
+  //     console.log("Error creating friend request", error);
+  //   }
   // };
+
+  // const handleFriendRequest = async (newFriendRequestData) => {
+  //   try {
+  //     if (newFriendRequestData.recipientUid) {
+  //       const recipientDocRef = doc(
+  //         db,
+  //         "profiles",
+  //         newFriendRequestData.recipientUid
+  //       );
+  //       const recipientFriendRequestCollectionRef = collection(
+  //         recipientDocRef,
+  //         "friendRequest"
+  //       );
+
+  //       // Check if the recipient's friendRequest collection exists
+  //       const recipientDocSnapshot = await getDoc(recipientDocRef);
+
+  //       if (recipientDocSnapshot.exists()) {
+  //         // Add the friend request to the recipient's friendRequest collection
+  //         await addDoc(recipientFriendRequestCollectionRef, {
+  //           senderUid: auth.currentUser.uid,
+  //           senderEmail: auth.currentUser.email,
+  //           recipientUid: newFriendRequestData.recipientUid,
+  //           recipientEmail: newFriendRequestData.recipientEmail,
+  //           recipientUserName: newFriendRequestData.recipientUserName,
+  //           profilePhoto: newFriendRequestData.profilePhoto,
+  //           status: "pending",
+  //         });
+  //       } else {
+  //         // Create the recipient's friendRequest collection and add the friend request
+  //         await setDoc(recipientDocRef, { friendRequest: {} }, { merge: true });
+
+  //         await addDoc(recipientFriendRequestCollectionRef, {
+  //           senderUid: auth.currentUser.uid,
+  //           senderEmail: auth.currentUser.email,
+  //           recipientUid: newFriendRequestData.recipientUid,
+  //           recipientEmail: newFriendRequestData.recipientEmail,
+  //           recipientUserName: newFriendRequestData.recipientUserName,
+  //           profilePhoto: newFriendRequestData.profilePhoto,
+  //           status: "pending",
+  //         });
+  //       }
+  //     } else {
+  //       console.log("no photo updated");
+  //     }
+  //   } catch (error) {
+  //     console.log("Error creating friend request", error);
+  //   }
+  // };
+
+  const handleFollowingPublicAccount = async (friendUid) => {
+    await addDoc(friendsCollectionRef, {
+      friendUid,
+    });
+  };
 
   const handleCancelFriendRequest = async (recipientUid) => {
     try {
@@ -190,25 +331,6 @@ export default function UserProfile() {
     }
   };
 
-  // const handleCancelFriendRequest = async (recipientUid) => {
-  //   try {
-  //     const friendRequestQuery = query(
-  //       friendRequestCollectionRef,
-  //       where("recipientUid", "==", recipientUid)
-  //     );
-  //     const querySnapshot = await getDocs(friendRequestQuery);
-  //     if (!querySnapshot.empty) {
-  //       const requestDoc = querySnapshot.docs[0];
-  //       await deleteDoc(requestDoc.ref);
-  //       console.log("Friend Request Cancelled Successfully");
-  //     } else {
-  //       console.log("No Friend Request to Cancel");
-  //     }
-  //   } catch (error) {
-  //     console.log("Error Cancelling Request:", error);
-  //   }
-  // };
-
   const handleRemovingFriend = async (friendUid) => {
     try {
       const friendQuery = query(
@@ -230,61 +352,32 @@ export default function UserProfile() {
     }
   };
 
-  const formStyles = {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  };
-
-  const inputStyles = {
-    margin: "4px",
-    padding: "4px",
-    border: "12px solid #ccc",
-    borderRadius: "4px",
-    fontSize: "12px",
-    width: 380,
-  };
-
-  const buttonStyles = {
-    width: 180,
-    height: 20,
-    paddingLeft: 24,
-    paddingRight: 24,
-    paddingTop: 20,
-    paddingBottom: 20,
-    background: "black",
-    boxShadow: "6px 6px 6px #E3A9FF",
-    border: "2px #E3A9FF solid",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 10,
-    color: "white",
-  };
-
-  const imgStyle = {
-    objectFit: "cover",
-    borderRadius: "50%",
-    height: "100px",
-    width: "100px",
-  };
-
   const filteredProfiles = profiles.filter(
     (profile) => auth.currentUser.uid === profile.uid
   );
 
   const peopleYouMayKnowProfiles = profiles.filter((profile) => {
-    const isNotCurrentUser = profile.uid !== auth.currentUser.uid;
-    const hasPendingRequest = pendingOutgoingFriendRequestProfiles.some(
-      (request) => {
-        return request.recipientUid === profile.uid;
-      }
+    if (profile.uid === auth.currentUser.uid) {
+      return false; // Exclude the current user's profile
+    }
+
+    // Check if the profile is already a friend
+    const isFriend = friendListUid.some(
+      (friend) => friend.friendUid === profile.uid
     );
-    const isNotFriend = !friendListUid.some((friend) => {
-      const isMatch = friend.friendUid === profile.uid;
-      return isMatch;
-    });
-    return isNotFriend && isNotCurrentUser && !hasPendingRequest;
+
+    // Check if an incoming friend request exists (sent to the current user)
+    const hasIncomingRequest = pendingIncommingFriendRequestProfiles.some(
+      (request) => request.uid === profile.uid
+    );
+
+    // Check if an outgoing friend request exists (sent by the current user)
+    const hasOutgoingRequest = pendingOutgoingFriendRequestProfiles.some(
+      (request) => request.uid === profile.uid
+    );
+
+    // Exclude the profile if it's a friend or there's a friend request
+    return !isFriend && !hasIncomingRequest && !hasOutgoingRequest;
   });
 
   const peopleYouKnowProfiles = profiles.filter((profile) => {
@@ -483,20 +576,20 @@ export default function UserProfile() {
                       <button
                         style={buttonStyles}
                         onClick={() => {
-                          setrecipientProfilePhoto(profile.profilePhoto);
+                          // setrecipientProfilePhoto(profile.profilePhoto);
                           const newFriendRequestData = {
                             recipientUid: profile.uid,
+                            recipientUserName: profile.displayName,
                             recipientEmail: profile.userProfile,
                             profilePhoto: profile.profilePhoto,
                             // requestedUid: auth.currentUser.uid,
                             // requestedEmail: auth.currentUser.email,
                             // recipientProfilePhoto:
                             //   profile.profilePhoto.toString(),
-                            // recipientUserName: profile.displayName,
                             // status: "pending",
                           };
                           handleFriendRequest(newFriendRequestData);
-                          console.log(profile.profilePhoto);
+                          console.log(pendingOutgoingFriendRequestProfiles);
                         }}
                       >
                         Send Friend Request
@@ -512,6 +605,59 @@ export default function UserProfile() {
         {radio === "friendRequest" && (
           <>
             <div></div>
+            <p>New Requests</p>
+            <div
+              id="container"
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                flexDirection: "row",
+                justifyContent: "flex-start",
+                background: "black",
+                paddingLeft: 20,
+              }}
+            >
+              {pendingIncommingFriendRequestProfiles.map((request) => (
+                <div key={request.id}>
+                  <div
+                    id="youKnowCards"
+                    style={{
+                      alignItems: "center",
+                      background: "black",
+                      width: 200,
+                      padding: 20,
+                      display: "flex",
+                      flexDirection: "column",
+                      color: "white",
+                      borderRadius: "25px",
+                      border: "6px solid #ccc",
+                      margin: 10,
+                    }}
+                  >
+                    <div>
+                      <img
+                        alt="Profile"
+                        style={imgStyle}
+                        src={request.photoUrl}
+                      ></img>
+                    </div>
+                    <div>
+                      <div>{request.status}</div>
+                      <div>{request.displayName}</div>
+                      <button
+                        style={buttonStyles}
+                        onClick={() => {
+                          handleCancelFriendRequest(request.recipientUid);
+                          console.log(pendingIncommingFriendRequestProfiles);
+                        }}
+                      >
+                        Cancel Request
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
             <p>Pending Outgoing Requests</p>
             <div
               id="container"
@@ -545,10 +691,12 @@ export default function UserProfile() {
                       <img
                         alt="Profile"
                         style={imgStyle}
-                        src={request.profilePhoto}
+                        src={request.photoUrl}
                       ></img>
                     </div>
                     <div>
+                      <div>{request.displayName}</div>
+                      <div>{request.recipientEmail}</div>
                       <button
                         style={buttonStyles}
                         onClick={() => {
@@ -559,7 +707,6 @@ export default function UserProfile() {
                         Cancel Request
                       </button>
                     </div>
-                    <div>{request.recipientEmail}</div>
                   </div>
                 </div>
               ))}
