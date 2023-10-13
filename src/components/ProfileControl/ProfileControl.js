@@ -307,12 +307,12 @@ export default function UserProfile() {
     });
   };
 
-  const handleCancelFriendRequest = async (recipientUid) => {
+  const handleCancelFriendRequest = async (uid) => {
     try {
       const friendRequestQuery = query(
-        collection(userDocRef, "friendRequest"),
-        where("recipientUid", "==", recipientUid),
-        where("status", "==", "pending")
+        collection(userDocRef, "sentRequests"),
+        where("uid", "==", uid),
+        where("status", "==", "requested")
       );
 
       const querySnapshot = await getDocs(friendRequestQuery);
@@ -700,7 +700,7 @@ export default function UserProfile() {
                       <button
                         style={buttonStyles}
                         onClick={() => {
-                          handleCancelFriendRequest(request.recipientUid);
+                          handleCancelFriendRequest(request.uid);
                           console.log(request.recipientUid);
                         }}
                       >
