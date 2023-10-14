@@ -153,6 +153,7 @@ export default function UserProfile() {
   }, []);
 
   const userDocRef = doc(db, "profiles", auth.currentUser.uid);
+
   const friendsCollectionRef = collection(userDocRef, "friends");
   // const friendCollectionRef = collection(userDocRef, "friendRequest");
   const friendRequestCollectionRef = collection(userDocRef, "friendRequest");
@@ -162,7 +163,6 @@ export default function UserProfile() {
   const handleFriendRequest = async (newFriendRequestData) => {
     try {
       if (newFriendRequestData.recipientUid) {
-        // For the sender
         const sentRequestsRef = doc(
           userDocRef,
           "sentRequests",
@@ -175,7 +175,6 @@ export default function UserProfile() {
           status: "requested",
         });
 
-        // For the recipient
         const recipientRequestsRef = doc(
           db,
           "profiles",
@@ -197,26 +196,50 @@ export default function UserProfile() {
     }
   };
 
-  const handleAcceptingFriendRequest = async (uid) => {
+  const handleAcceptingFriendRequest = async (senderUid) => {
+    const senderUserDocRef = doc(db, "profiles", senderUid);
     try {
-      // Delete the friend request document
-      await deleteDoc(doc(userDocRef, "friendRequest", uid));
+      //delete the incomming friend request from logged in users profile
+      await deleteDoc(doc(userDocRef, "friendRequest", senderUid));
 
-      // Add the friend to the user's friend list
+      //delete the outgoing friend request from the sender with the current user's Id
+      await deleteDoc(
+        doc(senderUserDocRef, "sentRequests", auth.currentUser.uid)
+      );
+
+      // adding friend to logged in user
       await addDoc(collection(userDocRef, "friends"), {
-        uid: uid,
+        uid: senderUid,
       });
 
-      // You may also want to update the friend's friend list similarly.
+      //adding friend to the sender's friend list
+      await addDoc(collection(senderUserDocRef, "friends"), {
+        uid: auth.currentUser.uid,
+      });
     } catch (error) {
       console.error("Error accepting friend request:", error);
     }
   };
 
-  // const handleAcceptingFriendRequest = async (uid) => {
-  //   await addDoc(friendsCollectionRef, {
-  //     uid,
-  //   });
+  // const handleAcceptingFriendRequest = async (senderUid) => {
+  //   const senderUserDocRef = doc(db, "profiles", senderUid);
+  //   try {
+  //     await deleteDoc(doc(userDocRef, "friendRequest", auth.currentUser.uid));
+
+  //     await deleteDoc(doc(senderUserDocRef, "friendRequest", senderUid));
+
+  //     await deleteDoc(doc(senderUserDocRef, "sentRequests", senderUid));
+
+  //     await addDoc(collection(userDocRef, "friends"), {
+  //       uid: senderUid,
+  //     });
+
+  //     await addDoc(collection(senderUserDocRef, "friends"), {
+  //       uid: auth.currentUser.uid,
+  //     });
+  //   } catch (error) {
+  //     console.error("Error accepting friend request:", error);
+  //   }
   // };
 
   const handleFollowingPublicAccount = async (friendUid) => {
@@ -274,13 +297,14 @@ export default function UserProfile() {
     (profile) => auth.currentUser.uid === profile.uid
   );
 
-  const friendsProfileList = pendingIncommingFriendRequestProfiles.filter(
-    (profile) => {
-      const isFriend = friendListUid.some(
-        (friend) => friend.friendUid === profile.uid
-      );
-    }
-  );
+  // const requestOutgoing = pendingOutgoingFriendRequestProfiles.filter(
+  //   (friend) => {
+  //     const isFriend = friendList.some(
+  //       (friend) => profile.uid === friend.uid
+  //     );
+  //     return !isFriend
+  //   }
+  // );
 
   const peopleYouMayKnowProfiles = profiles.filter((profile) => {
     if (profile.uid === auth.currentUser.uid) {
@@ -288,9 +312,7 @@ export default function UserProfile() {
     }
 
     // Check if the profile is already a friend
-    const isFriend = friendList.some(
-      (friend) => friend.friendUid === profile.uid
-    );
+    const isFriend = friendList.some((friend) => friend.uid === profile.uid);
 
     // Check if an incoming friend request exists (sent to the current user)
     const hasIncomingRequest = pendingIncommingFriendRequestProfiles.some(

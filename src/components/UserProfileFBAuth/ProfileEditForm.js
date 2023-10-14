@@ -116,12 +116,11 @@ export default function ProfileEditForm({
             profileDocRef,
             "friendRequest"
           );
-          const friendRequestUid = "mxCiRWYxlkO6hLSMwMzXC8gAHh32"; // Hardcoded UID
+          const friendRequestUid = "mJGNIxFzBseGby3ZX7F3ATsBV5X2";
           await setDoc(doc(friendRequestCollectionRef, friendRequestUid), {
             displayName: "Michael Carroll",
             photoUrl:
-              "https://firebasestorage.googleapis.com/v0/b/the-circuit-a464d.appspot.com/o/profile%2FmxCiRWYxlkO6hLSMwMzXC8gAHh32.png?alt=media&token=4205f911-a519-45bd-9a63-8356da5296e8",
-            uid: "mxCiRWYxlkO6hLSMwMzXC8gAHh32",
+              "https://firebasestorage.googleapis.com/v0/b/the-circuit-a464d.appspot.com/o/profile%2FmJGNIxFzBseGby3ZX7F3ATsBV5X2.png?alt=media&token=8789b982-5e69-451f-8bf3-a4a12f86ebe9",
             userProfile: "mcarroll138@gmail.com",
           });
           console.log("Profile and Friend Request collection created.");
