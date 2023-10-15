@@ -159,6 +159,7 @@ export default function UserProfile() {
   const handleFriendRequest = async (newFriendRequestData) => {
     try {
       if (newFriendRequestData.recipientUid) {
+        //The logged in user sending the request
         const sentRequestsRef = doc(
           userDocRef,
           "sentRequests",
@@ -171,6 +172,7 @@ export default function UserProfile() {
           status: "requested",
         });
 
+        // The person recieivng the request
         const recipientRequestsRef = doc(
           db,
           "profiles",
@@ -203,17 +205,47 @@ export default function UserProfile() {
         doc(senderUserDocRef, "sentRequests", auth.currentUser.uid)
       );
 
+      // const userFriendDocRef = collection(userDocRef, friendData.uid);
+      // const userFriendDocRef = doc(db, "profiles", friendData.uid);
+      // await setDoc(userFriendDocRef, {
+      //   userName: friendData.userName,
+      //   uid: friendData.uid,
+      // });
+
       // adding friend to logged in user
-      await addDoc(collection(userDocRef, "friends"), {
+      const userFriendDocRef = doc(
+        db,
+        "profiles",
+        auth.currentUser.uid,
+        "friends",
+        friendData.uid
+      );
+      await setDoc(userFriendDocRef, {
         uid: friendData.uid,
         userName: friendData.userName,
       });
 
       //adding friend to the sender's friend list
-      await addDoc(collection(senderUserDocRef, "friends"), {
+      const loggedInFriendDocRef = doc(
+        db,
+        "profiles",
+        friendData.uid,
+        "friends",
+        auth.currentUser.uid
+      );
+      await setDoc(loggedInFriendDocRef, {
         uid: auth.currentUser.uid,
         userName: auth.currentUser.displayName,
       });
+
+      // await addDoc(collection(userDocRef, "friends"), {
+      //   uid: friendData.uid,
+      //   userName: friendData.userName,
+      // });
+      // await addDoc(collection(senderUserDocRef, "friends"), {
+      //   uid: auth.currentUser.uid,
+      //   userName: auth.currentUser.displayName,
+      // });
     } catch (error) {
       console.error("Error accepting friend request:", error);
     }
@@ -248,41 +280,6 @@ export default function UserProfile() {
       console.log("Error Cancelling Request:", error);
     }
   };
-
-  // const handleRemovingFriend = async (uid) => {
-  //   try {
-  //     const friendQuery = query(
-  //       collection(userDocRef, "friends"),
-  //       where("uid", "==", uid)
-  //     );
-  //     const querySnapshot = await getDocs(friendQuery);
-
-  //     if (!querySnapshot.empty) {
-  //       const friendDoc = querySnapshot.docs[0];
-  //       await deleteDoc(friendDoc.ref);
-  //       console.log("Friend Removed Successfully");
-  //       console.log(`Logged in as ${auth.currentUser.uid}`);
-  //     } else {
-  //       console.log("Friend Not Found");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error Removing Friend: ", error);
-  //   }
-  // };
-
-  // const handleRemovingFriend = async (uid) => {
-  //   const senderUserDocRef = doc(db, "profiles", uid);
-  //   try {
-  //     //delete friend from logged in users profile
-  //     await deleteDoc(doc(userDocRef, "friends", uid));
-
-  //     //delete the outgoing friend request from the sender with the current user's Id
-  //     await deleteDoc(doc(senderUserDocRef, "friends", uid));
-
-  //   } catch (error) {
-  //     console.error("Error deleting friend:", error);
-  //   }
-  // };
 
   const handleRemovingFriend = async (uid) => {
     try {
