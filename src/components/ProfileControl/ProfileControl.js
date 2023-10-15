@@ -59,8 +59,6 @@ export default function UserProfile() {
   const [profiles, setProfiles] = useState([]);
   const [friendListUid, setFriendListUid] = useState([]);
   const [friendRequest, setFriendRequest] = useState([]);
-  // const [loadingFriendRequestList, setLoadingFriendRequestList] =
-  //   useState(true);
   const [loadingProfiles, setLoadingProfiles] = useState(true);
   const [loadingFriendList, setLoadingFriendList] = useState(true);
   const [friendList, setFriendList] = useState([]);
@@ -153,12 +151,10 @@ export default function UserProfile() {
   }, []);
 
   const userDocRef = doc(db, "profiles", auth.currentUser.uid);
-
   const friendsCollectionRef = collection(userDocRef, "friends");
-  // const friendCollectionRef = collection(userDocRef, "friendRequest");
+  // const currentFriendRef = collection(friendRequestCollectionRef, "friendData");
   const friendRequestCollectionRef = collection(userDocRef, "friendRequest");
   const sentRequestsCollectionRef = collection(userDocRef, "sentRequests");
-  const [recipientProfilePhoto, setrecipientProfilePhoto] = useState("");
 
   const handleFriendRequest = async (newFriendRequestData) => {
     try {
@@ -196,11 +192,11 @@ export default function UserProfile() {
     }
   };
 
-  const handleAcceptingFriendRequest = async (senderUid) => {
-    const senderUserDocRef = doc(db, "profiles", senderUid);
+  const handleAcceptingFriendRequest = async (friendData) => {
+    const senderUserDocRef = doc(db, "profiles", friendData.uid);
     try {
       //delete the incomming friend request from logged in users profile
-      await deleteDoc(doc(userDocRef, "friendRequest", senderUid));
+      await deleteDoc(doc(userDocRef, "friendRequest", friendData.uid));
 
       //delete the outgoing friend request from the sender with the current user's Id
       await deleteDoc(
@@ -209,38 +205,19 @@ export default function UserProfile() {
 
       // adding friend to logged in user
       await addDoc(collection(userDocRef, "friends"), {
-        uid: senderUid,
+        uid: friendData.uid,
+        userName: friendData.userName,
       });
 
       //adding friend to the sender's friend list
       await addDoc(collection(senderUserDocRef, "friends"), {
         uid: auth.currentUser.uid,
+        userName: auth.currentUser.displayName,
       });
     } catch (error) {
       console.error("Error accepting friend request:", error);
     }
   };
-
-  // const handleAcceptingFriendRequest = async (senderUid) => {
-  //   const senderUserDocRef = doc(db, "profiles", senderUid);
-  //   try {
-  //     await deleteDoc(doc(userDocRef, "friendRequest", auth.currentUser.uid));
-
-  //     await deleteDoc(doc(senderUserDocRef, "friendRequest", senderUid));
-
-  //     await deleteDoc(doc(senderUserDocRef, "sentRequests", senderUid));
-
-  //     await addDoc(collection(userDocRef, "friends"), {
-  //       uid: senderUid,
-  //     });
-
-  //     await addDoc(collection(senderUserDocRef, "friends"), {
-  //       uid: auth.currentUser.uid,
-  //     });
-  //   } catch (error) {
-  //     console.error("Error accepting friend request:", error);
-  //   }
-  // };
 
   const handleFollowingPublicAccount = async (friendUid) => {
     await addDoc(friendsCollectionRef, {
@@ -272,24 +249,53 @@ export default function UserProfile() {
     }
   };
 
+  // const handleRemovingFriend = async (uid) => {
+  //   try {
+  //     const friendQuery = query(
+  //       collection(userDocRef, "friends"),
+  //       where("uid", "==", uid)
+  //     );
+  //     const querySnapshot = await getDocs(friendQuery);
+
+  //     if (!querySnapshot.empty) {
+  //       const friendDoc = querySnapshot.docs[0];
+  //       await deleteDoc(friendDoc.ref);
+  //       console.log("Friend Removed Successfully");
+  //       console.log(`Logged in as ${auth.currentUser.uid}`);
+  //     } else {
+  //       console.log("Friend Not Found");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error Removing Friend: ", error);
+  //   }
+  // };
+
+  // const handleRemovingFriend = async (uid) => {
+  //   const senderUserDocRef = doc(db, "profiles", uid);
+  //   try {
+  //     //delete friend from logged in users profile
+  //     await deleteDoc(doc(userDocRef, "friends", uid));
+
+  //     //delete the outgoing friend request from the sender with the current user's Id
+  //     await deleteDoc(doc(senderUserDocRef, "friends", uid));
+
+  //   } catch (error) {
+  //     console.error("Error deleting friend:", error);
+  //   }
+  // };
+
   const handleRemovingFriend = async (uid) => {
     try {
-      const friendQuery = query(
-        collection(userDocRef, "friends"),
-        where("uid", "==", uid)
-      );
-      const querySnapshot = await getDocs(friendQuery);
+      // Delete the friend from logged-in user's friend list
+      await deleteDoc(doc(userDocRef, "friends", uid));
 
-      if (!querySnapshot.empty) {
-        const friendDoc = querySnapshot.docs[0];
-        await deleteDoc(friendDoc.ref);
-        console.log("Friend Removed Successfully");
-        console.log(`Logged in as ${auth.currentUser.uid}`);
-      } else {
-        console.log("Friend Not Found");
-      }
+      // Delete the friend from the friend's friend list
+      const friendUserDocRef = doc(db, "profiles", uid);
+      await deleteDoc(doc(friendUserDocRef, "friends", auth.currentUser.uid));
+
+      console.log("Friend Removed Successfully");
     } catch (error) {
-      console.error("Error Removing Friend: ", error);
+      console.error("Error removing friend:", error);
     }
   };
 
@@ -297,22 +303,15 @@ export default function UserProfile() {
     (profile) => auth.currentUser.uid === profile.uid
   );
 
-  // const requestOutgoing = pendingOutgoingFriendRequestProfiles.filter(
-  //   (friend) => {
-  //     const isFriend = friendList.some(
-  //       (friend) => profile.uid === friend.uid
-  //     );
-  //     return !isFriend
-  //   }
-  // );
-
   const peopleYouMayKnowProfiles = profiles.filter((profile) => {
     if (profile.uid === auth.currentUser.uid) {
       return false; // Exclude the current user's profile
     }
 
     // Check if the profile is already a friend
-    const isFriend = friendList.some((friend) => friend.uid === profile.uid);
+    const isFriend = friendList.some(
+      (friendData) => friendData.uid === profile.uid
+    );
 
     // Check if an incoming friend request exists (sent to the current user)
     const hasIncomingRequest = pendingIncommingFriendRequestProfiles.some(
@@ -524,17 +523,11 @@ export default function UserProfile() {
                       <button
                         style={buttonStyles}
                         onClick={() => {
-                          // setrecipientProfilePhoto(profile.profilePhoto);
                           const newFriendRequestData = {
                             recipientUid: profile.uid,
                             recipientUserName: profile.displayName,
                             recipientEmail: profile.userProfile,
                             profilePhoto: profile.profilePhoto,
-                            // requestedUid: auth.currentUser.uid,
-                            // requestedEmail: auth.currentUser.email,
-                            // recipientProfilePhoto:
-                            //   profile.profilePhoto.toString(),
-                            // status: "pending",
                           };
                           handleFriendRequest(newFriendRequestData);
                           console.log(pendingOutgoingFriendRequestProfiles);
@@ -595,7 +588,11 @@ export default function UserProfile() {
                       <button
                         style={buttonStyles}
                         onClick={() => {
-                          handleAcceptingFriendRequest(request.uid);
+                          const friendData = {
+                            uid: request.uid,
+                            userName: request.displayName,
+                          };
+                          handleAcceptingFriendRequest(friendData);
                           console.log(request.uid);
                         }}
                       >
