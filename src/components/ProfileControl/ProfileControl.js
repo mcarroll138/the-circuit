@@ -205,13 +205,6 @@ export default function UserProfile() {
         doc(senderUserDocRef, "sentRequests", auth.currentUser.uid)
       );
 
-      // const userFriendDocRef = collection(userDocRef, friendData.uid);
-      // const userFriendDocRef = doc(db, "profiles", friendData.uid);
-      // await setDoc(userFriendDocRef, {
-      //   userName: friendData.userName,
-      //   uid: friendData.uid,
-      // });
-
       // adding friend to logged in user
       const userFriendDocRef = doc(
         db,
@@ -237,15 +230,6 @@ export default function UserProfile() {
         uid: auth.currentUser.uid,
         userName: auth.currentUser.displayName,
       });
-
-      // await addDoc(collection(userDocRef, "friends"), {
-      //   uid: friendData.uid,
-      //   userName: friendData.userName,
-      // });
-      // await addDoc(collection(senderUserDocRef, "friends"), {
-      //   uid: auth.currentUser.uid,
-      //   userName: auth.currentUser.displayName,
-      // });
     } catch (error) {
       console.error("Error accepting friend request:", error);
     }
@@ -259,25 +243,18 @@ export default function UserProfile() {
 
   const handleCancelFriendRequest = async (uid) => {
     try {
-      const friendRequestQuery = query(
-        collection(userDocRef, "sentRequests"),
-        where("uid", "==", uid),
-        where("status", "==", "requested")
+      // Delete the send request from logged-in user's friend list
+      await deleteDoc(doc(userDocRef, "sentRequests", uid));
+
+      // Delete the request from the recieiving user's profile
+      const friendUserDocRef = doc(db, "profiles", uid);
+      await deleteDoc(
+        doc(friendUserDocRef, "friendRequest", auth.currentUser.uid)
       );
 
-      const querySnapshot = await getDocs(friendRequestQuery);
-
-      if (!querySnapshot.empty) {
-        querySnapshot.forEach(async (doc) => {
-          await deleteDoc(doc.ref);
-        });
-
-        console.log("Friend Request(s) Cancelled Successfully");
-      } else {
-        console.log("No Friend Request to Cancel");
-      }
+      console.log("Friend Request Cancelled Successfully");
     } catch (error) {
-      console.log("Error Cancelling Request:", error);
+      console.error("Error Cancelling Friend Request:", error);
     }
   };
 
