@@ -16,8 +16,10 @@ import {
 } from "firebase/firestore";
 
 import MissionStatement from "../SignInControl/MissionStatement";
+import { useIsMobile } from "../MobileContext.js";
 
 export default function EventControl() {
+  const isMobile = useIsMobile();
   const [formVisibleOnPage, setFormVisibleOnPage] = useState(false);
   const [mainEventList, setMainEventList] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -233,7 +235,7 @@ export default function EventControl() {
           onEditEvent={handleEditingEventInList}
         />
       );
-      buttonText = "Return to Events";
+      buttonText = "- Back";
     } else if (selectedEvent != null) {
       currentlyVisibleState = (
         <EventDetail
@@ -242,13 +244,13 @@ export default function EventControl() {
           onClickingEdit={handleEditClick}
         />
       );
-      buttonText = "Return to Events";
+      buttonText = "- Back";
     } else if (formVisibleOnPage) {
       currentlyVisibleState = (
         <NewEventForm onNewEventCreation={handleAddingNewEventToList} />
       );
 
-      buttonText = "Return to Events";
+      buttonText = "- Back";
     } else {
       currentlyVisibleState = (
         <EventList
@@ -274,12 +276,12 @@ export default function EventControl() {
         >
           <div
             style={{
-              width: 180,
-              height: 20,
-              paddingLeft: 24,
-              paddingRight: 24,
-              paddingTop: 20,
-              paddingBottom: 20,
+              width: isMobile ? 110 : 180,
+              height: isMobile ? 0 : 20,
+              paddingLeft: isMobile ? 1 : 24,
+              paddingRight: isMobile ? 1 : 24,
+              paddingTop: 14,
+              paddingBottom: 14,
               background: "black",
               boxShadow: "6px 6px 6px #E3A9FF",
               border: "2px #E3A9FF solid",
@@ -293,14 +295,14 @@ export default function EventControl() {
             {error ? null : (
               <button
                 style={{
-                  textAlign: "center",
+                  // textAlign: "center",
                   color: "#E3A9FF",
-                  fontSize: 24,
+                  fontSize: isMobile ? 13 : 24,
                   fontFamily: "Courier",
                   background: "black",
                   textTransform: "uppercase",
                   transition: "color 0.3s",
-                  wordWrap: "break-word",
+                  // wordWrap: "break-word",
                   border: "none",
                   cursor: "pointer",
                 }}

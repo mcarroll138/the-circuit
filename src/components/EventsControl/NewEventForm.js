@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { db, auth } from "../../firebase.js";
 import { serverTimestamp, collection, onSnapshot } from "firebase/firestore";
 import { differenceInDays } from "date-fns";
+import { useIsMobile } from "../MobileContext.js";
 
 export default function NewEventForm(props) {
   // const [radio, setRadio] = useState("mightKnow");
@@ -12,6 +13,7 @@ export default function NewEventForm(props) {
   const [friendListUid, setFriendListUid] = useState([]);
   const [inviteFriend, setInviteFriend] = useState([]);
   const [name, setName] = useState("");
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const unSubscribe = onSnapshot(
@@ -68,17 +70,20 @@ export default function NewEventForm(props) {
     fontSize: 20,
     fontFamily: "courier",
     fontWeight: "400",
-    padding: "10px",
-    height: 720,
+    // padding: "10px",
+    // height: 720,
   };
 
   const formStyles = {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    paddingTop: 25,
-    border: "1px solid #ccc",
+    padding: 23,
+    // paddingTop: 25,
+    // border: "1px solid #ccc",
+    border: "none",
     borderRadius: "4px",
+    // width: 30,
   };
 
   const inputStyles = {
@@ -87,16 +92,16 @@ export default function NewEventForm(props) {
     border: "12px solid #ccc",
     borderRadius: "4px",
     fontSize: "12px",
-    width: 380,
+    width: 340,
   };
 
   const buttonStyles = {
-    width: 180,
-    height: 20,
-    paddingLeft: 24,
-    paddingRight: 24,
-    paddingTop: 20,
-    paddingBottom: 20,
+    width: isMobile ? 110 : 180,
+    height: isMobile ? 0 : 20,
+    paddingLeft: isMobile ? 1 : 24,
+    paddingRight: isMobile ? 1 : 24,
+    paddingTop: 14,
+    paddingBottom: 14,
     background: "black",
     boxShadow: "6px 6px 6px #E3A9FF",
     border: "2px #E3A9FF solid",
@@ -104,6 +109,7 @@ export default function NewEventForm(props) {
     justifyContent: "center",
     alignItems: "center",
     gap: 10,
+    marginTop: 15,
     color: "white",
   };
 
@@ -148,12 +154,12 @@ export default function NewEventForm(props) {
             Make Private?
           </button>
         </div>
-        <div style={formDivStyles}>
-          <form
-            style={formStyles}
-            onSubmit={handleNewEventFormSubmission}
-            encType="multipart/form-data"
-          >
+          <div style={formDivStyles}>
+            <form
+              style={formStyles}
+              onSubmit={handleNewEventFormSubmission}
+              encType="multipart/form-data"
+            >
             Public Event
             <input
               style={inputStyles}

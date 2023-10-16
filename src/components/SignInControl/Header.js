@@ -5,12 +5,13 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../firebase.js";
 import { signOut } from "firebase/auth";
 import vectorImage from "../../assets/Logo.png";
+import { useIsMobile } from "../MobileContext.js";
 
 function Header() {
   const [userEmail, setUserEmail] = useState(null);
   const navigate = useNavigate();
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 400);
-
+  // const [isMobile, setIsMobile] = useState(window.innerWidth < 400);
+  const isMobile = useIsMobile();
   useEffect(() => {
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -23,15 +24,15 @@ function Header() {
       }
     });
 
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 740);
-    };
+    // const handleResize = () => {
+    //   setIsMobile(window.innerWidth < 740);
+    // };
 
-    window.addEventListener("resize", handleResize);
+    // window.addEventListener("resize", handleResize);
 
     return () => {
       unsubscribe();
-      window.removeEventListener("resize", handleResize); // Cleanup the event listener
+      // window.removeEventListener("resize", handleResize); // Cleanup the event listener
     };
   }, []);
 
@@ -51,9 +52,9 @@ function Header() {
       >
         <div
           style={{
-            display: isMobile ? "block" : "flex",
+            display: isMobile ? "flex" : "flex",
             // flexDirection: window.innerWidth <= 740 ? "column" : "row",
-            background: isMobile ? "black" : "green",
+            background: "black",
             height: isMobile ? "60px" : "120px",
             display: "flex",
             alignItems: "center",
@@ -74,10 +75,10 @@ function Header() {
             <div
               style={{
                 color: "white",
-                fontSize: isMobile ? 18 : 24,
+                fontSize: isMobile ? 16 : 24,
                 fontFamily: "Arial",
                 // fontWeight: "400",
-                width: isMobile ? 45 : 90,
+                // width: isMobile ? 30 : 90,
                 paddingLeft: "10",
                 // lineHeight: 24,
                 // wordWrap: "break-word",
@@ -95,12 +96,13 @@ function Header() {
             <div
               style={{
                 color: "white",
-                fontSize: isMobile ? 18 : 24,
+                fontSize: isMobile ? 16 : 24,
                 fontFamily: "Arial",
                 // fontWeight: "400",
-                marginLeft: "20px",
-                width: isMobile ? 65 : 90,
-                paddingLeft: "10",
+                marginLeft: isMobile ? 10:10,
+                width: isMobile ? 30 : 90,
+                // paddingLeft: "10",
+                paddingRight: isMobile? 2:0,
                 // lineHeight: 24,
                 // wordWrap: "break-word",
               }}
@@ -125,10 +127,12 @@ function Header() {
               alt="The Circuit"
               style={{
                 display: isMobile ? "block" : "flex",
-                background: isMobile ? "black" : "green",
-                height: isMobile ? 20 : 80,
-                maxWidth: isMobile ? 90 : 80,
-                maxHeight: "100%",
+                background: "black",
+                // height: isMobile ? 20 : 80,
+                // maxWidth: isMobile ? 90 : 180,
+                // maxHeight: "100%",
+                maxWidth: isMobile? "65%": "100%",
+                maxHeight: isMobile? "65%": "100%", 
               }}
             />
           </div>

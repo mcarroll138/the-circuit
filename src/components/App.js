@@ -27,16 +27,25 @@ function App() {
   return (
     <Router>
       <MobileProvier>
-        <Header />
-        <Routes>
-          <Route path="/sign-in" element={<SignInControl />} />
-          <Route path="user-profile" element={<AuthProfile />} />
-          {/* <Route path="/friends" element={<FriendControl />} /> */}
-          <Route path="/" element={<EventControl />} />
-          <Route path="new-event" element={<NewEventForm />} />
-          <Route path="/profile" element={<ProfileControl />} />
-        </Routes>
-        <Footer />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            minHeight: "100vh",
+            background: "black",
+          }}
+        >
+          <Header />
+          <Routes>
+            <Route path="/sign-in" element={<SignInControl />} />
+            <Route path="user-profile" element={<AuthProfile />} />
+            {/* <Route path="/friends" element={<FriendControl />} /> */}
+            <Route path="/" element={<EventControl />} />
+            <Route path="new-event" element={<NewEventForm />} />
+            <Route path="/profile" element={<ProfileControl />} />
+          </Routes>
+          <Footer />
+        </div>
       </MobileProvier>
     </Router>
   );

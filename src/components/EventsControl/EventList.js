@@ -5,9 +5,11 @@ import { auth } from "../../firebase.js";
 import { Route, Link } from "react-router-dom";
 import { useState } from "react";
 import Linkify from "../Linkify";
+import { useIsMobile } from "../MobileContext.js";
 
 function EventList(props) {
   const [radio, setRadio] = useState("all");
+  const isMobile = useIsMobile();
 
   const hostingEvents = props.eventList.filter(
     (event) => auth.currentUser.email === event.eventCreator
@@ -52,11 +54,11 @@ function EventList(props) {
     <React.Fragment>
       <div
         style={{
-          paddingTop: 32,
-          paddingBottom: 24,
+          paddingTop: isMobile ? 6 : 32,
+          paddingBottom: isMobile ? 6 : 24,
           textAlign: "center",
           color: "white",
-          fontSize: 16,
+          fontSize: isMobile ? 12 : 16,
           fontFamily: "arial",
           background: "black",
           fontWeight: "400",
@@ -81,7 +83,7 @@ function EventList(props) {
           <label for="sortByAll">New Events</label>
           <input
             style={{
-              marginLeft: 32,
+              marginLeft: isMobile ? 8 : 32,
             }}
             type="radio"
             id="sortByYeah"
@@ -94,7 +96,7 @@ function EventList(props) {
           <label for="sortByYeah">Yeah!</label>
           <input
             style={{
-              marginLeft: 32,
+              marginLeft: isMobile ? 8 : 32,
             }}
             type="radio"
             id="sortByNahh"
@@ -107,7 +109,7 @@ function EventList(props) {
           <label for="sortByNahh">Nahh</label>
           <input
             style={{
-              marginLeft: 32,
+              marginLeft: isMobile ? 8 : 32,
             }}
             type="radio"
             id="sortByHumm"
@@ -120,7 +122,7 @@ function EventList(props) {
           <label for="sortByHumm">Humm</label>
           <input
             style={{
-              marginLeft: 32,
+              marginLeft: isMobile ? 8 : 32,
             }}
             type="radio"
             id="sortByHosting"
@@ -263,6 +265,7 @@ function EventList(props) {
               background: "black",
               display: "flex",
               flexDirection: "column",
+              // height: "80vh",
             }}
           >
             {/* Humm Events  */}
@@ -302,6 +305,7 @@ function EventList(props) {
               background: "black",
               display: "flex",
               flexDirection: "column",
+              // height: "80vh",
             }}
           >
             {/* Hosting  */}

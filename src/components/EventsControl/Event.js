@@ -64,7 +64,7 @@ export default function Event(props) {
         <div
           id="dateAndResponseDiv"
           style={{
-            height: isMobile ? 17:22,
+            height: isMobile ? 17 : 22,
             justifyContent: "space-between",
             display: "inline-flex",
           }}
@@ -80,7 +80,7 @@ export default function Event(props) {
               lineHeight: "100%",
               textTransform: "uppercase",
               wordWrap: "break-word",
-              paddingRight: isMobile? 2: "10%",
+              paddingRight: isMobile ? 2 : "10%",
             }}
           >
             {formattedDate}
@@ -116,7 +116,6 @@ export default function Event(props) {
                 <input
                   style={{
                     opacity: userHasRespondedYeah ? 0.2 : 1,
-                
                   }}
                   type="radio"
                   id="yeah"
@@ -144,7 +143,7 @@ export default function Event(props) {
 
                 <input
                   style={{
-                    marginLeft: isMobile? 2: 32,
+                    marginLeft: isMobile ? 2 : 32,
                     opacity: userHasRespondedNahh ? 0.2 : 1,
                   }}
                   label="not"
@@ -173,7 +172,7 @@ export default function Event(props) {
 
                 <input
                   style={{
-                    marginLeft: isMobile? 2: 32,
+                    marginLeft: isMobile ? 2 : 32,
                     opacity: userHasRespondedHumm ? 0.2 : 1,
                   }}
                   type="radio"
@@ -218,7 +217,7 @@ export default function Event(props) {
           id="eventNameDiv"
           style={{
             fontFamily: "Courier",
-            fontSize: "40px",
+            fontSize: isMobile ? 28 : 40,
             fontStyle: "normal",
             fontWeight: "400",
             lineHeight: "100%",
@@ -238,7 +237,7 @@ export default function Event(props) {
           <div
             style={{
               color: "white",
-              fontSize: 24,
+              fontSize: isMobile ? 20 : 24,
               fontFamily: "Courier",
               fontWeight: "400",
               lineHeight: 2,
@@ -250,7 +249,7 @@ export default function Event(props) {
           <div
             style={{
               color: "white",
-              fontSize: 24,
+              fontSize: isMobile ? 20 : 24,
               fontFamily: "Courier",
               fontWeight: "400",
               lineHeight: 2,
@@ -262,7 +261,7 @@ export default function Event(props) {
           <div
             style={{
               color: "#E3A9FF",
-              fontSize: 24,
+              fontSize: isMobile ? 20 : 24,
               fontFamily: "Courier",
               fontWeight: "400",
               // textDecoration: "bold",
@@ -286,7 +285,7 @@ export default function Event(props) {
           <div
             style={{
               color: "white",
-              fontSize: 24,
+              fontSize: isMobile ? 20 : 24,
               fontFamily: "Arial",
               fontWeight: "400",
               lineHeight: 1.2,
@@ -359,7 +358,7 @@ export default function Event(props) {
               <div
                 style={{
                   color: "white",
-                  fontSize: 16,
+                  fontSize: isMobile ? 10 : 16,
                   fontFamily: "Arial",
                   fontWeight: "400",
                   lineHeight: 2,
@@ -371,7 +370,7 @@ export default function Event(props) {
               <div
                 style={{
                   color: "#E3A9FF",
-                  fontSize: 16,
+                  fontSize: isMobile ? 10 : 16,
                   fontFamily: "Arial",
                   fontWeight: "400",
                   textDecoration: "underline",
@@ -396,7 +395,7 @@ export default function Event(props) {
               style={{
                 marginLeft: 4,
                 color: "white",
-                fontSize: 16,
+                fontSize: isMobile ? 10 : 16,
                 fontFamily: "Arial",
                 fontWeight: "400",
                 lineHeight: 2,

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { db, auth } from "../../firebase";
 import { Link } from "react-router-dom";
 import vectorImage from "../../assets/Logo.png";
+import { useIsMobile } from "../MobileContext.js";
 import {
   addDoc,
   collection,
@@ -55,7 +56,8 @@ const imgStyle = {
 };
 
 export default function UserProfile() {
-  const [radio, setRadio] = useState("mightKnow");
+  const isMobile = useIsMobile();
+  const [radio, setRadio] = useState("allFriends");
   const [profiles, setProfiles] = useState([]);
   const [friendListUid, setFriendListUid] = useState([]);
   const [friendRequest, setFriendRequest] = useState([]);
@@ -402,7 +404,7 @@ export default function UserProfile() {
                 display: "flex",
                 flexWrap: "wrap",
                 flexDirection: "row",
-                justifyContent: "flex-start",
+                justifyContent: isMobile ? "center":"flex-start",
                 background: "black",
                 paddingLeft: 20,
               }}

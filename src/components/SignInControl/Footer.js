@@ -6,10 +6,11 @@ export default function Footer() {
     <div
       style={{
         background: "black",
-        height: "80px",
+        height: "45px",
         width: "auto",
         color: "white",
         padding: "8px",
+        // position: "sticky",
       }}
     >
       <div
@@ -17,19 +18,22 @@ export default function Footer() {
           display: "flex",
           flexDirection: "row",
           flexShrink: 0,
-        //   backgroundColor: "black",
           justifyContent: "space-between",
           alignItems: "center",
-
-        //   background: "black",
-          //   height: "80px",
           width: "auto",
           color: "white",
+          fontSize: 12,
+          fontFamily: "Arial",
+          //   backgroundColor: "black",
+          //   background: "black",
+          //   height: "80px",
         }}
       >
         <p>Help</p> <p>About Us</p> <p>Careers</p>
       </div>
-      <div>© 2023 The Circuit</div>
+      <div style={{ fontSize: "10px", fontFamily: "Arial", paddingBottom: 1 }}>
+        © 2023 The Circuit
+      </div>
     </div>
   );
 }

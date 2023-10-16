@@ -18,6 +18,7 @@ import {
 import { formatDistanceToNow } from "date-fns";
 import { Link, useNavigate } from "react-router-dom";
 import MissionStatement from "../SignInControl/MissionStatement";
+import { useIsMobile } from "../MobileContext.js";
 
 export default function EventControl() {
   const [formVisibleOnPage, setFormVisibleOnPage] = useState(false);
