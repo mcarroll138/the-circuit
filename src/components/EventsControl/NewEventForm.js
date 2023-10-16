@@ -120,6 +120,7 @@ export default function NewEventForm(props) {
     event.preventDefault();
 
     props.onNewEventCreation({
+      eventCreatorUid: event.target.eventCreatorUid.value,
       eventCreator: event.target.eventCreator.value,
       eventCreatorName: event.target.eventCreatorName.value,
       eventCreatorPhoto: event.target.eventCreatorPhoto.value,
@@ -154,13 +155,19 @@ export default function NewEventForm(props) {
             Make Private?
           </button>
         </div>
-          <div style={formDivStyles}>
-            <form
-              style={formStyles}
-              onSubmit={handleNewEventFormSubmission}
-              encType="multipart/form-data"
-            >
+        <div style={formDivStyles}>
+          <form
+            style={formStyles}
+            onSubmit={handleNewEventFormSubmission}
+            encType="multipart/form-data"
+          >
             Public Event
+            <input
+              style={inputStyles}
+              type="hidden"
+              name="eventCreatorUid"
+              value={auth.currentUser.uid}
+            />
             <input
               style={inputStyles}
               type="hidden"
@@ -185,24 +192,6 @@ export default function NewEventForm(props) {
               name="publicPrivate"
               value="public"
             />
-            {/* <input
-              style={inputStyles}
-              type="hidden"
-              name="yeahResponses"
-              value="[]"
-            />
-            <input
-              style={inputStyles}
-              type="hidden"
-              name="nahhResponses"
-              value="[]"
-            />
-            <input
-              style={inputStyles}
-              type="hidden"
-              name="hummResponses"
-              value="[]"
-            /> */}
             <input
               style={inputStyles}
               required
@@ -274,6 +263,12 @@ export default function NewEventForm(props) {
             <input
               style={inputStyles}
               type="hidden"
+              name="eventCreatorUid"
+              value={auth.currentUser.uid}
+            />
+            <input
+              style={inputStyles}
+              type="hidden"
               name="eventCreator"
               value={auth.currentUser.email}
             />
@@ -295,12 +290,6 @@ export default function NewEventForm(props) {
               name="publicPrivate"
               value="private"
             />
-            {/* <div style={checkboxStyles}>
-              <label>
-                Private Event
-                <input type="checkbox" name="privateEvent" />
-              </label>
-            </div> */}
             <input
               style={inputStyles}
               required

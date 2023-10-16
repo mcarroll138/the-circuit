@@ -404,7 +404,7 @@ export default function UserProfile() {
                 display: "flex",
                 flexWrap: "wrap",
                 flexDirection: "row",
-                justifyContent: isMobile ? "center":"flex-start",
+                justifyContent: isMobile ? "center" : "flex-start",
                 background: "black",
                 paddingLeft: 20,
               }}
@@ -468,7 +468,12 @@ export default function UserProfile() {
               }}
             >
               {peopleYouMayKnowProfiles.map((profile) => (
-                <div key={profile.uid}>
+                <div
+                  key={profile.uid}
+                  onClick={() => {
+                    console.log(profile.uid);
+                  }}
+                >
                   <div
                     id="mightKnowCards"
                     style={{
@@ -483,6 +488,12 @@ export default function UserProfile() {
                       border: "6px solid #ccc",
                       margin: 10,
                     }}
+                    onMouseOver={(e) =>
+                      (e.target.style.boxShadow = "6px 6px 0px #B3FFB1")
+                    }
+                    onMouseOut={(e) =>
+                      (e.target.style.boxShadow = "0px 0px 0px #E3A9FF")
+                    }
                   >
                     <div>
                       <img
