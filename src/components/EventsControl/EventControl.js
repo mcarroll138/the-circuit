@@ -174,11 +174,15 @@ export default function EventControl() {
 
   const handleEditClick = () => {
     setEditing(true);
+    // console.log(eventToEdit);
   };
 
   const handleEditingEventInList = async (eventToEdit) => {
-    const eventRef = doc(db, "events", eventToEdit.id);
-    await updateDoc(eventRef, eventToEdit);
+    // const eventRef = doc(db, "events", eventToEdit.id);
+    await updateDoc(db, "events", eventToEdit);
+
+    // const eventRef = doc(db, "events", eventToEdit.id);
+    // await updateDoc(eventRef, eventToEdit);
     setEditing(false);
     setSelectedEvent(null);
   };

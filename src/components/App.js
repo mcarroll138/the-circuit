@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import AuthProfile from "./UserProfileFBAuth/UserProfileControl";
 import NewEventForm from "./EventsControl/NewEventForm";
+import { MobileProvier } from "./MobileContext";
 import Footer from "./SignInControl/Footer";
 
 function App() {
@@ -25,16 +26,18 @@ function App() {
   });
   return (
     <Router>
-      <Header />
-      <Routes>
-        <Route path="/sign-in" element={<SignInControl />} />
-        <Route path="user-profile" element={<AuthProfile />} />
-        {/* <Route path="/friends" element={<FriendControl />} /> */}
-        <Route path="/" element={<EventControl />} />
-        <Route path="new-event" element={<NewEventForm />} />
-        <Route path="/profile" element={<ProfileControl />} />
-      </Routes>
-      <Footer />
+      <MobileProvier>
+        <Header />
+        <Routes>
+          <Route path="/sign-in" element={<SignInControl />} />
+          <Route path="user-profile" element={<AuthProfile />} />
+          {/* <Route path="/friends" element={<FriendControl />} /> */}
+          <Route path="/" element={<EventControl />} />
+          <Route path="new-event" element={<NewEventForm />} />
+          <Route path="/profile" element={<ProfileControl />} />
+        </Routes>
+        <Footer />
+      </MobileProvier>
     </Router>
   );
 }

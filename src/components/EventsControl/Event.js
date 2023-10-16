@@ -3,8 +3,10 @@ import PropTypes from "prop-types";
 import { formatDistanceToNow } from "date-fns";
 import { auth } from "../../firebase.js";
 import Linkify from "../Linkify";
+import { useIsMobile } from "../MobileContext.js";
 
 export default function Event(props) {
+  const isMobile = useIsMobile();
   const [radio, setRadio] = useState("");
   const isHostedByCurrentUser = auth.currentUser.email === props.eventCreator;
   const notHostedByCurrentUser = auth.currentUser.email !== props.eventCreator;
@@ -50,7 +52,7 @@ export default function Event(props) {
           alignItems: "flex-start",
           justifyContent: "flex-start",
           gap: 20,
-          width: 500,
+          width: isMobile ? 300 : 500,
           padding: "5%",
           background: "black",
           boxShadow: "6px 6px 0px white",
@@ -62,7 +64,7 @@ export default function Event(props) {
         <div
           id="dateAndResponseDiv"
           style={{
-            height: 22,
+            height: isMobile ? 17:22,
             justifyContent: "space-between",
             display: "inline-flex",
           }}
@@ -71,13 +73,14 @@ export default function Event(props) {
             id="dateDisplay"
             style={{
               color: "white",
+              alignItems: "center",
               fontFamily: "Courier",
-              fontSize: "24px",
+              fontSize: isMobile ? 16 : 24,
               fontWeight: "400",
               lineHeight: "100%",
               textTransform: "uppercase",
               wordWrap: "break-word",
-              paddingRight: "10%",
+              paddingRight: isMobile? 2: "10%",
             }}
           >
             {formattedDate}
@@ -95,7 +98,7 @@ export default function Event(props) {
               style={{
                 textAlign: "center",
                 color: "#E3A9FF",
-                fontSize: 20,
+                fontSize: isMobile ? 14 : 20,
                 fontFamily: "Arial",
                 fontWeight: "400",
                 // textDecoration: "underline",
@@ -113,6 +116,7 @@ export default function Event(props) {
                 <input
                   style={{
                     opacity: userHasRespondedYeah ? 0.2 : 1,
+                
                   }}
                   type="radio"
                   id="yeah"
@@ -131,6 +135,7 @@ export default function Event(props) {
                     color: userHasRespondedYeah ? "#B3FFB1" : "auto",
                     fontWeight: userHasRespondedYeah ? "bold" : "auto",
                     fontSize: userHasRespondedYeah ? 30 : "auto",
+                    // fontSize: isMobile ? 16 : 24,
                   }}
                   htmlFor="yeah"
                 >
@@ -139,7 +144,7 @@ export default function Event(props) {
 
                 <input
                   style={{
-                    marginLeft: 32,
+                    marginLeft: isMobile? 2: 32,
                     opacity: userHasRespondedNahh ? 0.2 : 1,
                   }}
                   label="not"
@@ -168,7 +173,7 @@ export default function Event(props) {
 
                 <input
                   style={{
-                    marginLeft: 32,
+                    marginLeft: isMobile? 2: 32,
                     opacity: userHasRespondedHumm ? 0.2 : 1,
                   }}
                   type="radio"
@@ -260,7 +265,7 @@ export default function Event(props) {
               fontSize: 24,
               fontFamily: "Courier",
               fontWeight: "400",
-              textDecoration: "underline",
+              // textDecoration: "bold",
               lineHeight: 2,
               wordWrap: "break-word",
             }}
@@ -292,7 +297,10 @@ export default function Event(props) {
           </div>
         </div>
         <button
-          onClick={() => props.whenEventClicked(props.id)}
+          onClick={() => {
+            props.whenEventClicked(props.id);
+            console.log(props.id);
+          }}
           style={{
             width: 180,
             paddingTop: 20,

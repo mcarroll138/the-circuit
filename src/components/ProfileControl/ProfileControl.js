@@ -99,7 +99,6 @@ export default function UserProfile() {
 
         collectionSnapshot.forEach((doc) => {
           friendList.push({
-            // id: friendRequest.id,
             ...doc.data(),
           });
         });
@@ -116,7 +115,6 @@ export default function UserProfile() {
 
         collectionSnapshot.forEach((doc) => {
           sentRequestsList.push({
-            // id: friendRequest.id,
             ...doc.data(),
           });
         });
@@ -152,7 +150,6 @@ export default function UserProfile() {
 
   const userDocRef = doc(db, "profiles", auth.currentUser.uid);
   const friendsCollectionRef = collection(userDocRef, "friends");
-  // const currentFriendRef = collection(friendRequestCollectionRef, "friendData");
   const friendRequestCollectionRef = collection(userDocRef, "friendRequest");
   const sentRequestsCollectionRef = collection(userDocRef, "sentRequests");
 
@@ -235,12 +232,6 @@ export default function UserProfile() {
     }
   };
 
-  const handleFollowingPublicAccount = async (friendUid) => {
-    await addDoc(friendsCollectionRef, {
-      friendUid,
-    });
-  };
-
   const handleCancelFriendRequest = async (uid) => {
     try {
       // Delete the send request from logged-in user's friend list
@@ -271,6 +262,12 @@ export default function UserProfile() {
     } catch (error) {
       console.error("Error removing friend:", error);
     }
+  };
+
+  const handleFollowingPublicAccount = async (friendUid) => {
+    await addDoc(friendsCollectionRef, {
+      friendUid,
+    });
   };
 
   const filteredProfiles = profiles.filter(

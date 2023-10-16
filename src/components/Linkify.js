@@ -5,9 +5,14 @@ const Linkify = ({ children }) => {
     return word.match(urlPattern);
   };
 
+  // const addMarkup = (word) => {
+  //   return isUrl(word)
+  //     ? `<a href="http://${word}" target="_blank" >${word}</a>`
+  //     : word;
+  // };
   const addMarkup = (word) => {
     return isUrl(word)
-      ? `<a href="http://${word}" target="_blank" >${word}</a>`
+      ? `<a href="http://${word}" target="_blank" style="color: pink; text-decoration: underline;">${word}</a>`
       : word;
   };
 

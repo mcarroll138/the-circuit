@@ -99,10 +99,19 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 - Add your token in your .env folder
 - Run $ npm run start in your root folder
 
+## Feature Request
+
+- Invite users to private events.
+- Expand event "view more" for more details, users that are attending, etc.
+- Use google places auto complete to fill in address and location in event form.
+
 ## Known Bugs
 
-- When user has marked an event as either "Yeah!", "Nahh", or "Humm" and then sorts by response, choosing the same response will cause the event to be moved back to the "All Events" section.
-- Friend List currently does nothings, you can add a friend but the person your adding cannot accept or reject, they also have no way of knowing who their friends are.
+- Friend List currently does nothing, need to add functionality to invite friends to private events.
+
+- Edit events does not work. 
+
+- Links in event show up in a dark blue, hard to tell its a link.
 
 ## License
 

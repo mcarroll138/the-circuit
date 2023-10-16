@@ -139,7 +139,12 @@ export default function NewEventForm(props) {
             alignItems: "center",
           }}
         >
-          <button style={buttonStyles} onClick={() => setPrivateForm(true)}>
+          <button
+            style={buttonStyles}
+            onClick={() => setPrivateForm(true)}
+            onMouseOver={(e) => (e.target.style.color = "#B3FFB1")}
+            onMouseOut={(e) => (e.target.style.color = "#E3A9FF")}
+          >
             Make Private?
           </button>
         </div>
@@ -221,7 +226,12 @@ export default function NewEventForm(props) {
               name="eventLocation"
               placeholder="Location"
             />
-            <button style={buttonStyles} type="submit">
+            <button
+              style={buttonStyles}
+              type="submit"
+              onMouseOver={(e) => (e.target.style.color = "#B3FFB1")}
+              onMouseOut={(e) => (e.target.style.color = "#E3A9FF")}
+            >
               Party Time
             </button>
           </form>
@@ -239,7 +249,12 @@ export default function NewEventForm(props) {
             alignItems: "center",
           }}
         >
-          <button style={buttonStyles} onClick={() => setPrivateForm(false)}>
+          <button
+            style={buttonStyles}
+            onClick={() => setPrivateForm(false)}
+            onMouseOver={(e) => (e.target.style.color = "#B3FFB1")}
+            onMouseOut={(e) => (e.target.style.color = "#E3A9FF")}
+          >
             Make Public?
           </button>
         </div>
@@ -309,7 +324,12 @@ export default function NewEventForm(props) {
               name="eventLocation"
               placeholder="Location"
             />
-            <button style={buttonStyles} type="submit">
+            <button
+              style={buttonStyles}
+              type="submit"
+              onMouseOver={(e) => (e.target.style.color = "#B3FFB1")}
+              onMouseOut={(e) => (e.target.style.color = "#E3A9FF")}
+            >
               Party Time
             </button>
           </form>

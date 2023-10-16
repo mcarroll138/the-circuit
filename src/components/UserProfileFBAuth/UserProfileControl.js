@@ -16,13 +16,15 @@ export default function AuthProfile() {
     display: "flex",
     justifyContent: "center",
     color: "white",
-    fontSize: 20,
+    fontSize: 16,
     fontFamily: "courier",
     fontWeight: "400",
     backgroundColor: "black",
     padding: "10px",
+    width: 360,
+
     // height: 720,
-    border: "1px solid #ccc",
+    // border: "1px solid #ccc",
     gap: 32,
   };
 
@@ -38,11 +40,11 @@ export default function AuthProfile() {
     color: "white",
     fontSize: 20,
     fontFamily: "courier",
-    fontWeight: "400",
+    // fontWeight: "400",
     alignItems: "center",
     backgroundColor: "black",
     padding: "10px",
-    width: 580,
+    width: 360,
     border: "1px solid #ccc",
   };
   const userImageStyle = {
@@ -56,8 +58,9 @@ export default function AuthProfile() {
     fontWeight: "400",
     alignItems: "center",
     backgroundColor: "black",
+    padding: "10px",
     // paddingTop: "100px",
-    width: "100%",
+    width: 360,
     border: "1px solid #ccc",
   };
   const inputStyles = {
@@ -108,20 +111,20 @@ export default function AuthProfile() {
   const [deleteProfile, setDeleteProfile] = useState(false);
   const navigate = useNavigate();
 
-
   async function profileImageUpdate(event) {
     event.preventDefault();
     if (!selectedImage) {
       return;
     }
-  
+
     const fileRef = ref(storage, "profile/" + auth.currentUser.uid + ".png");
     const uploadTask = uploadBytesResumable(fileRef, selectedImage);
-  
+
     uploadTask.on(
       "state_changed",
       (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setUploadProgress(progress);
       },
       (error) => {
@@ -140,7 +143,7 @@ export default function AuthProfile() {
         });
       }
     );
-  
+
     setLoading(true);
   }
   //   console.log(fileRef);
@@ -330,69 +333,79 @@ export default function AuthProfile() {
   ) {
     return (
       <>
-        <div style={ContainerStyles}>
-          <div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                fontFamily: "Courier",
-                fontSize: 40,
-                fontWeight: "400",
-                paddingBottom: 36,
-                paddingTop: 36,
-              }}
-            >
-              {auth.currentUser.displayName}'s Profile
-            </div>
+        <div style={{
+          display: "flex",
+          backgroundColor: "black",
+          justifyContent: "center",
+        }}>
+          <div style={ContainerStyles}>
+            <div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  fontFamily: "Courier",
+                  fontSize: 40,
+                  fontWeight: "400",
+                  paddingBottom: 36,
+                  paddingTop: 36,
+                }}
+              >
+                Profile
+              </div>
 
-            <div style={userImageStyle}>
-              <img
-                style={imgStyle}
-                src={auth.currentUser.photoURL}
-                alt="Profile"
-              ></img>{" "}
+              <div style={userImageStyle}>
+                <img
+                  style={imgStyle}
+                  src={auth.currentUser.photoURL}
+                  alt="Profile"
+                ></img>{" "}
+                <div
+                  style={{
+                    marginTop: "10px",
+                  }}
+                ></div>
+                <button
+                  style={buttonStyles}
+                  onClick={() => setEditProfileImage(true)}
+                >
+                  Update Photo
+                </button>{" "}
+                <div
+                  style={{
+                    marginTop: "10px",
+                  }}
+                ></div>
+              </div>
               <div
                 style={{
-                  marginTop: "10px",
+                  paddingTop: 36,
                 }}
               ></div>
-              <button
-                style={buttonStyles}
-                onClick={() => setEditProfileImage(true)}
-              >
-                Update Photo
-              </button>{" "}
+              <div style={userInfoStyle}>
+                {/* <p>User Name</p> */}
+                <p>{auth.currentUser.displayName}</p>
+                <button
+                  style={buttonStyles}
+                  onClick={() => setEditProfile(true)}
+                >
+                  Update Name
+                </button>
+              </div>
               <div
                 style={{
-                  marginTop: "10px",
+                  paddingTop: 36,
                 }}
               ></div>
-            </div>
-            <div
-              style={{
-                paddingTop: 36,
-              }}
-            ></div>
-            <div style={userInfoStyle}>
-              <p>User Name: {auth.currentUser.displayName}</p>
-              <button style={buttonStyles} onClick={() => setEditProfile(true)}>
-                Update Name
-              </button>
-            </div>
-            <div
-              style={{
-                paddingTop: 36,
-              }}
-            ></div>
-            <div style={userInfoStyle}>
-              <p>Email: {auth.currentUser.email}</p>
-              <button
-                style={buttonStyles}
-                onClick={() => setDeleteProfile(true)}
-              >
-                Delete Account?
-              </button>
+              <div style={userInfoStyle}>
+                <p>{auth.currentUser.email}</p>
+                <button
+                  style={buttonStyles}
+                  onClick={() => setDeleteProfile(true)}
+                >
+                  Delete Account?
+                </button>
+              </div>
             </div>
           </div>
         </div>
