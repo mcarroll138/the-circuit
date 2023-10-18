@@ -54,8 +54,8 @@ function EventList(props) {
     <React.Fragment>
       <div
         style={{
-          paddingTop: isMobile ? 6 : 32,
-          paddingBottom: isMobile ? 6 : 24,
+          paddingTop: isMobile ? 14 : 32,
+          paddingBottom: isMobile ? 14 : 24,
           textAlign: "center",
           color: "white",
           fontSize: isMobile ? 12 : 16,
@@ -132,7 +132,7 @@ function EventList(props) {
               setRadio(e.target.value);
             }}
           />
-          <label for="sortByHosting">Hosted by Me</label>
+          <label for="sortByHosting">Hosting</label>
         </form>
       </div>
       {radio === "all" && (

@@ -265,7 +265,9 @@ export default function UserProfile() {
       console.error("Error removing friend:", error);
     }
   };
-
+  const whenProfileClicked = (uid) => {
+    return console.log("User Profile", uid);
+  };
   const handleFollowingPublicAccount = async (friendUid) => {
     await addDoc(friendsCollectionRef, {
       friendUid,
@@ -471,6 +473,7 @@ export default function UserProfile() {
                 <div
                   key={profile.uid}
                   onClick={() => {
+                    whenProfileClicked(profile.uid);
                     console.log(profile.uid);
                   }}
                 >
@@ -488,18 +491,20 @@ export default function UserProfile() {
                       border: "6px solid #ccc",
                       margin: 10,
                     }}
-                    onMouseOver={(e) =>
-                      (e.target.style.boxShadow = "6px 6px 0px #B3FFB1")
-                    }
-                    onMouseOut={(e) =>
-                      (e.target.style.boxShadow = "0px 0px 0px #E3A9FF")
-                    }
                   >
                     <div>
                       <img
                         alt="Profile"
                         style={imgStyle}
                         src={profile.profilePhoto}
+                        onMouseOver={
+                          (e) =>
+                            (e.target.style.boxShadow = "6px 6px 0px #B3FFB1")
+                          // (e.target.style.background = "white")
+                        }
+                        onMouseOut={(e) =>
+                          (e.target.style.boxShadow = "0px 0px 0px #E3A9FF")
+                        }
                       ></img>
                     </div>
                     <div>{profile.displayName}</div>

@@ -35,6 +35,9 @@ export default function EventDetail(props) {
           <h3>{event.eventDetail}</h3>
           <h3>{event.eventLocation}</h3>
           <h3> {event.eventImage}</h3>
+          <h3>People Going: { event.yeahResponses}</h3>
+          <h3>{ event.nahhResponses}</h3>
+          <h3></h3>
           <button style={buttonStyles} onClick={props.onClickingEdit}>
             Edit Event
           </button>

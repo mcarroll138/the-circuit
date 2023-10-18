@@ -92,10 +92,7 @@ export default function EventControl() {
     const eventDoc = await getDoc(eventRef);
     const eventData = eventDoc.data();
     const userUid = auth.currentUser.uid;
-    // const yeahResponses = eventData.yeahResponses || [];
-    // const nahhResponses = eventData.nahhResponses || [];
-    // const hummResponses = eventData.hummResponses || [];
-
+   
     if (
       eventData.nahhResponses &&
       eventData.nahhResponses.includes(auth.currentUser.uid)
@@ -123,10 +120,7 @@ export default function EventControl() {
     const eventDoc = await getDoc(eventRef);
     const eventData = eventDoc.data();
     const userUid = auth.currentUser.uid;
-    // const yeahResponses = eventData.yeahResponses || [];
-    // const nahhResponses = eventData.nahhResponses || [];
-    // const hummResponses = eventData.hummResponses || [];
-
+  
     if (
       eventData.hummResponses &&
       eventData.hummResponses.includes(auth.currentUser.uid)
