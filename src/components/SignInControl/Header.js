@@ -8,6 +8,7 @@ import vectorImage from "../../assets/Logo.png";
 import { useIsMobile } from "../MobileContext.js";
 import FriendSvg from "../../assets/people-outline.svg";
 import TicketSvg from "../../assets/ticket-outline.svg";
+import LogOutSvg from "../../assets/log-out-outline.svg";
 
 function Header() {
   const [userEmail, setUserEmail] = useState(null);
@@ -76,6 +77,43 @@ function Header() {
           >
             <div
               style={{
+                fill: "white",
+                fontSize: isMobile ? 16 : 24,
+                fontFamily: "Arial",
+                marginLeft: isMobile ? 10 : 10,
+                width: isMobile ? 30 : 90,
+                paddingRight: isMobile ? 2 : 0,
+                // fontWeight: "400",
+                // wordWrap: "break-word",
+                // lineHeight: 24,
+                // paddingLeft: "10",
+              }}
+              onMouseOver={(e) => (e.target.style.fill = "#B3FFB1")}
+              onMouseOut={(e) => (e.target.style.fill = "white")}
+            >
+              <img
+                src={TicketSvg}
+                alt="events"
+                style={{
+                  // display: isMobile? "block" : "none",
+                  maxWidth: isMobile ? "60%" : "55%",
+                  maxHeight: isMobile ? "60%" : "55%",
+                  stroke: "white",
+                }}
+                onMouseOver={(e) => (e.target.style.color = "white")}
+                onMouseOut={(e) => (e.target.style.color = "white")}
+              />
+              {/* Friends */}
+            </div>
+          </Link>
+          {/* <Link
+            to="/"
+            style={{
+              textDecoration: "none",
+            }}
+          >
+            <div
+              style={{
                 color: "white",
                 fontSize: isMobile ? 16 : 24,
                 fontFamily: "Arial",
@@ -86,7 +124,6 @@ function Header() {
                 // wordWrap: "break-word",
               }}
             >
-              {" "}
               <img
                 src={TicketSvg}
                 alt="Ticket"
@@ -96,9 +133,9 @@ function Header() {
                   maxHeight: isMobile ? "6%" : "58%",
                 }}
               />
-              {/* Events */}
+              Events
             </div>
-          </Link>
+          </Link> */}
           <Link
             to="/profile"
             style={{
@@ -125,8 +162,9 @@ function Header() {
                 alt="friends"
                 style={{
                   // display: isMobile? "block" : "none",
-                  maxWidth: isMobile ? "5%" : "55%",
-                  maxHeight: isMobile ? "5%" : "55%",
+                  maxWidth: isMobile ? "60%" : "55%",
+                  maxHeight: isMobile ? "60%" : "55%",
+                  // fill: "white",
                 }}
               />
               {/* Friends */}
@@ -203,7 +241,19 @@ function Header() {
               // width: 80,
             }}
           >
-            Sign Out
+            <img
+              alt="log out"
+              style={{
+                width: isMobile ? 30 : 90,
+                paddingRight: isMobile ? 2 : 0,
+                stroke: "white",
+                maxWidth: isMobile ? "60%" : "55%",
+                maxHeight: isMobile ? "60%" : "55%",
+                // display: isMobile? "block" : "none",
+              }}
+              src={LogOutSvg}
+            />
+            {/* Sign Out */}
           </div>
         </div>
       </div>

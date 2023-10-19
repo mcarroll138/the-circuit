@@ -5,7 +5,7 @@ import FriendSvg from "../../assets/people-outline.svg";
 import { useIsMobile } from "../MobileContext.js";
 
 export default function EventDetail(props) {
-  const { event, onClickingDelete, formattedPostTime } = props;
+  const { event, onClickingDelete, formattedPostTime, friendProfiles } = props;
   const hostDivStyle = {
     background: "white",
     // color: "white",
@@ -26,6 +26,10 @@ export default function EventDetail(props) {
     gap: 10,
     color: "white",
   };
+  const friendsWhoRespondedYeah = friendProfiles
+    .filter((profile) => event.yeahResponses.includes(profile.uid))
+    .filter((profile) => profile.uid !== auth.currentUser.uid);
+
   const isMobile = useIsMobile();
   if (auth.currentUser.email !== event.eventCreator) {
     return (
@@ -38,8 +42,38 @@ export default function EventDetail(props) {
           <h3>{event.eventDetail}</h3>
           <h3>{event.eventLocation}</h3>
           <h3> {event.eventImage}</h3>
-          <h3>People Going: {event.yeahResponses.length}</h3>
-          <h3>{event.nahhResponses}</h3>
+          <h3>
+            RSVPs <br></br>Yeahs! :{event.yeahResponses.length}
+            <div
+              style={{
+                // height: 48,
+                justifyContent: "flex-start",
+                alignItems: "center",
+                gap: 16,
+                display: "flex",
+              }}
+            >
+              {friendsWhoRespondedYeah.map((friend) => (
+                <div key={friend.uid}>
+                  <img
+                    src={friend.profilePhoto}
+                    alt={friend.displayName}
+                    style={{
+                      width: 48,
+                      height: 48,
+                      background:
+                        "linear-gradient(0deg, #D9D9D9 0%, #D9D9D9 100%)",
+                      borderRadius: 9999,
+                    }}
+                  />
+                  <p>{friend.displayName}</p>
+                </div>
+              ))}
+            </div>{" "}
+            <br></br>Nahhs: {event.nahhResponses.length} <br></br>Humm:{" "}
+            {event.hummResponses.length}
+          </h3>
+
           <h3>
             <img
               src={FriendSvg}
@@ -375,4 +409,5 @@ EventDetail.propTypes = {
   event: PropTypes.object,
   onClickingDelete: PropTypes.func,
   onClickingEdit: PropTypes.func,
+  friendProfiles: PropTypes.array,
 };

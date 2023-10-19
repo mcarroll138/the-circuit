@@ -25,6 +25,7 @@ export default function EventControl() {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [editing, setEditing] = useState(false);
   const [error, setError] = useState(null);
+  const [friendProfiles, setFriendProfiles] = useState([]);
 
   useEffect(() => {
     const unSubscribe = onSnapshot(
@@ -49,9 +50,23 @@ export default function EventControl() {
         setError(error.message);
       }
     );
-
+    const profilesUnSubscribe = onSnapshot(
+      collection(db, "profiles"),
+      (collectionSnapshot) => {
+        const profiles = [];
+        collectionSnapshot.forEach((doc) => {
+          const friendData = doc.data();
+          profiles.push({
+            ...doc.data(),
+            id: doc.id,
+          });
+        });
+        setFriendProfiles(profiles);
+      }
+    );
     return () => {
       unSubscribe();
+      profilesUnSubscribe();
     };
   }, []);
 
@@ -60,9 +75,9 @@ export default function EventControl() {
     const eventDoc = await getDoc(eventRef);
     const eventData = eventDoc.data();
     const userUid = auth.currentUser.uid;
-    // const yeahResponses = eventData.yeahResponses || [];
-    // const nahhResponses = eventData.nahhResponses || [];
-    // const hummResponses = eventData.hummResponses || [];
+    const yeahResponses = eventData.yeahResponses || [];
+    const nahhResponses = eventData.nahhResponses || [];
+    const hummResponses = eventData.hummResponses || [];
 
     if (
       eventData.yeahResponses &&
@@ -84,6 +99,7 @@ export default function EventControl() {
 
       await updateDoc(eventRef, { nahhResponses: updatedNahhArray });
       await updateDoc(eventRef, { hummResponses: updatedHummArray });
+      console.log(yeahResponses);
     }
   };
 
@@ -92,7 +108,7 @@ export default function EventControl() {
     const eventDoc = await getDoc(eventRef);
     const eventData = eventDoc.data();
     const userUid = auth.currentUser.uid;
-   
+
     if (
       eventData.nahhResponses &&
       eventData.nahhResponses.includes(auth.currentUser.uid)
@@ -120,7 +136,7 @@ export default function EventControl() {
     const eventDoc = await getDoc(eventRef);
     const eventData = eventDoc.data();
     const userUid = auth.currentUser.uid;
-  
+
     if (
       eventData.hummResponses &&
       eventData.hummResponses.includes(auth.currentUser.uid)
@@ -236,6 +252,7 @@ export default function EventControl() {
           event={selectedEvent}
           onClickingDelete={handleDeletingEvent}
           onClickingEdit={handleEditClick}
+          friendProfiles={friendProfiles}
         />
       );
       buttonText = "- Back";
