@@ -6,6 +6,8 @@ import { auth } from "../../firebase.js";
 import { signOut } from "firebase/auth";
 import vectorImage from "../../assets/Logo.png";
 import { useIsMobile } from "../MobileContext.js";
+import FriendSvg from "../../assets/people-outline.svg";
+import TicketSvg from "../../assets/ticket-outline.svg";
 
 function Header() {
   const [userEmail, setUserEmail] = useState(null);
@@ -84,7 +86,17 @@ function Header() {
                 // wordWrap: "break-word",
               }}
             >
-              Events
+              {" "}
+              <img
+                src={TicketSvg}
+                alt="Ticket"
+                style={{
+                  // display: isMobile? "block" : "none",
+                  maxWidth: isMobile ? "6%" : "58%",
+                  maxHeight: isMobile ? "6%" : "58%",
+                }}
+              />
+              {/* Events */}
             </div>
           </Link>
           <Link
@@ -99,15 +111,25 @@ function Header() {
                 fontSize: isMobile ? 16 : 24,
                 fontFamily: "Arial",
                 // fontWeight: "400",
-                marginLeft: isMobile ? 10:10,
+                marginLeft: isMobile ? 10 : 10,
                 width: isMobile ? 30 : 90,
+
                 // paddingLeft: "10",
-                paddingRight: isMobile? 2:0,
+                paddingRight: isMobile ? 2 : 0,
                 // lineHeight: 24,
                 // wordWrap: "break-word",
               }}
             >
-              Friends
+              <img
+                src={FriendSvg}
+                alt="friends"
+                style={{
+                  // display: isMobile? "block" : "none",
+                  maxWidth: isMobile ? "5%" : "55%",
+                  maxHeight: isMobile ? "5%" : "55%",
+                }}
+              />
+              {/* Friends */}
             </div>
           </Link>
           <div
@@ -131,8 +153,8 @@ function Header() {
                 // height: isMobile ? 20 : 80,
                 // maxWidth: isMobile ? 90 : 180,
                 // maxHeight: "100%",
-                maxWidth: isMobile? "65%": "100%",
-                maxHeight: isMobile? "65%": "100%", 
+                maxWidth: isMobile ? "65%" : "100%",
+                maxHeight: isMobile ? "65%" : "100%",
               }}
             />
           </div>

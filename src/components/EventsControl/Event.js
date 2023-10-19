@@ -20,7 +20,7 @@ export default function Event(props) {
   const userHasRespondedHumm = props.hummResponses.includes(
     auth.currentUser.uid
   );
-
+  const yeahCount = props.yeahCount;
   const dateTimeValue = props.eventDateTime.split("T");
   const dateParts = dateTimeValue[0].split("-");
   const timeParts = dateTimeValue[1].split(":");
@@ -51,7 +51,7 @@ export default function Event(props) {
           flexDirection: "column",
           alignItems: "flex-start",
           justifyContent: "flex-start",
-          gap: 20,
+          gap: isMobile ? 10 : 20,
           width: isMobile ? 300 : 500,
           padding: "5%",
           background: "black",
@@ -104,6 +104,7 @@ export default function Event(props) {
                 // textDecoration: "underline",
                 lineHeight: 2,
                 wordWrap: "break-word",
+                display: isHostedByCurrentUser ? "none" : "block",
               }}
             >
               <form
@@ -225,12 +226,14 @@ export default function Event(props) {
           }}
         >
           {props.eventName}
+          {/* {props.yeahResponses} */}
+          {props.yeahResponses.length}
         </div>
         <div
           style={{
             justifyContent: "flex-start",
             alignItems: "flex-start",
-            gap: 12,
+            gap: isMobile ? 3 : 12,
             display: "inline-flex",
           }}
         >
@@ -240,7 +243,7 @@ export default function Event(props) {
               fontSize: isMobile ? 20 : 24,
               fontFamily: "Courier",
               fontWeight: "400",
-              lineHeight: 2,
+              lineHeight: isMobile ? 1 : 2,
               wordWrap: "break-word",
             }}
           >
@@ -252,7 +255,7 @@ export default function Event(props) {
               fontSize: isMobile ? 20 : 24,
               fontFamily: "Courier",
               fontWeight: "400",
-              lineHeight: 2,
+              lineHeight: isMobile ? 1 : 2,
               wordWrap: "break-word",
             }}
           >
@@ -265,7 +268,7 @@ export default function Event(props) {
               fontFamily: "Courier",
               fontWeight: "400",
               // textDecoration: "bold",
-              lineHeight: 2,
+              lineHeight: isMobile ? 1 : 2,
               wordWrap: "break-word",
             }}
           >
@@ -292,10 +295,22 @@ export default function Event(props) {
               wordWrap: "break-word",
             }}
           >
-            <Linkify>{props.eventDetail}</Linkify>..... more info
+            <Linkify>{props.eventDetail}</Linkify>...
+            <a
+              // href
+              onClick={() => {
+                props.whenEventClicked(props.id);
+                console.log(props.id);
+              }}
+              style={{ color: "#E3A9FF" }}
+              onMouseOver={(e) => (e.target.style.color = "#B3FFB1")}
+              onMouseOut={(e) => (e.target.style.color = "#E3A9FF")}
+            >
+              more info
+            </a>
           </div>
         </div>
-        <button
+        {/* <button
           onClick={() => {
             props.whenEventClicked(props.id);
             console.log(props.id);
@@ -312,13 +327,13 @@ export default function Event(props) {
             gap: 10,
             color: "white",
             cursor: "pointer",
-            display: isHostedByCurrentUser ? "block" : "none",
+            // display: isHostedByCurrentUser ? "block" : "none",
           }}
           onMouseOver={(e) => (e.target.style.color = "#B3FFB1")}
           onMouseOut={(e) => (e.target.style.color = "#E3A9FF")}
         >
-          Change Event?
-        </button>
+          More Info?
+        </button> */}
 
         <div
           style={{
@@ -402,7 +417,7 @@ export default function Event(props) {
                 wordWrap: "break-word",
               }}
             >
-              {publishedAgo}
+              {publishedAgo} {props.yeahResponses.length} People are going
             </div>
           </div>
         </div>

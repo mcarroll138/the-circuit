@@ -15,6 +15,13 @@ function EventList(props) {
     (event) => auth.currentUser.email === event.eventCreator
   );
 
+  const yeahCount = {};
+
+  // props.eventList.forEach((event) => {
+  //   yeahCount = event.yeahResponses.lenth;
+  //   console.log(yeahCount);
+  // });
+
   // const allEvents = props.eventList.filter(
   //   (event) =>
   //     event.publicPrivate !== "private" &&
@@ -161,6 +168,7 @@ function EventList(props) {
                 eventCreatorPhoto={event.eventCreatorPhoto}
                 eventName={event.eventName}
                 yeahResponses={event.yeahResponses}
+                yeahCount={yeahCount[event.id]}
                 nahhResponses={event.nahhResponses}
                 hummResponses={event.hummResponses}
                 eventDateTime={event.eventDateTime}

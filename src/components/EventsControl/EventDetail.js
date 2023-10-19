@@ -1,12 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { auth } from "../../firebase.js";
+import FriendSvg from "../../assets/people-outline.svg";
+import { useIsMobile } from "../MobileContext.js";
 
 export default function EventDetail(props) {
   const { event, onClickingDelete, formattedPostTime } = props;
   const hostDivStyle = {
-    background: "black",
-    color: "white",
+    background: "white",
+    // color: "white",
   };
   const buttonStyles = {
     width: 180,
@@ -24,7 +26,8 @@ export default function EventDetail(props) {
     gap: 10,
     color: "white",
   };
-  if (auth.currentUser.email === event.eventCreator) {
+  const isMobile = useIsMobile();
+  if (auth.currentUser.email !== event.eventCreator) {
     return (
       <>
         <div style={hostDivStyle}>
@@ -35,9 +38,18 @@ export default function EventDetail(props) {
           <h3>{event.eventDetail}</h3>
           <h3>{event.eventLocation}</h3>
           <h3> {event.eventImage}</h3>
-          <h3>People Going: { event.yeahResponses}</h3>
-          <h3>{ event.nahhResponses}</h3>
-          <h3></h3>
+          <h3>People Going: {event.yeahResponses.length}</h3>
+          <h3>{event.nahhResponses}</h3>
+          <h3>
+            <img
+              src={FriendSvg}
+              alt="friends"
+              style={{
+                maxWidth: isMobile ? "5%" : "5%",
+                maxHeight: isMobile ? "5%" : "5%",
+              }}
+            />
+          </h3>
           <button style={buttonStyles} onClick={props.onClickingEdit}>
             Edit Event
           </button>
