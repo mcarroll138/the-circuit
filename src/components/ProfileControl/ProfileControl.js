@@ -464,7 +464,7 @@ export default function UserProfile() {
                 display: "flex",
                 flexWrap: "wrap",
                 flexDirection: "row",
-                justifyContent: "flex-start",
+                justifyContent: isMobile ? "center" : "flex-start",
                 background: "black",
                 paddingLeft: "1%",
               }}
@@ -542,9 +542,9 @@ export default function UserProfile() {
                 display: "flex",
                 flexWrap: "wrap",
                 flexDirection: "row",
-                justifyContent: "flex-start",
+                justifyContent: isMobile ? "center" : "flex-start",
                 background: "black",
-                paddingLeft: 20,
+                paddingLeft: "1%",
               }}
             >
               {pendingIncommingFriendRequestProfiles.map((request) => (
@@ -599,9 +599,9 @@ export default function UserProfile() {
                 display: "flex",
                 flexWrap: "wrap",
                 flexDirection: "row",
-                justifyContent: "flex-start",
+                justifyContent: isMobile ? "center" : "flex-start",
                 background: "black",
-                paddingLeft: 20,
+                paddingLeft: "1%",
               }}
             >
               {pendingOutgoingFriendRequestProfiles.map((request) => (
