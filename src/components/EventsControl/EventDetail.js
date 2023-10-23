@@ -10,10 +10,32 @@ export default function EventDetail(props) {
   const {
     event,
     onClickingDelete,
-    formattedTime,
+    // formattedTime,
     friendProfiles,
-    formattedDate,
+    // formattedDate,
   } = props;
+
+  const dateTimeValue = event.eventDateTime.split("T");
+  const dateParts = dateTimeValue[0].split("-");
+  const timeParts = dateTimeValue[1].split(":");
+  const formattedDate = `${dateParts[1]}.${dateParts[2]}.${dateParts[0]}`;
+  const formattedTime = timeFormatAmPm();
+  // const publishedAgo = formatDistanceToNow(new Date(props.eventDateTime), {
+  //   addSuffix: true,
+  // });
+  function timeFormatAmPm() {
+    let formmatedHour = parseInt(timeParts[0]);
+    let amPm = "AM";
+
+    if (formmatedHour >= 12) {
+      amPm = "PM";
+      if (formmatedHour > 12) {
+        formmatedHour -= 12;
+      }
+    }
+    return `${formmatedHour}:${timeParts[1]} ${amPm}`;
+  }
+
   const hostDivStyle = {
     background: "white",
     // color: "white",
@@ -34,6 +56,7 @@ export default function EventDetail(props) {
     gap: 10,
     color: "white",
   };
+  const dateFormat = formattedDate;
   const friendsWhoRespondedYeah = friendProfiles
     .filter((profile) => event.yeahResponses.includes(profile.uid))
     .filter((profile) => profile.uid !== auth.currentUser.uid);
@@ -148,8 +171,7 @@ export default function EventDetail(props) {
                   paddingRight: isMobile ? 2 : "10%",
                 }}
               >
-                10.
-                {props.formattedDate}
+                {formattedDate}
               </div>
               <div
                 style={{
@@ -220,7 +242,7 @@ export default function EventDetail(props) {
                   wordWrap: "break-word",
                 }}
               >
-                {event.formattedDate}
+                {formattedTime}
               </div>
               <div
                 style={{

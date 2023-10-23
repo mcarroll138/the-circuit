@@ -227,7 +227,7 @@ export default function Event(props) {
         >
           {props.eventName}
           {/* {props.yeahResponses} */}
-          {props.yeahResponses.length}
+          {/* {props.yeahResponses.length} */}
         </div>
         <div
           style={{
