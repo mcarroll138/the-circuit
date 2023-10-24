@@ -271,71 +271,7 @@ export default function EventDetail(props) {
                 {event.eventDetail}
               </div>
             </div>
-  <div
-              style={{
-                width: 604,
-                justifyContent: "space-between",
-                alignItems: "center",
-                display: "inline-flex",
-              }}
-            >
-              <div
-                style={{
-                  height: 48,
-                  justifyContent: "flex-start",
-                  alignItems: "center",
-                  gap: 16,
-                  display: "flex",
-                }}
-              >
-                <img
-                  alt="Profile"
-                  style={{
-                    width: 48,
-                    height: 48,
-                    background:
-                      "linear-gradient(0deg, #D9D9D9 0%, #D9D9D9 100%)",
-                    borderRadius: 9999,
-                  }}
-                  src={event.eventCreatorPhoto}
-                />
 
-                <div
-                  style={{
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                    gap: 4,
-                    display: "flex",
-                  }}
-                >
-                  <div
-                    style={{
-                      color: "white",
-                      fontSize: 16,
-                      fontFamily: "Arial",
-                      fontWeight: "400",
-                      lineHeight: 2,
-                      wordWrap: "break-word",
-                    }}
-                  >
-                    Hosted by
-                  </div>
-                  <div
-                    style={{
-                      color: "#E3A9FF",
-                      fontSize: 16,
-                      fontFamily: "Arial",
-                      fontWeight: "400",
-                      // textDecoration: "underline",
-                      lineHeight: 2,
-                      wordWrap: "break-word",
-                    }}
-                  >
-                    {event.eventCreatorName}
-                  </div>
-                </div>
-              </div>
-            </div>
             <div
               style={{
                 color: "#B3FFB1",
@@ -431,7 +367,71 @@ export default function EventDetail(props) {
               </h3>
               
             </div>
-          
+            <div
+              style={{
+                width: 604,
+                justifyContent: "space-between",
+                alignItems: "center",
+                display: "inline-flex",
+              }}
+            >
+              <div
+                style={{
+                  height: 48,
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                  gap: 16,
+                  display: "flex",
+                }}
+              >
+                <img
+                  alt="Profile"
+                  style={{
+                    width: 48,
+                    height: 48,
+                    background:
+                      "linear-gradient(0deg, #D9D9D9 0%, #D9D9D9 100%)",
+                    borderRadius: 9999,
+                  }}
+                  src={event.eventCreatorPhoto}
+                />
+
+                <div
+                  style={{
+                    justifyContent: "flex-start",
+                    alignItems: "center",
+                    gap: 4,
+                    display: "flex",
+                  }}
+                >
+                  <div
+                    style={{
+                      color: "white",
+                      fontSize: 16,
+                      fontFamily: "Arial",
+                      fontWeight: "400",
+                      lineHeight: 2,
+                      wordWrap: "break-word",
+                    }}
+                  >
+                    Hosted by
+                  </div>
+                  <div
+                    style={{
+                      color: "#E3A9FF",
+                      fontSize: 16,
+                      fontFamily: "Arial",
+                      fontWeight: "400",
+                      // textDecoration: "underline",
+                      lineHeight: 2,
+                      wordWrap: "break-word",
+                    }}
+                  >
+                    {event.eventCreatorName}
+                  </div>
+                </div>
+              </div>
+            </div>
             <div
               style={{
                 justifyContent: "flex-start",

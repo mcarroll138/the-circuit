@@ -66,8 +66,8 @@ function Header() {
             background: "black",
             width: "auto",
           }}
-          onMouseOver={(e) => (e.target.style.color = "#B3FFB1")}
-          onMouseOut={(e) => (e.target.style.color = "white")}
+          onMouseOver={(e) => (e.target.style.stroke = "#B3FFB1")}
+          onMouseOut={(e) => (e.target.style.stroke = "white")}
         >
           <Link
             to="/"
@@ -99,9 +99,16 @@ function Header() {
                   maxWidth: isMobile ? "60%" : "55%",
                   maxHeight: isMobile ? "60%" : "55%",
                   stroke: "white",
-                }}
-                onMouseOver={(e) => (e.target.style.color = "white")}
-                onMouseOut={(e) => (e.target.style.color = "white")}
+                // }}
+                // onMouseOver={(e) => (e.target.style.color = "white")}
+                // onMouseOut={(e) => (e.target.style.color = "white")}
+              }}
+              onMouseOver={(e) =>
+                (e.target.style.fill = "6px 6px 0px #B3FFB1")
+              }
+              onMouseOut={(e) =>
+                (e.target.style.fill = "1px 1px 0px #E3A9FF")
+              }
               />
               {/* Friends */}
             </div>
